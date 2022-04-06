@@ -1,0 +1,180 @@
+openapi: 3.0.0
+
+info:
+  version: 0.0.1
+  title: Diploma Service
+  description: The Diploma Service
+
+tags:
+  - name: Team
+  - name: Topic
+
+paths:
+  /teams:
+    get:
+      tags:
+        - Team
+      description: Get list of teams
+      operationId: getAvailableTeams
+      responses:
+        200:
+          description: Status is OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+
+  /teams/{teamId}:
+    get:
+      tags:
+        - Team
+      description: Get team info by id
+      operationId: getTeam
+      parameters:
+        - in: path
+          name: teamId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the team to get
+      responses:
+        200:
+          description: Status is OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+
+  /topics:
+    get:
+      tags:
+        - Topic
+      description: Get list of available topics
+      operationId: getAvailableTopics
+      responses:
+        200:
+          description: Status is OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Topic'
+
+  /topics/{topicId}:
+    get:
+      tags:
+        - Topic
+      description: Get topic info by id
+      operationId: getTopic
+      parameters:
+        - in: path
+          name: topicId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the topic to get
+      responses:
+        200:
+          description: Status is OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+
+components:
+
+  schemas:
+
+    Team:
+      description: Team model
+      type: object
+      properties:
+        id:
+          description: Team id
+          type: integer
+          format: int64
+        name:
+          type: string
+        topic:
+          $ref: '#/components/schemas/Topic'
+
+    Topic:
+      description: Topic of project
+      type: object
+      properties:
+        id:
+          description: Topic id
+          type: integer
+          format: int64
+        name:
+          description: Topic name
+          type: string
+        creator:
+          $ref: '#/components/schemas/User'
+        initial:
+          $ref: '#/components/schemas/Initial'
+        selected:
+          description: Selected status of topic
+          type: boolean
+
+    Initial:
+      description: Group initials
+      type: object
+      properties:
+        id:
+          description: Initial id
+          type: integer
+          format: int64
+        initial:
+          description: Initial
+          type: string
+
+
+    Group:
+      description: Group info's
+      type: object
+      properties:
+        id:
+          description: Group id
+          type: integer
+          format: int64
+        name:
+          type: string
+        initial:
+          $ref: '#/components/schemas/Initial'
+
+    User:
+      description: User info
+      type: object
+      properties:
+        id:
+          description: User id
+          type: integer
+          format: int64
+        first_name:
+          type: string
+        last_name:
+          type: string
+        middle_name:
+          type: string
+        group:
+          $ref: '#/components/schemas/Group'
+        role:
+          $ref: '#/components/schemas/Role'
+
+    Role:
+      description: Role info
+      type: object
+      properties:
+        id:
+          description: Role id
+          type: integer
+          format: int64
+        name:
+          description: Role name
+          type: string
