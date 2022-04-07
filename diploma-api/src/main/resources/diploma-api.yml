@@ -22,7 +22,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Team'
+                  $ref: '#/components/schemas/TeamDto'
   /teams/{teamId}:
     get:
       tags:
@@ -43,7 +43,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Team'
+                $ref: '#/components/schemas/TeamDto'
   /topics:
     get:
       tags:
@@ -58,7 +58,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Topic'
+                  $ref: '#/components/schemas/TopicDto'
   /topics/{topicId}:
     get:
       tags:
@@ -79,10 +79,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Topic'
+                $ref: '#/components/schemas/TopicDto'
 components:
   schemas:
-    Team:
+    TeamDto:
       description: Team model
       type: object
       properties:
@@ -93,17 +93,17 @@ components:
         name:
           type: string
         topic:
-          $ref: '#/components/schemas/Topic'
+          $ref: '#/components/schemas/TopicDto'
         advisor:
-          $ref: '#/components/schemas/User'
+          $ref: '#/components/schemas/UserDto'
         creator:
-          $ref: '#/components/schemas/User'
+          $ref: '#/components/schemas/UserDto'
         choices:
           type: integer
           format: int64
         confirmed:
           type: boolean
-    Topic:
+    TopicDto:
       description: Topic of project
       type: object
       required:
@@ -120,13 +120,13 @@ components:
           description: Topic name
           type: string
         creator:
-          $ref: '#/components/schemas/User'
+          $ref: '#/components/schemas/UserDto'
         initial:
-          $ref: '#/components/schemas/Initial'
+          $ref: '#/components/schemas/InitialDto'
         selected:
           description: Selected status of topic
           type: boolean
-    Initial:
+    InitialDto:
       description: Group initials
       type: object
       properties:
@@ -137,7 +137,7 @@ components:
         initial:
           description: Initial
           type: string
-    Group:
+    GroupDto:
       description: Group info's
       type: object
       properties:
@@ -148,8 +148,8 @@ components:
         name:
           type: string
         initial:
-          $ref: '#/components/schemas/Initial'
-    User:
+          $ref: '#/components/schemas/InitialDto'
+    UserDto:
       description: User info
       type: object
       properties:
@@ -164,10 +164,10 @@ components:
         middle_name:
           type: string
         group:
-          $ref: '#/components/schemas/Group'
+          $ref: '#/components/schemas/GroupDto'
         role:
-          $ref: '#/components/schemas/Role'
-    Role:
+          $ref: '#/components/schemas/RoleDto'
+    RoleDto:
       description: Role info
       type: object
       properties:

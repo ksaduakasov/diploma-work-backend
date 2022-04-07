@@ -9,11 +9,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name = "defences")
 public class Defence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

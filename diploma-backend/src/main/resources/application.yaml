@@ -6,9 +6,9 @@ spring:
     database: POSTGRESQL
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   datasource:
     url: jdbc:postgresql://localhost:5432/diploma
     username: test
-    password: password
+    password: postgres
     driverClassName: org.postgresql.Driver

@@ -7,11 +7,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Entity(name = "user_teams")
 public class UserTeam {
 
     @Id

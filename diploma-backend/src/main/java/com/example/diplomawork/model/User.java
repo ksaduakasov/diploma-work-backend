@@ -5,11 +5,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,3 +49,4 @@ public class User {
     @OneToMany(mappedBy = "questioner", fetch = FetchType.LAZY)
     List<Question> userQuestions;
 }
+
