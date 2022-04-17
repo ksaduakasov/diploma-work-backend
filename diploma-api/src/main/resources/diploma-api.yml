@@ -6,6 +6,7 @@ info:
 tags:
   - name: Team
   - name: Topic
+  - name: Defences
 paths:
   /teams:
     get:
@@ -44,6 +45,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamDto'
+
+  /teams/create:
+    post:
+      summary: Creates a new team
+      tags:
+        - Team
+      operationId: createTeam
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamCreateUpdateRequest'
+      responses:
+        201:
+          description: Success
+
+  /teams/update:
+    put:
+      summary: Updates a team
+      tags:
+        - Team
+      operationId: updateTeam
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamCreateUpdateRequest'
+      responses:
+        204:
+          description: Success
+
   /topics:
     get:
       tags:
@@ -59,6 +93,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TopicDto'
+
   /topics/{topicId}:
     get:
       tags:
@@ -80,6 +115,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TopicDto'
+
+  /topics/create:
+    post:
+      summary: Creates a new topic
+      tags:
+        - Topic
+      operationId: createTopic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicCreateUpdateRequest'
+      responses:
+        201:
+          description: Success
+
+  /topics/update:
+    put:
+      summary: Updates a topic
+      tags:
+        - Topic
+      operationId: updateTopic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicCreateUpdateRequest'
+      responses:
+        204:
+          description: Success
+
 components:
   schemas:
     TeamDto:
@@ -163,6 +231,10 @@ components:
           type: string
         middle_name:
           type: string
+        email:
+          type: string
+        password:
+          type: string
         group:
           $ref: '#/components/schemas/GroupDto'
         role:
@@ -178,3 +250,48 @@ components:
         name:
           description: Role name
           type: string
+
+    TeamCreateUpdateRequest:
+      type: object
+      properties:
+        teamId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        topicId:
+          type: integer
+          format: int64
+        advisorId:
+          type: integer
+          format: int64
+        creatorId:
+          type: integer
+          format: int64
+        confirmed:
+          type: boolean
+      required:
+        - name
+        - creatorId
+
+    TopicCreateUpdateRequest:
+      type: object
+      properties:
+        creatorId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        initial:
+          type: string
+        teamId:
+          type: integer
+          format: int64
+        selected:
+          type: boolean
+      required:
+        - creatorId
+        - name
+        - initial
+        - selected
+

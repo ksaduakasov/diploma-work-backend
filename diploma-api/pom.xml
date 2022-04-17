@@ -53,7 +53,6 @@
                             <inputSpec>${project.basedir}/src/main/resources/diploma-api.yml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.build.directory}/generated-sources/</output>
-                            <packageName>com.example</packageName>
                             <apiPackage>com.example.api</apiPackage>
                             <modelPackage>com.example.models</modelPackage>
                             <configOptions>

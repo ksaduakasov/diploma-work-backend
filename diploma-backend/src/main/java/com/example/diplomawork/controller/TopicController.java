@@ -3,6 +3,7 @@ package com.example.diplomawork.controller;
 import com.example.api.TopicsApi;
 import com.example.diplomawork.repository.TopicRepository;
 
+import com.example.models.TopicCreateUpdateRequest;
 import com.example.models.TopicDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,20 @@ public class TopicController implements TopicsApi {
     @Override
     public ResponseEntity<List<TopicDto>> getAvailableTopics() {
         return null;
+    }
+
+    @Override
+    public ResponseEntity<TopicDto> getTopic(Long topicId) {
+        return ResponseEntity.ok(null);
+    }
+
+    @Override
+    public ResponseEntity<Void> createTopic(TopicCreateUpdateRequest topicCreateUpdateRequest) {
+        return TopicsApi.super.createTopic(topicCreateUpdateRequest);
+    }
+
+    @Override
+    public ResponseEntity<Void> updateTopic(TopicCreateUpdateRequest topicCreateUpdateRequest) {
+        return TopicsApi.super.updateTopic(topicCreateUpdateRequest);
     }
 }
