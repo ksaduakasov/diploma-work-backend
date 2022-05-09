@@ -295,3 +295,40 @@ components:
         - initial
         - selected
 
+    DefenceDto:
+      type: object
+      properties:
+        defenceId:
+          type: integer
+          format: int64
+        defenceDate:
+          type: string
+          format: date-time
+        teamId:
+          type: integer
+          format: int64
+        stageId:
+          type: integer
+          format: int64
+        grade:
+          type: integer
+          format: int64
+
+    QuestionDto:
+      type: object
+      properties:
+        questionId:
+          type: integer
+          format: int64
+        questionDescription:
+          type: string
+        questionerId:
+          type: integer
+          format: int64
+        defenceId:
+          type: integer
+          format: int64
+        grade:
+          type: integer
+          format: int64
+

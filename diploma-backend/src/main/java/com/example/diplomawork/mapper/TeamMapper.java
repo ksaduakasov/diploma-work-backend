@@ -9,4 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface TeamMapper {
     Team dto2entity(TeamDto teamDto);
+
+    TeamDto entity2dto(Team team);
 }

@@ -24,11 +24,11 @@ public class Team {
 
     @ManyToOne
     @JoinColumn(name = "team_creator_id")
-    private User teamCreator;
+    private User creator;
 
     @ManyToOne
     @JoinColumn(name = "team_advisor_id")
-    private User teamAdvisor;
+    private User advisor;
 
     @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
     List<TeamTopic> teamTopics;
