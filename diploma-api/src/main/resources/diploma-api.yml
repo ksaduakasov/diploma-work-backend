@@ -148,6 +148,99 @@ paths:
         204:
           description: Success
 
+  /auth/signup:
+    post:
+      tags:
+        - Auth
+      description: Register user
+      operationId: signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        204:
+          description: Success
+
+  /auth/verify/{token}:
+    get:
+      tags:
+        - Auth
+      description: Verify account by token
+      operationId: verify
+      parameters:
+        - in: path
+          name: token
+          schema:
+            type: string
+          required: true
+          description: User's token
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenVerifyResponse'
+          description: Success
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      description: Login user
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+          description: Success
+
+  /auth/refresh/token:
+    post:
+      tags:
+        - Auth
+      description: refresh token
+      operationId: refresh
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+          description: Success
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      description: Logout user
+      operationId: logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutResponse'
+          description: Success
+
 components:
   schemas:
     TeamDto:
@@ -295,6 +388,78 @@ components:
         - initial
         - selected
 
+    RegisterRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        middleName:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - username
+        - password
+
+    TokenVerifyResponse:
+      type: object
+      properties:
+        message:
+          type: string
+
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+
+    RefreshTokenRequest:
+      type: object
+      properties:
+        token:
+          type: string
+        username:
+          type: string
+      required:
+        - token
+        - password
+
+    RefreshTokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+
+    AuthenticationResponse:
+      type: object
+      properties:
+        authenticationToken:
+          type: string
+        username:
+          type: string
+        refreshToken:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+
+    LogoutResponse:
+      type: object
+      properties:
+        message:
+          type: string
     DefenceDto:
       type: object
       properties:
