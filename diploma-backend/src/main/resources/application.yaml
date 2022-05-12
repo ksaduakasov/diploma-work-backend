@@ -12,3 +12,7 @@ spring:
     username: test
     password: postgres
     driverClassName: org.postgresql.Driver
+
+jwt:
+  expiration:
+    time: 90000

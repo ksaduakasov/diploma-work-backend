@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -82,7 +83,7 @@ public class AuthService {
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setAuthenticationToken(token);
         authenticationResponse.setRefreshToken(refreshTokenService.generateRefreshToken().getToken());
-        authenticationResponse.setExpiresAt(OffsetDateTime.now().plusSeconds((jwtProvider.getJwtExpirationInMillis())));
+        authenticationResponse.setExpiresAt(LocalDate.from(OffsetDateTime.now().plusSeconds((jwtProvider.getJwtExpirationInMillis()))));
         authenticationResponse.setUsername(loginRequest.getUsername());
         return authenticationResponse;
     }
@@ -94,7 +95,7 @@ public class AuthService {
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setAuthenticationToken(token);
         authenticationResponse.setRefreshToken(refreshTokenRequest.getToken());
-        authenticationResponse.setExpiresAt(OffsetDateTime.now().plusSeconds((jwtProvider.getJwtExpirationInMillis())));
+        authenticationResponse.setExpiresAt(LocalDate.from(OffsetDateTime.now().plusSeconds((jwtProvider.getJwtExpirationInMillis()))));
         authenticationResponse.setUsername(refreshTokenRequest.getUsername());
         return authenticationResponse;
     }

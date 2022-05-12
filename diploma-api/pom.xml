@@ -58,6 +58,12 @@
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                             </configOptions>
+                            <typeMappings>
+                                <typeMapping>OffsetDateTime=LocalDate</typeMapping>
+                            </typeMappings>
+                            <importMappings>
+                                <importMapping>java.time.OffsetDateTime=java.time.LocalDate</importMapping>
+                            </importMappings>
                         </configuration>
                     </execution>
                 </executions>

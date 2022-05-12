@@ -460,6 +460,7 @@ components:
       properties:
         message:
           type: string
+
     DefenceDto:
       type: object
       properties:
@@ -477,7 +478,6 @@ components:
           format: int64
         grade:
           type: integer
-          format: int64
 
     QuestionCreateUpdateRequest:
       type: object

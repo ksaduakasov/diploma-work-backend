@@ -16,5 +16,6 @@ public interface QuestionMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "defence", source = "defence")
+    @Mapping(target = "grade", source = "request.grade")
     Question request2entity(QuestionCreateUpdateRequest request, Defence defence);
 }
