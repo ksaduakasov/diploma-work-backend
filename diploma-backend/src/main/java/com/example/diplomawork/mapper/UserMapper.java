@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
-@Component
 public interface UserMapper {
     User dto2entity(UserDto userDto);
 }

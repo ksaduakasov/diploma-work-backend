@@ -479,13 +479,27 @@ components:
           type: integer
           format: int64
 
+    QuestionCreateUpdateRequest:
+      type: object
+      properties:
+        questionId:
+          type: integer
+          format: int64
+        description:
+          type: string
+        defenceId:
+          type: integer
+          format: int64
+        grade:
+          type: integer
+
     QuestionDto:
       type: object
       properties:
         questionId:
           type: integer
           format: int64
-        questionDescription:
+        description:
           type: string
         questionerId:
           type: integer
@@ -495,5 +509,3 @@ components:
           format: int64
         grade:
           type: integer
-          format: int64
-
