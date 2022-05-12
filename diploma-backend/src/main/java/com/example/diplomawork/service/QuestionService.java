@@ -31,7 +31,7 @@ public class QuestionService {
     public void createQuestion(QuestionCreateUpdateRequest request) {
         Defence defence = defenceRepository.findById(request.getDefenceId())
                 .orElseThrow(() -> new EntityNotFoundException("Defence with id" + request.getDefenceId().toString() + " not found"));
-        Question question = questionMapper.request2entity(request, defence);
+        Question question = questionMapper.request2entity(request);
         question.setQuestioner(authService.getCurrentUser());
         questionRepository.save(question);
     }

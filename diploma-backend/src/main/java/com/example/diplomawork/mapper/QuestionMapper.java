@@ -1,6 +1,5 @@
 package com.example.diplomawork.mapper;
 
-import com.example.diplomawork.model.Defence;
 import com.example.diplomawork.model.Question;
 import com.example.models.QuestionCreateUpdateRequest;
 import com.example.models.QuestionDto;
@@ -15,7 +14,7 @@ public interface QuestionMapper {
     QuestionDto entity2dto(Question question);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "defence", source = "defence")
+    @Mapping(target = "defence.id", source = "request.defenceId")
     @Mapping(target = "grade", source = "request.grade")
-    Question request2entity(QuestionCreateUpdateRequest request, Defence defence);
+    Question request2entity(QuestionCreateUpdateRequest request);
 }

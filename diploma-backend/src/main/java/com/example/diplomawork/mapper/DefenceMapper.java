@@ -12,4 +12,8 @@ public interface DefenceMapper {
     @Mapping(target = "teamId", source = "team.id")
     @Mapping(target = "stageId", source = "stage.id")
     DefenceDto entity2dto(Defence defence);
+
+    @Mapping(target = "team.id", source = "teamId")
+    @Mapping(target = "stage.id", source = "stageId")
+    Defence dto2entity(DefenceDto dto);
 }

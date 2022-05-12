@@ -1,4 +1,4 @@
-package com.example.diplomawork.service;
+package com.example.diplomawork.service.impl;
 
 import com.example.diplomawork.model.User;
 import com.example.diplomawork.repository.UserRepository;
