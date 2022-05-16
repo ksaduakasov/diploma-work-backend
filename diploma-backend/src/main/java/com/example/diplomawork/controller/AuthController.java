@@ -4,14 +4,18 @@ import com.example.api.AuthApi;
 import com.example.diplomawork.service.AuthService;
 import com.example.diplomawork.service.RefreshTokenService;
 import com.example.models.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 
 import static org.springframework.http.HttpStatus.OK;
 
+@RestController
+@RequiredArgsConstructor
 public class AuthController implements AuthApi {
-    private AuthService authService;
-    private RefreshTokenService refreshTokenService;
+    private final AuthService authService;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     public ResponseEntity<AuthenticationResponse> login(LoginRequest loginRequest) {

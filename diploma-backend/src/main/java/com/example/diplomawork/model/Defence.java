@@ -32,8 +32,5 @@ public class Defence {
     @OneToMany(mappedBy = "defence", fetch = FetchType.LAZY)
     List<Question> defenceQuestions;
 
-    @OneToMany(mappedBy = "document", fetch = FetchType.LAZY)
-    List<Document> defenceDocuments;
-
     private Integer grade;
 }

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -44,7 +45,7 @@ public class User {
     @OneToMany(mappedBy = "teamCreator", fetch = FetchType.LAZY)
     private List<Team> createdTeam;
 
-    @OneToMany(mappedBy = "teamAdvisor", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "advisor", fetch = FetchType.LAZY)
     private List<Team> advisorTeams;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

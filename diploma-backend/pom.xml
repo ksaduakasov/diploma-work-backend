@@ -113,6 +113,18 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>8.0.0</version>
+                <configuration>
+                    <user>test</user>
+                    <password>postgres</password>
+                    <schemas>
+                        <schema>test</schema>
+                    </schemas>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

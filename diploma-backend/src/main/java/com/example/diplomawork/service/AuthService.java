@@ -1,8 +1,10 @@
 package com.example.diplomawork.service;
 
 import com.example.diplomawork.exception.SpringAppException;
+import com.example.diplomawork.model.Role;
 import com.example.diplomawork.model.User;
 import com.example.diplomawork.model.VerificationToken;
+import com.example.diplomawork.repository.RoleRepository;
 import com.example.diplomawork.repository.UserRepository;
 import com.example.diplomawork.repository.VerificationTokenRepository;
 import com.example.diplomawork.security.JwtProvider;
@@ -23,7 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -32,6 +36,8 @@ import java.util.UUID;
 public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+
+    private final RoleRepository roleRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
@@ -42,6 +48,7 @@ public class AuthService {
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setRole(roleRepository.findByName("ROLE_USER"));
         userRepository.save(user);
     }
 
@@ -104,7 +111,4 @@ public class AuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
     }
-
-
-
 }

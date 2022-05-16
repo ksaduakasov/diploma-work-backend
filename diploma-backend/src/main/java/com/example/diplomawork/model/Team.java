@@ -24,7 +24,7 @@ public class Team {
 
     @ManyToOne
     @JoinColumn(name = "team_creator_id")
-    private User creator;
+    private User teamCreator;
 
     @ManyToOne
     @JoinColumn(name = "team_advisor_id")

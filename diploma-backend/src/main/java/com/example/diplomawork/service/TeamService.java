@@ -23,7 +23,7 @@ public class TeamService {
     public void createTeam(TeamDto teamDto) {
         // TODO CHECK IS IT WORKS!!!
         Team team = teamMapper.dto2entity(teamDto);
-        team.setCreator(authService.getCurrentUser());
+        team.setTeamCreator(authService.getCurrentUser());
         teamRepository.save(team);
     }
 
