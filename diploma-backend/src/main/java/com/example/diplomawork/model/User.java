@@ -26,11 +26,12 @@ public class User {
 
     private String email;
 
+    @NonNull
     private String username;
 
+    @NonNull
     private String password;
 
-    @NonNull
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
@@ -53,5 +54,16 @@ public class User {
 
     @OneToMany(mappedBy = "questioner", fetch = FetchType.LAZY)
     List<Question> userQuestions;
+
+    public User(Long id, @NonNull String firstName, @NonNull String lastName, String middleName, String email, @NonNull String username, @NonNull String password, Role role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 }
 

@@ -24,7 +24,6 @@ public class Topic {
     @JoinColumn(name = "topic_creator_id", nullable = false)
     private User topicCreator;
 
-    @NonNull
     @ManyToOne
     @JoinColumn(name = "initial_id", nullable = false)
     private Initial initial;
@@ -36,4 +35,12 @@ public class Topic {
 
     @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)
     private List<TeamTopic> topicTeam;
+
+    public Topic(Long id, @NonNull String topicName, @NonNull User topicCreator, Initial initial, Boolean selected) {
+        this.id = id;
+        this.topicName = topicName;
+        this.topicCreator = topicCreator;
+        this.initial = initial;
+        this.selected = selected;
+    }
 }

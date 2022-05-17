@@ -32,4 +32,3 @@ public class RefreshTokenService {
         refreshTokenRepository.deleteByToken(token);
     }
 }
-

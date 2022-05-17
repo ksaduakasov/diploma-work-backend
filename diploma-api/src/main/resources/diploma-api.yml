@@ -3,16 +3,10 @@ info:
   version: 0.0.1
   title: Diploma Service
   description: The Diploma Service
-tags:
-  - name: Team
-  - name: Topic
-  - name: Defences
 paths:
   /teams:
     get:
       summary: Get team list
-      tags:
-        - Team
       description: Get list of teams
       operationId: getAvailableTeams
       responses:
@@ -24,10 +18,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TeamDto'
+      tags: [ Team ]
+
   /teams/{teamId}:
     get:
-      tags:
-        - Team
+      tags: [ Team ]
       description: Get team info by id
       operationId: getTeam
       parameters:
@@ -49,8 +44,7 @@ paths:
   /teams/create:
     post:
       summary: Creates a new team
-      tags:
-        - Team
+      tags: [ Team ]
       operationId: createTeam
       requestBody:
         required: true
@@ -65,8 +59,7 @@ paths:
   /teams/update:
     put:
       summary: Updates a team
-      tags:
-        - Team
+      tags: [ Team ]
       operationId: updateTeam
       requestBody:
         required: true
@@ -80,8 +73,7 @@ paths:
 
   /topics:
     get:
-      tags:
-        - Topic
+      tags: [ Topic ]
       description: Get list of available topics
       operationId: getAvailableTopics
       responses:
@@ -96,8 +88,7 @@ paths:
 
   /topics/{topicId}:
     get:
-      tags:
-        - Topic
+      tags: [ Topic ]
       description: Get topic info by id
       operationId: getTopic
       parameters:
@@ -119,8 +110,7 @@ paths:
   /topics/create:
     post:
       summary: Creates a new topic
-      tags:
-        - Topic
+      tags: [ Topic ]
       operationId: createTopic
       requestBody:
         required: true
@@ -135,8 +125,7 @@ paths:
   /topics/update:
     put:
       summary: Updates a topic
-      tags:
-        - Topic
+      tags: [ Topic ]
       operationId: updateTopic
       requestBody:
         required: true
@@ -150,8 +139,7 @@ paths:
 
   /auth/signup:
     post:
-      tags:
-        - Auth
+      tags: [ Auth ]
       description: Register user
       operationId: signup
       requestBody:
@@ -165,8 +153,7 @@ paths:
 
   /auth/verify/{token}:
     get:
-      tags:
-        - Auth
+      tags: [ Auth ]
       description: Verify account by token
       operationId: verify
       parameters:
@@ -186,8 +173,7 @@ paths:
 
   /auth/login:
     post:
-      tags:
-        - Auth
+      tags: [ Auth ]
       description: Login user
       operationId: login
       requestBody:
@@ -205,8 +191,7 @@ paths:
 
   /auth/refresh/token:
     post:
-      tags:
-        - Auth
+      tags: [ Auth ]
       description: refresh token
       operationId: refresh
       requestBody:
@@ -224,8 +209,7 @@ paths:
 
   /auth/logout:
     post:
-      tags:
-        - Auth
+      tags: [ Auth ]
       description: Logout user
       operationId: logout
       requestBody:
@@ -262,8 +246,7 @@ components:
         choices:
           type: integer
           format: int64
-        confirmed:
-          type: boolean
+
     TopicDto:
       description: Topic of project
       type: object
@@ -358,9 +341,8 @@ components:
         advisorId:
           type: integer
           format: int64
-        creatorId:
+        choices:
           type: integer
-          format: int64
         confirmed:
           type: boolean
       required:

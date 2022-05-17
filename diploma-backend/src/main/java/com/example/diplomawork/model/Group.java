@@ -27,4 +27,10 @@ public class Group {
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<User> groupUsers;
+
+    public Group(Long id, String groupName, Initial groupInitials) {
+        this.id = id;
+        this.groupName = groupName;
+        this.groupInitials = groupInitials;
+    }
 }

@@ -42,4 +42,12 @@ public class Team {
     private Boolean confirmed = false;
 
     private Integer choiceQuantity = 3;
+
+    public Team(Long id, @NonNull String teamName, Topic teamTopic, User teamCreator, User advisor) {
+        this.id = id;
+        this.teamName = teamName;
+        this.teamTopic = teamTopic;
+        this.teamCreator = teamCreator;
+        this.advisor = advisor;
+    }
 }
