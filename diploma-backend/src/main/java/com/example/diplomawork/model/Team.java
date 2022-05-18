@@ -23,7 +23,6 @@ public class Team {
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
     private Topic topic;
 
-    @NonNull
     @ManyToOne
     @JoinColumn(name = "team_creator_id")
     private User creator;

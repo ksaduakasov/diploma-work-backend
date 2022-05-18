@@ -156,14 +156,10 @@ paths:
             type: integer
             format: int64
           required: true
-          description: Numeric ID of the topic to get
+          description: Numeric ID of the topic to delete
       responses:
         '204':
           description: Deleted
-        '404':
-          description: id not found
-        '401':
-          description: Unauthorized
 
 
   /topics/create:
@@ -284,7 +280,7 @@ paths:
                 $ref: '#/components/schemas/LogoutResponse'
           description: Success
 
-  /admin/:
+  /admin:
     get:
       tags: [ Admin ]
       summary: Get admin-panel info
@@ -296,6 +292,336 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AdminPanelGeneralInfoDto'
+
+  /admin/user/create:
+    post:
+      summary: Creates a new user
+      tags: [ Admin ]
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        201:
+          description: Success
+
+  /admin/user/update:
+    put:
+      summary: Updates info about user
+      tags: [ Admin ]
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        201:
+          description: Success
+
+  /admin/user/{userId}:
+    get:
+      tags: [ Admin ]
+      summary: Get user by id
+      operationId: getUser
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfoByBlocksDto'
+    delete:
+      tags: [ Admin ]
+      summary: Delete user by id
+      operationId: deleteUser
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the user to delete
+      responses:
+        204:
+          description: Deleted
+
+  /admin/team/create:
+    post:
+      summary: Creates a new user
+      tags: [ Admin ]
+      operationId: createNewTeam
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamCreateUpdateRequest'
+      responses:
+        201:
+          description: Success
+
+  /admin/team/update:
+    put:
+      summary: Updates info about user
+      tags: [ Admin ]
+      operationId: updateTeamInfo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamCreateUpdateRequest'
+      responses:
+        201:
+          description: Success
+
+  /admin/team/{teamId}:
+    get:
+      tags: [ Admin ]
+      summary: Get team by id
+      operationId: getTeamInfo
+      parameters:
+        - in: path
+          name: teamId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the team to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamInfoByBlocksDto'
+    delete:
+      tags: [ Admin ]
+      summary: Delete user by id
+      operationId: deleteTeam
+      parameters:
+        - in: path
+          name: teamId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the team to delete
+      responses:
+        204:
+          description: Deleted
+
+  /admin/topic/create:
+    post:
+      summary: Creates a new topic
+      tags: [ Admin ]
+      operationId: createNewTopic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicCreateUpdateRequest'
+      responses:
+        201:
+          description: Success
+
+  /admin/topic/update:
+    put:
+      summary: Updates info about topic
+      tags: [ Admin ]
+      operationId: updateTopicInfo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicCreateUpdateRequest'
+      responses:
+        201:
+          description: Success
+
+  /admin/topic/{topicId}:
+    get:
+      tags: [ Admin ]
+      summary: Get topic by id
+      operationId: getTopicInfo
+      parameters:
+        - in: path
+          name: topicId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the topic to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicInfoByBlocksDto'
+    delete:
+      tags: [ Admin ]
+      summary: Delete topic by id
+      operationId: deleteTopicInfo
+      parameters:
+        - in: path
+          name: topicId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the topic to delete
+      responses:
+        204:
+          description: Deleted
+
+  /admin/group/create:
+    post:
+      summary: Creates a new group
+      tags: [ Admin ]
+      operationId: createGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupDto'
+      responses:
+        201:
+          description: Success
+
+  /admin/group/update:
+    put:
+      summary: Updates info about group
+      tags: [ Admin ]
+      operationId: updateGroupInfo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupDto'
+      responses:
+        201:
+          description: Success
+
+  /admin/group/{groupId}:
+    get:
+      tags: [ Admin ]
+      summary: Get group by id
+      operationId: getGroupInfo
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the group to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupInfoByBlocksDto'
+    delete:
+      tags: [ Admin ]
+      summary: Delete group by id
+      operationId: deleteGroupInfo
+      parameters:
+        - in: path
+          name: groupId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the group to delete
+      responses:
+        204:
+          description: Deleted
+
+  /admin/initial/create:
+    post:
+      summary: Creates a new initial
+      tags: [ Admin ]
+      operationId: createInitial
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitialDto'
+      responses:
+        201:
+          description: Success
+
+  /admin/initial/update:
+    put:
+      summary: Updates info about initial
+      tags: [ Admin ]
+      operationId: updateInitialInfo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitialDto'
+      responses:
+        201:
+          description: Success
+
+  /admin/initial/{initialId}:
+    get:
+      tags: [ Admin ]
+      summary: Get initial by id
+      operationId: getInitialInfo
+      parameters:
+        - in: path
+          name: initialId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the group to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitialInfoByBlocksDto'
+    delete:
+      tags: [ Admin ]
+      summary: Delete initial by id
+      operationId: deleteInitialInfo
+      parameters:
+        - in: path
+          name: initialId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the initial to delete
+      responses:
+        204:
+          description: Deleted
 
 components:
   schemas:
@@ -363,6 +689,29 @@ components:
           type: string
         initial:
           type: string
+
+    GroupInfoByBlocksDto:
+      description: Group full info
+      type: object
+      properties:
+        group:
+          $ref: '#/components/schemas/GroupDto'
+        initial:
+          $ref: '#/components/schemas/InitialDto'
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDto'
+
+    InitialInfoByBlocksDto:
+      type: object
+      properties:
+        initial:
+          $ref: '#/components/schemas/InitialDto'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDto'
 
     UserInfoByBlocksDto:
       description: User full info

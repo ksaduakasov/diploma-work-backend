@@ -20,7 +20,7 @@ public class Topic {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "topic_creator_id", nullable = false)
+    @JoinColumn(name = "topic_creator_id")
     private User creator;
 
     @ManyToOne
