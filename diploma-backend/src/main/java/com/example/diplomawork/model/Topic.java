@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "topics")
+@Builder
 public class Topic {
 
     @Id

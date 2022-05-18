@@ -4,6 +4,7 @@ import com.example.diplomawork.mapper.InitialMapper;
 import com.example.diplomawork.mapper.TopicMapper;
 import com.example.diplomawork.mapper.UserMapper;
 import com.example.diplomawork.model.Topic;
+import com.example.diplomawork.model.User;
 import com.example.diplomawork.repository.InitialRepository;
 import com.example.diplomawork.repository.TopicRepository;
 import com.example.models.*;
@@ -28,10 +29,14 @@ public class TopicService {
     private final InitialMapper initialMapper;
 
     public void createUpdateTopic(TopicCreateUpdateRequest request) {
-        Topic topic = topicRepository.findById(request.getId()).orElse(null);
-        topic.setCreator(authService.getCurrentUser());
-        topic.setInitial(initialRepository.findByInitial(request.getInitial()));
-        topic.setName(request.getName());
+        User currentUser = authService.getCurrentUser();
+        Topic topic = Topic.builder()
+                .id(request.getId() != null ? request.getId() : null)
+                .name(request.getName())
+                .creator(currentUser)
+                .initial(initialRepository.findByInitial(request.getInitial()))
+                .selected(false)
+                .build();
         topicRepository.save(topic);
     }
 

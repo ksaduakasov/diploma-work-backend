@@ -724,6 +724,26 @@ components:
         group:
           $ref: '#/components/schemas/GroupDto'
 
+    ShortUserInfoRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        middleName:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - username
+        - password
+
     UserDto:
       description: User info
       type: object

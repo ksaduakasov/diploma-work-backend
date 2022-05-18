@@ -1,11 +1,15 @@
 package com.example.diplomawork.service;
 
 import com.example.diplomawork.mapper.*;
+import com.example.diplomawork.model.*;
 import com.example.diplomawork.repository.*;
 import com.example.models.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +18,8 @@ import java.util.stream.Collectors;
 public class AdminService {
 
     private final UserRepository userRepository;
+
+    private final RoleRepository roleRepository;
 
     private final InitialRepository initialRepository;
 
@@ -40,6 +46,8 @@ public class AdminService {
     private final StageMapper stageMapper;
 
     private final InitialMapper initialMapper;
+
+    private final PasswordEncoder passwordEncoder;
 
     public AdminPanelGeneralInfoDto getAdminGeneralInfo() {
         return AdminPanelGeneralInfoDto.builder()
@@ -90,5 +98,124 @@ public class AdminService {
 
     private List<InitialDto> getInitials() {
         return initialRepository.findAll().stream().map(initialMapper::entity2dto).collect(Collectors.toList());
+    }
+
+    public void createUpdateTeam(TeamCreateUpdateRequest request) {
+        Team team = Team.builder()
+                .id(request.getTeamId() != null ? request.getTeamId() : null)
+                .name(request.getName())
+                .advisor(request.getAdvisorId() != null ? userRepository.findById(request.getAdvisorId()).orElseThrow(() -> new EntityNotFoundException("Not found")) : null)
+                .confirmed(true)
+                .topic(request.getTopicId() != null ? topicRepository.findById(request.getTopicId()).orElseThrow(() -> new EntityNotFoundException("Not found")) : null)
+                .choices(3)
+                .build();
+        teamRepository.save(team);
+    }
+
+    public void createUpdateTopic(TopicCreateUpdateRequest request) {
+        Topic topic = Topic.builder()
+                .id(request.getId() != null ? request.getId() : null)
+                .name(request.getName())
+                .initial(initialRepository.findByInitial(request.getInitial()))
+                .selected(true)
+                .build();
+        topicRepository.save(topic);
+    }
+
+    public void createUpdateUser(RegisterRequest request) {
+        User user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .middleName(request.getMiddleName())
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(roleRepository.findByName("ROLE_USER"))
+                .build();
+        userRepository.save(user);
+    }
+
+    public void deleteTeam(Long teamId) {
+        teamRepository.deleteById(teamId);
+    }
+
+    public void deleteTopic(Long topicId) {
+        topicRepository.deleteById(topicId);
+    }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
+    public TeamInfoByBlocksDto getTeamInfo(Long teamId) {
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("Team with id: " + teamId + " not found"));
+        return TeamInfoByBlocksDto.builder()
+                .team(teamMapper.entity2dto(team))
+                .advisor(userMapper.entity2dto(team.getAdvisor()))
+                .creator(userMapper.entity2dto(team.getCreator()))
+                .topic(topicMapper.entity2dto(team.getTopic()))
+                .build();
+    }
+
+    public TopicInfoByBlocksDto getTopicInfo(Long topicId) {
+        Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new EntityNotFoundException("Topic with id: " + topicId + " not found"));
+        return TopicInfoByBlocksDto.builder()
+                .topic(topicMapper.entity2dto(topic))
+                .creator(userMapper.entity2dto(topic.getCreator()))
+                .initial(initialMapper.entity2dto(topic.getInitial()))
+                .build();
+    }
+
+    public UserInfoByBlocksDto getUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User with id: " + userId + " not found"));
+        return UserInfoByBlocksDto.builder()
+                .user(userMapper.entity2dto(user))
+                .group(groupMapper.entity2dto(user.getGroup()))
+                .role(roleMapper.entity2dto(user.getRole()))
+                .build();
+    }
+
+    public void createUpdateGroup(GroupDto groupDto) {
+        Group group = Group.builder()
+                .id(groupDto.getId() != null ? groupDto.getId() : null)
+                .name(groupDto.getName())
+                .initial(initialRepository.findByInitial(groupDto.getInitial()))
+                .build();
+        groupRepository.save(group);
+    }
+
+    public void createUpdateInitial(InitialDto initialDto) {
+        Initial initial = Initial.builder()
+                .id(initialDto.getId() != null ? initialDto.getId() : null)
+                .initial(initialDto.getInitial())
+                .build();
+        initialRepository.save(initial);
+    }
+
+    public GroupInfoByBlocksDto getGroupInfo(Long groupId) {
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group with id: " + groupId + " not found"));
+        List<UserDto> users = group.getGroupUsers().stream().map(userMapper::entity2dto).collect(Collectors.toList());
+        return GroupInfoByBlocksDto.builder()
+                .group(groupMapper.entity2dto(group))
+                .users(users)
+                .initial(initialMapper.entity2dto(group.getInitial()))
+                .build();
+    }
+
+    public void deleteGroup(Long groupId) {
+        groupRepository.deleteById(groupId);
+    }
+
+    public void deleteInitial(Long initialId) {
+        initialRepository.deleteById(initialId);
+    }
+
+    public InitialInfoByBlocksDto getInitialInfo(Long initialId) {
+        Initial initial = initialRepository.findById(initialId).orElseThrow(() -> new EntityNotFoundException("Initial with id: " + initialId + " not found"));
+        List<GroupDto> groups = initial.getGroups().stream().map(groupMapper::entity2dto).collect(Collectors.toList());
+        return InitialInfoByBlocksDto.builder()
+                .initial(initialMapper.entity2dto(initial))
+                .groups(groups)
+                .build();
     }
 }

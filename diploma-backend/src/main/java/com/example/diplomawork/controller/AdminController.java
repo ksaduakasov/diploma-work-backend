@@ -4,6 +4,7 @@ import com.example.api.AdminApi;
 import com.example.diplomawork.service.AdminService;
 import com.example.models.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,62 +20,117 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<Void> createNewTeam(TeamCreateUpdateRequest teamCreateUpdateRequest) {
-        return AdminApi.super.createNewTeam(teamCreateUpdateRequest);
+    public ResponseEntity<Void> createNewTeam(TeamCreateUpdateRequest request) {
+        adminService.createUpdateTeam(request);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<Void> createNewTopic(TopicCreateUpdateRequest topicCreateUpdateRequest) {
-        return AdminApi.super.createNewTopic(topicCreateUpdateRequest);
+    public ResponseEntity<Void> createNewTopic(TopicCreateUpdateRequest request) {
+        adminService.createUpdateTopic(request);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<Void> createUser(RegisterRequest registerRequest) {
-        return AdminApi.super.createUser(registerRequest);
+    public ResponseEntity<Void> createUser(RegisterRequest request) {
+        adminService.createUpdateUser(request);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<Void> deleteTeam(Long teamId) {
-        return AdminApi.super.deleteTeam(teamId);
+        adminService.deleteTeam(teamId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Void> deleteTopicInfo(Long topicId) {
-        return AdminApi.super.deleteTopicInfo(topicId);
+        adminService.deleteTopic(topicId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Void> deleteUser(Long userId) {
-        return AdminApi.super.deleteUser(userId);
+        adminService.deleteUser(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<TeamInfoByBlocksDto> getTeamInfo(Long teamId) {
-        return AdminApi.super.getTeamInfo(teamId);
+        return ResponseEntity.ok(adminService.getTeamInfo(teamId));
     }
 
     @Override
     public ResponseEntity<TopicInfoByBlocksDto> getTopicInfo(Long topicId) {
-        return AdminApi.super.getTopicInfo(topicId);
+        return ResponseEntity.ok(adminService.getTopicInfo(topicId));
     }
 
     @Override
     public ResponseEntity<UserInfoByBlocksDto> getUser(Long userId) {
-        return AdminApi.super.getUser(userId);
+        return ResponseEntity.ok(adminService.getUser(userId));
     }
 
     @Override
-    public ResponseEntity<Void> updateTeamInfo(TeamCreateUpdateRequest teamCreateUpdateRequest) {
-        return AdminApi.super.updateTeamInfo(teamCreateUpdateRequest);
+    public ResponseEntity<Void> updateTeamInfo(TeamCreateUpdateRequest request) {
+        adminService.createUpdateTeam(request);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Void> updateTopicInfo(TopicCreateUpdateRequest topicCreateUpdateRequest) {
-        return AdminApi.super.updateTopicInfo(topicCreateUpdateRequest);
+    public ResponseEntity<Void> updateTopicInfo(TopicCreateUpdateRequest request) {
+        adminService.createUpdateTopic(request);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Void> updateUser(RegisterRequest registerRequest) {
-        return AdminApi.super.updateUser(registerRequest);
+    public ResponseEntity<Void> updateUser(RegisterRequest request) {
+        adminService.createUpdateUser(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> createGroup(GroupDto groupDto) {
+        adminService.createUpdateGroup(groupDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<Void> createInitial(InitialDto initialDto) {
+        adminService.createUpdateInitial(initialDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteGroupInfo(Long groupId) {
+        adminService.deleteGroup(groupId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteInitialInfo(Long initialId) {
+        adminService.deleteInitial(initialId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<GroupInfoByBlocksDto> getGroupInfo(Long groupId) {
+        return ResponseEntity.ok(adminService.getGroupInfo(groupId));
+    }
+
+    @Override
+    public ResponseEntity<InitialInfoByBlocksDto> getInitialInfo(Long initialId) {
+        return ResponseEntity.ok(adminService.getInitialInfo(initialId));
+    }
+
+    @Override
+    public ResponseEntity<Void> updateGroupInfo(GroupDto groupDto) {
+        adminService.createUpdateGroup(groupDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> updateInitialInfo(InitialDto initialDto) {
+        adminService.createUpdateInitial(initialDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
