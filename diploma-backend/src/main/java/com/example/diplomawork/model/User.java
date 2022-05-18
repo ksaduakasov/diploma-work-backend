@@ -40,15 +40,6 @@ public class User {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @OneToMany(mappedBy = "topicCreator", fetch = FetchType.LAZY)
-    private List<Topic> userCreatedTopics;
-
-    @OneToMany(mappedBy = "teamCreator", fetch = FetchType.LAZY)
-    private List<Team> createdTeam;
-
-    @OneToMany(mappedBy = "advisor", fetch = FetchType.LAZY)
-    private List<Team> advisorTeams;
-
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     List<UserTeam> userTeams;
 

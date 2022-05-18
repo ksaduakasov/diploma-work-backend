@@ -17,12 +17,12 @@ public class Topic {
     private Long id;
 
     @NonNull
-    private String topicName;
+    private String name;
 
     @NonNull
     @ManyToOne
     @JoinColumn(name = "topic_creator_id", nullable = false)
-    private User topicCreator;
+    private User creator;
 
     @ManyToOne
     @JoinColumn(name = "initial_id", nullable = false)
@@ -36,10 +36,10 @@ public class Topic {
     @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)
     private List<TeamTopic> topicTeam;
 
-    public Topic(Long id, @NonNull String topicName, @NonNull User topicCreator, Initial initial, Boolean selected) {
+    public Topic(Long id, @NonNull String name, @NonNull User creator, Initial initial, Boolean selected) {
         this.id = id;
-        this.topicName = topicName;
-        this.topicCreator = topicCreator;
+        this.name = name;
+        this.creator = creator;
         this.initial = initial;
         this.selected = selected;
     }

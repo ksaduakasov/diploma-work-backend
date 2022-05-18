@@ -22,6 +22,7 @@ public class Team {
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
     private Topic teamTopic;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "team_creator_id")
     private User teamCreator;
@@ -43,11 +44,9 @@ public class Team {
 
     private Integer choiceQuantity = 3;
 
-    public Team(Long id, @NonNull String teamName, Topic teamTopic, User teamCreator, User advisor) {
+    public Team(Long id, @NonNull String teamName, User teamCreator) {
         this.id = id;
         this.teamName = teamName;
-        this.teamTopic = teamTopic;
         this.teamCreator = teamCreator;
-        this.advisor = advisor;
     }
 }

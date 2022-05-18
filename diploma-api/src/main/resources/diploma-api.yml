@@ -84,12 +84,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TopicDto'
+                  $ref: '#/components/schemas/TopicInfoByBlocksDto'
 
   /topics/{topicId}:
     get:
       tags: [ Topic ]
-      description: Get topic info by id
+      summary: Get topic info by id
       operationId: getTopic
       parameters:
         - in: path
@@ -105,7 +105,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TopicDto'
+                $ref: '#/components/schemas/TopicInfoByBlocksDto'
+    delete:
+      tags: [ Topic ]
+      summary: Delete topic by id
+      operationId: deleteTopic
+      parameters:
+        - in: path
+          name: topicId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the topic to get
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: id not found
+        '401':
+          description: Unauthorized
+
 
   /topics/create:
     post:
@@ -248,28 +268,30 @@ components:
           format: int64
 
     TopicDto:
-      description: Topic of project
+      description: Topic DTO
       type: object
-      required:
-        - id
-        - name
-        - creator
-        - initial
       properties:
         id:
-          description: Topic id
           type: integer
           format: int64
         name:
-          description: Topic name
           type: string
+        selected:
+          type: boolean
+
+    TopicInfoByBlocksDto:
+      description: Topic of project
+      type: object
+      properties:
+        topic:
+          description: Topic
+          type: object
+          $ref: '#/components/schemas/TopicDto'
         creator:
           $ref: '#/components/schemas/UserDto'
         initial:
           $ref: '#/components/schemas/InitialDto'
-        selected:
-          description: Selected status of topic
-          type: boolean
+
     InitialDto:
       description: Group initials
       type: object
@@ -281,6 +303,7 @@ components:
         initial:
           description: Initial
           type: string
+
     GroupDto:
       description: Group info's
       type: object
@@ -293,6 +316,7 @@ components:
           type: string
         initial:
           $ref: '#/components/schemas/InitialDto'
+
     UserDto:
       description: User info
       type: object
@@ -309,12 +333,7 @@ components:
           type: string
         email:
           type: string
-        password:
-          type: string
-        group:
-          $ref: '#/components/schemas/GroupDto'
-        role:
-          $ref: '#/components/schemas/RoleDto'
+
     RoleDto:
       description: Role info
       type: object
@@ -352,23 +371,17 @@ components:
     TopicCreateUpdateRequest:
       type: object
       properties:
-        creatorId:
+        id:
           type: integer
           format: int64
         name:
           type: string
         initial:
           type: string
-        teamId:
-          type: integer
-          format: int64
-        selected:
-          type: boolean
       required:
         - creatorId
         - name
         - initial
-        - selected
 
     RegisterRequest:
       type: object
@@ -491,3 +504,12 @@ components:
           format: int64
         grade:
           type: integer
+
+    SimpleObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string

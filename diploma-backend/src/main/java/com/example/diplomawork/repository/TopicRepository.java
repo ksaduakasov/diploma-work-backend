@@ -9,5 +9,5 @@ import java.util.List;
 public interface TopicRepository extends JpaRepository<Topic, Long> {
     List<Topic> findAllBySelectedFalse();
 
-    Topic findByTopicName(String topicName);
+    Topic findByName(String topicName);
 }

@@ -14,4 +14,5 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "group", ignore = true)
     User dto2entity(RegisterRequest request);
+    UserDto entity2dto(User user);
 }
