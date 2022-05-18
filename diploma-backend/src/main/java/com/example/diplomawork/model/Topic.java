@@ -19,7 +19,6 @@ public class Topic {
     @NonNull
     private String name;
 
-    @NonNull
     @ManyToOne
     @JoinColumn(name = "topic_creator_id", nullable = false)
     private User creator;
@@ -28,7 +27,7 @@ public class Topic {
     @JoinColumn(name = "initial_id", nullable = false)
     private Initial initial;
 
-    private Boolean selected = false;
+    private Boolean selected;
 
     @OneToOne(mappedBy = "topic")
     private Team team;
@@ -36,7 +35,7 @@ public class Topic {
     @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)
     private List<TeamTopic> topicTeam;
 
-    public Topic(Long id, @NonNull String name, @NonNull User creator, Initial initial, Boolean selected) {
+    public Topic(Long id, @NonNull String name, User creator, Initial initial, Boolean selected) {
         this.id = id;
         this.name = name;
         this.creator = creator;

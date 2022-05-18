@@ -6,40 +6,62 @@ info:
 paths:
   /teams:
     get:
-      summary: Get team list
-      description: Get list of teams
-      operationId: getAvailableTeams
+      tags: [ Team ]
+      description: Get user team
+      operationId: getTeam
       responses:
         '200':
           description: Status is OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamInfoWithMembersDto'
+
+  /teams/request:
+    get:
+      tags: [ Team ]
+      summary: Receives all requests to join the team
+      operationId: getTeamRequests
+      responses:
+        '200':
+          description: SUCCESS
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TeamDto'
-      tags: [ Team ]
+                  $ref: '#/components/schemas/UserTeamInfoByBlockDto'
 
-  /teams/{teamId}:
+  /teams/request/check:
     get:
       tags: [ Team ]
-      description: Get team info by id
-      operationId: getTeam
+      summary: Gets all team join requests of user
+      operationId: getUserRequests
+      responses:
+        '200':
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamJoinRequestInfoByBlocksDto'
+
+  /teams/request/{requestId}/accept:
+    post:
+      tags: [ Team ]
+      summary: Accepts request to join to the team
+      operationId: acceptTeamJoinRequest
       parameters:
         - in: path
-          name: teamId
+          name: requestId
           schema:
             type: integer
             format: int64
           required: true
-          description: Numeric ID of the team to get
       responses:
-        '200':
-          description: Status is OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TeamDto'
+        201:
+          description: Success
 
   /teams/create:
     post:
@@ -52,6 +74,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TeamCreateUpdateRequest'
+      responses:
+        201:
+          description: Success
+
+  /teams/{teamId}/request:
+    post:
+      summary: Creates a request to join to the team
+      tags: [ Team ]
+      operationId: createRequestToTeam
+      parameters:
+        - in: path
+          name: teamId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Team ID
       responses:
         201:
           description: Success
@@ -381,8 +420,6 @@ components:
           format: int64
         choices:
           type: integer
-        confirmed:
-          type: boolean
       required:
         - name
         - creatorId
@@ -580,3 +617,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GroupDto'
+
+    UserTeamInfoByBlockDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/UserDto'
+        team:
+          $ref: '#/components/schemas/TeamDto'
+        group:
+          $ref: '#/components/schemas/GroupDto'
+
+    TeamInfoWithMembersDto:
+      type: object
+      properties:
+        team:
+          $ref: '#/components/schemas/TeamDto'
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDto'
+
+    TeamJoinRequestInfoByBlocksDto:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/RequestDto'
+        team:
+          $ref: '#/components/schemas/TeamDto'
+
+    RequestDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        accepted:
+          type: boolean

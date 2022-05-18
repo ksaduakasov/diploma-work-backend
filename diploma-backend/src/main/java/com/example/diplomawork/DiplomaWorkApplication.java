@@ -30,7 +30,7 @@ public class DiplomaWorkApplication {
             initialRepository.save(new Initial(null, "SE"));
             groupRepository.save(new Group(null, "1903", initialRepository.findByInitial("SE")));
             topicRepository.save(new Topic(null, "Diploma Project Test", userRepository.findByUsername("asmayil").get(), initialRepository.findByInitial("SE"), true));
-            teamRepository.save(new Team(null, "Remma", userRepository.findByUsername("test").get(), true));
+            teamRepository.save(new Team(null, "Remma", userRepository.findByUsername("test").get(), true, 3));
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("test").get(), teamRepository.findById(1L).get(), true));
             teamTopicRepository.save(new TeamTopic(null, teamRepository.findById(1L).get(), topicRepository.findById(1L).get(), true));
         };

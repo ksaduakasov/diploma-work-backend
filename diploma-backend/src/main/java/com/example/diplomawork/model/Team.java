@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "teams")
+@Builder
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,14 +41,15 @@ public class Team {
     @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
     List<Defence> teamDefences;
 
-    private Boolean confirmed = false;
+    private Boolean confirmed;
 
-    private Integer choiceQuantity = 3;
+    private Integer choices;
 
-    public Team(Long id, @NonNull String name, User creator, Boolean confirmed) {
+    public Team(Long id, @NonNull String name, User creator, Boolean confirmed, Integer choices) {
         this.id = id;
         this.name = name;
         this.creator = creator;
         this.confirmed = confirmed;
+        this.choices = choices;
     }
 }
