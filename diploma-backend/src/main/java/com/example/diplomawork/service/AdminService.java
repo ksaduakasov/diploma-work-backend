@@ -49,6 +49,8 @@ public class AdminService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final StageRepository stageRepository;
+
     public AdminPanelGeneralInfoDto getAdminGeneralInfo() {
         return AdminPanelGeneralInfoDto.builder()
                 .defences(getDefences())
@@ -57,8 +59,10 @@ public class AdminService {
                 .users(getUsers())
                 .groups(getGroups())
                 .initials(getInitials())
+                .stages(getStages())
                 .build();
     }
+
     private List<DefenceInfoByBlocksDto> getDefences() {
         return defenceRepository.findAll().stream().map(defence -> DefenceInfoByBlocksDto.builder()
                 .defence(defenceMapper.entity2dto(defence))
@@ -98,6 +102,10 @@ public class AdminService {
 
     private List<InitialDto> getInitials() {
         return initialRepository.findAll().stream().map(initialMapper::entity2dto).collect(Collectors.toList());
+    }
+
+    private List<StageDto> getStages() {
+        return stageRepository.findAll().stream().map(stageMapper::entity2dto).collect(Collectors.toList());
     }
 
     public void createUpdateTeam(TeamCreateUpdateRequest request) {
@@ -216,6 +224,28 @@ public class AdminService {
         return InitialInfoByBlocksDto.builder()
                 .initial(initialMapper.entity2dto(initial))
                 .groups(groups)
+                .build();
+    }
+
+    public void createUpdateStage(StageDto stageDto) {
+        Stage stage = Stage.builder()
+                .id(stageDto.getId() != null ? stageDto.getId() : null)
+                .name(stageDto.getName())
+                .build();
+        stageRepository.save(stage);
+    }
+
+
+    public void deleteStage(Long stageId) {
+        stageRepository.deleteById(stageId);
+    }
+
+    public StageInfoByBlocksDto getStageInfo(Long stageId) {
+        Stage stage = stageRepository.findById(stageId).orElseThrow(() -> new EntityNotFoundException("Stage with id: " + stageId + " not found"));
+        List<DefenceDto> defences = stage.getStageDefences().stream().map(defenceMapper::entity2dto).collect(Collectors.toList());
+        return StageInfoByBlocksDto.builder()
+                .stage(stageMapper.entity2dto(stage))
+                .defences(defences)
                 .build();
     }
 }

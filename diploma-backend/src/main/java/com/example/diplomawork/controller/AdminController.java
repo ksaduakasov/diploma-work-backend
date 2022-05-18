@@ -133,4 +133,27 @@ public class AdminController implements AdminApi {
         adminService.createUpdateInitial(initialDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<Void> createStage(StageDto stageDto) {
+        adminService.createUpdateStage(stageDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteStage(Long stageId) {
+        adminService.deleteStage(stageId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<StageInfoByBlocksDto> getStage(Long stageId) {
+        return ResponseEntity.ok(adminService.getStageInfo(stageId));
+    }
+
+    @Override
+    public ResponseEntity<Void> updateStage(StageDto stageDto) {
+        adminService.createUpdateStage(stageDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -11,13 +11,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "stages")
+@Builder
 public class Stage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String stage;
+    private String name;
 
     @OneToMany(mappedBy = "stage", fetch = FetchType.LAZY)
     List<Defence> stageDefences;

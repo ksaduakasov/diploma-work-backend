@@ -623,6 +623,72 @@ paths:
         204:
           description: Deleted
 
+  /admin/stage/create:
+    post:
+      summary: Creates a new stage
+      tags: [ Admin ]
+      operationId: createStage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StageDto'
+      responses:
+        201:
+          description: Success
+
+  /admin/stage/update:
+    put:
+      summary: Updates info about stage
+      tags: [ Admin ]
+      operationId: updateStage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StageDto'
+      responses:
+        201:
+          description: Success
+
+  /admin/stage/{stageId}:
+    get:
+      tags: [ Admin ]
+      summary: Get stage by id
+      operationId: getStage
+      parameters:
+        - in: path
+          name: stageId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the stage to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StageInfoByBlocksDto'
+    delete:
+      tags: [ Admin ]
+      summary: Delete stage by id
+      operationId: deleteStage
+      parameters:
+        - in: path
+          name: stageId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the stage to delete
+      responses:
+        204:
+          description: Deleted
+
 components:
   schemas:
     TeamDto:
@@ -894,7 +960,7 @@ components:
     DefenceDto:
       type: object
       properties:
-        defenceId:
+        d:
           type: integer
           format: int64
         defenceDate:
@@ -909,7 +975,7 @@ components:
         id:
           type: integer
           format: int64
-        stage:
+        name:
           type: string
 
     QuestionCreateUpdateRequest:
@@ -1026,3 +1092,13 @@ components:
           format: int64
         accepted:
           type: boolean
+
+    StageInfoByBlocksDto:
+      type: object
+      properties:
+        stage:
+          $ref: '#/components/schemas/StageDto'
+        defences:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefenceDto'
