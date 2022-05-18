@@ -19,18 +19,18 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String groupName;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "initial_id", nullable = false)
-    private Initial groupInitials;
+    private Initial initial;
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<User> groupUsers;
 
-    public Group(Long id, String groupName, Initial groupInitials) {
+    public Group(Long id, String name, Initial initial) {
         this.id = id;
-        this.groupName = groupName;
-        this.groupInitials = groupInitials;
+        this.name = name;
+        this.initial = initial;
     }
 }

@@ -245,27 +245,35 @@ paths:
                 $ref: '#/components/schemas/LogoutResponse'
           description: Success
 
+  /admin/:
+    get:
+      tags: [ Admin ]
+      summary: Get admin-panel info
+      operationId: getAdminPageInfo
+      responses:
+        '200':
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPanelGeneralInfoDto'
+
 components:
   schemas:
     TeamDto:
-      description: Team model
+      description: Team DTO
       type: object
       properties:
         id:
-          description: Team id
           type: integer
           format: int64
         name:
           type: string
-        topic:
-          $ref: '#/components/schemas/TopicDto'
-        advisor:
-          $ref: '#/components/schemas/UserDto'
-        creator:
-          $ref: '#/components/schemas/UserDto'
         choices:
           type: integer
           format: int64
+        confirmed:
+          type: boolean
 
     TopicDto:
       description: Topic DTO
@@ -315,7 +323,18 @@ components:
         name:
           type: string
         initial:
-          $ref: '#/components/schemas/InitialDto'
+          type: string
+
+    UserInfoByBlocksDto:
+      description: User full info
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserDto'
+        role:
+          $ref: '#/components/schemas/RoleDto'
+        group:
+          $ref: '#/components/schemas/GroupDto'
 
     UserDto:
       description: User info
@@ -456,6 +475,16 @@ components:
         message:
           type: string
 
+    DefenceInfoByBlocksDto:
+      type: object
+      properties:
+        defence:
+          $ref: '#/components/schemas/DefenceDto'
+        team:
+          $ref: '#/components/schemas/TeamDto'
+        stage:
+          $ref: '#/components/schemas/StageDto'
+
     DefenceDto:
       type: object
       properties:
@@ -465,14 +494,17 @@ components:
         defenceDate:
           type: string
           format: date-time
-        teamId:
-          type: integer
-          format: int64
-        stageId:
-          type: integer
-          format: int64
         grade:
           type: integer
+
+    StageDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        stage:
+          type: string
 
     QuestionCreateUpdateRequest:
       type: object
@@ -505,11 +537,46 @@ components:
         grade:
           type: integer
 
-    SimpleObject:
+    TeamInfoByBlocksDto:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
+        team:
+          $ref: '#/components/schemas/TeamDto'
+        creator:
+          $ref: '#/components/schemas/UserDto'
+        topic:
+          $ref: '#/components/schemas/TopicDto'
+        advisor:
+          $ref: '#/components/schemas/UserDto'
+
+    AdminPanelGeneralInfoDto:
+      type: object
+      properties:
+        defences:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefenceInfoByBlocksDto'
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamInfoByBlocksDto'
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopicInfoByBlocksDto'
+        stages:
+          type: array
+          items:
+            $ref: '#/components/schemas/StageDto'
+        initials:
+          type: array
+          items:
+            $ref: '#/components/schemas/InitialDto'
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserInfoByBlocksDto'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDto'

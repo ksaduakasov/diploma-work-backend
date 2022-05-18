@@ -24,7 +24,7 @@ public class TeamService {
     public void createTeam(TeamCreateUpdateRequest request) {
         // TODO CHECK IS IT WORKS!!!
         Team team = teamMapper.request2entity(request);
-        team.setTeamCreator(authService.getCurrentUser());
+        team.setCreator(authService.getCurrentUser());
         teamRepository.save(team);
     }
 

@@ -12,8 +12,8 @@ public interface TeamMapper {
     Team dto2entity(TeamDto teamDto);
 
     @Mapping(target = "id", source = "teamId")
-    @Mapping(target = "teamName", source = "name")
-    @Mapping(target = "teamTopic.id", source = "topicId")
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "topic.id", source = "topicId")
     @Mapping(target = "advisor.id", source = "advisorId")
     Team request2entity(TeamCreateUpdateRequest request);
 

@@ -30,7 +30,7 @@ public class Topic {
 
     private Boolean selected = false;
 
-    @OneToOne(mappedBy = "teamTopic")
+    @OneToOne(mappedBy = "topic")
     private Team team;
 
     @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)

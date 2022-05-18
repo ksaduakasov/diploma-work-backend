@@ -16,16 +16,16 @@ public class Team {
     private Long id;
 
     @NonNull
-    private String teamName;
+    private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
-    private Topic teamTopic;
+    private Topic topic;
 
     @NonNull
     @ManyToOne
     @JoinColumn(name = "team_creator_id")
-    private User teamCreator;
+    private User creator;
 
     @ManyToOne
     @JoinColumn(name = "team_advisor_id")
@@ -44,9 +44,10 @@ public class Team {
 
     private Integer choiceQuantity = 3;
 
-    public Team(Long id, @NonNull String teamName, User teamCreator) {
+    public Team(Long id, @NonNull String name, User creator, Boolean confirmed) {
         this.id = id;
-        this.teamName = teamName;
-        this.teamCreator = teamCreator;
+        this.name = name;
+        this.creator = creator;
+        this.confirmed = confirmed;
     }
 }

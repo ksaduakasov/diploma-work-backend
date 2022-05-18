@@ -21,7 +21,7 @@ public class Initial {
 
     private String initial;
 
-    @OneToMany(mappedBy = "groupInitials", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "initial", fetch = FetchType.LAZY)
     private List<Group> groups;
 
     @OneToMany(mappedBy = "initial", fetch = FetchType.LAZY)

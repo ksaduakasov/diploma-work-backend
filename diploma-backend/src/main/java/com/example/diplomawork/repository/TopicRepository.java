@@ -10,4 +10,6 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     List<Topic> findAllBySelectedFalse();
 
     Topic findByName(String topicName);
+
+    List<Topic> findAllBySelectedTrue();
 }

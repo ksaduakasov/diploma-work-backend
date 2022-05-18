@@ -31,17 +31,15 @@ public class DefenceService {
 
     private final DefenceCommissionRepository defenceCommissionRepository;
 
-    public List<DefenceDto> getAllDefences() {
+    public List<DefenceDto> getAllDefencesShortInfo() {
         return defenceRepository.findAll().stream().map(defenceMapper::entity2dto).collect(Collectors.toList());
     }
 
-    @Secured("COMMISSION")
     public List<DefenceDto> getDefences(Long commissionId) {
         List<DefenceCommission> defenceCommissions = defenceCommissionRepository.findDefenceCommissionsByCommissionId(commissionId);
         return defenceCommissions.stream().map(defenceCommission -> defenceMapper.entity2dto(defenceCommission.getDefence())).collect(Collectors.toList());
     }
 
-    @Secured("ADMIN")
     public void createDefence(DefenceDto dto) {
         Defence defence = defenceMapper.dto2entity(dto);
         defenceRepository.save(defence);
