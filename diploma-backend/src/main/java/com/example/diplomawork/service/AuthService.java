@@ -1,6 +1,7 @@
 package com.example.diplomawork.service;
 
 import com.example.diplomawork.exception.SpringAppException;
+import com.example.diplomawork.mapper.RoleMapper;
 import com.example.diplomawork.model.Role;
 import com.example.diplomawork.model.User;
 import com.example.diplomawork.model.VerificationToken;
@@ -42,6 +43,8 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
+
+    private final RoleMapper roleMapper;
 
     public void signup(RegisterRequest request) {
         User user = User.builder()
@@ -86,16 +89,17 @@ public class AuthService {
         fetchUserAndEnable(verificationToken.orElseThrow(() -> new SpringAppException("Invalid Token")));
     }
 
-    public AuthenticationResponse login(LoginRequest loginRequest) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
-                loginRequest.getPassword()));
+    public AuthenticationResponse login(LoginRequest request) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),
+                request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generateToken(authenticate);
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setAuthenticationToken(token);
         authenticationResponse.setRefreshToken(refreshTokenService.generateRefreshToken().getToken());
         authenticationResponse.setExpiresAt(LocalDate.from(OffsetDateTime.now().plusSeconds((jwtProvider.getJwtExpirationInMillis()))));
-        authenticationResponse.setUsername(loginRequest.getUsername());
+        authenticationResponse.setUsername(request.getUsername());
+        authenticationResponse.setRole(roleMapper.entity2dto(userRepository.findByUsername(request.getUsername()).get().getRole()));
         return authenticationResponse;
     }
 

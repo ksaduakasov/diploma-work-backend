@@ -161,7 +161,6 @@ paths:
         '204':
           description: Deleted
 
-
   /topics/create:
     post:
       summary: Creates a new topic
@@ -424,6 +423,34 @@ paths:
       responses:
         204:
           description: Deleted
+
+  /admin/team/{teamId}/add/{userId}:
+    get:
+      tags: [ Admin ]
+      summary: Add user to the team
+      operationId: addUserToTeam
+      parameters:
+        - in: path
+          name: teamId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the team
+        - in: path
+          name: userId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the user to add
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamInfoByBlocksDto'
 
   /admin/topic/create:
     post:
@@ -935,6 +962,9 @@ components:
           type: string
         username:
           type: string
+        role:
+          type: object
+          $ref: '#/components/schemas/RoleDto'
         refreshToken:
           type: string
         expiresAt:
