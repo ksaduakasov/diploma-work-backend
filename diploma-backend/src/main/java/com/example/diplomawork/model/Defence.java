@@ -1,9 +1,6 @@
 package com.example.diplomawork.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "defences")
+@Builder
 public class Defence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

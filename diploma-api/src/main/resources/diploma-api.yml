@@ -279,19 +279,6 @@ paths:
                 $ref: '#/components/schemas/LogoutResponse'
           description: Success
 
-  /admin:
-    get:
-      tags: [ Admin ]
-      summary: Get admin-panel info
-      operationId: getAdminPageInfo
-      responses:
-        '200':
-          description: SUCCESS
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AdminPanelGeneralInfoDto'
-
   /admin/user/create:
     post:
       summary: Creates a new user
@@ -357,6 +344,21 @@ paths:
       responses:
         204:
           description: Deleted
+
+  /admin/team:
+    get:
+      summary: Gets all teams
+      tags: [ Admin ]
+      operationId: getTeams
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamInfoByBlocksDto'
 
   /admin/team/create:
     post:
@@ -424,11 +426,11 @@ paths:
         204:
           description: Deleted
 
-  /admin/team/{teamId}/add/{userId}:
-    get:
+  /admin/team/{teamId}/defence/create:
+    post:
       tags: [ Admin ]
-      summary: Add user to the team
-      operationId: addUserToTeam
+      summary: Creates defence for team
+      operationId: createDefence
       parameters:
         - in: path
           name: teamId
@@ -437,20 +439,15 @@ paths:
             format: int64
           required: true
           description: Numeric ID of the team
-        - in: path
-          name: userId
-          schema:
-            type: integer
-            format: int64
-          required: true
-          description: Numeric ID of the user to add
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDefenceRequest'
       responses:
-        200:
-          description: SUCCESS
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TeamInfoByBlocksDto'
+        201:
+          description: Success
 
   /admin/topic/create:
     post:
@@ -990,7 +987,7 @@ components:
     DefenceDto:
       type: object
       properties:
-        d:
+        id:
           type: integer
           format: int64
         defenceDate:
@@ -1050,6 +1047,12 @@ components:
           $ref: '#/components/schemas/TopicDto'
         advisor:
           $ref: '#/components/schemas/UserDto'
+        defence:
+          $ref: '#/components/schemas/DefenceDto'
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDto'
 
     AdminPanelGeneralInfoDto:
       type: object
@@ -1132,3 +1135,31 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DefenceDto'
+
+    TeamShortInfoDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        topic:
+          type: string
+        advisor:
+          type: string
+
+    CreateDefenceRequest:
+      type: object
+      properties:
+        defenceDate:
+          type: string
+          format: date-time
+        commissions:
+          type: array
+          items:
+            type: integer
+            format: int64
+        stageId:
+          type: integer
+          format: int64

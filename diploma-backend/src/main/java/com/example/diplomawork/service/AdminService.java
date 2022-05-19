@@ -51,6 +51,8 @@ public class AdminService {
 
     private final StageRepository stageRepository;
 
+    private final UserTeamRepository userTeamRepository;
+
     public AdminPanelGeneralInfoDto getAdminGeneralInfo() {
         return AdminPanelGeneralInfoDto.builder()
                 .defences(getDefences())
@@ -63,49 +65,21 @@ public class AdminService {
                 .build();
     }
 
-    private List<DefenceInfoByBlocksDto> getDefences() {
-        return defenceRepository.findAll().stream().map(defence -> DefenceInfoByBlocksDto.builder()
-                .defence(defenceMapper.entity2dto(defence))
-                .stage(stageMapper.entity2dto(defence.getStage()))
-                .team(teamMapper.entity2dto(defence.getTeam()))
-                .build()).collect(Collectors.toList());
-    }
-
-    private List<TeamInfoByBlocksDto> getConfirmedTeams() {
-        return teamRepository.findAllByConfirmedTrue().stream().map(team -> TeamInfoByBlocksDto.builder()
-                .team(teamMapper.entity2dto(team))
-                .advisor(userMapper.entity2dto(team.getAdvisor()))
-                .creator(userMapper.entity2dto(team.getCreator()))
-                .topic(topicMapper.entity2dto(team.getTopic()))
-                .build()).collect(Collectors.toList());
-    }
-
-    private List<TopicInfoByBlocksDto> getSelectedTopics() {
-        return topicRepository.findAllBySelectedTrue().stream().map(topic -> TopicInfoByBlocksDto.builder()
-                .topic(topicMapper.entity2dto(topic))
-                .creator(userMapper.entity2dto(topic.getCreator()))
-                .initial(initialMapper.entity2dto(topic.getInitial()))
-                .build()).collect(Collectors.toList());
-    }
-
-    private List<UserInfoByBlocksDto> getUsers() {
-        return userRepository.findAll().stream().map(user -> UserInfoByBlocksDto.builder()
-                .user(userMapper.entity2dto(user))
-                .group(groupMapper.entity2dto(user.getGroup()))
-                .role(roleMapper.entity2dto(user.getRole()))
-                .build()).collect(Collectors.toList());
-    }
-
-    private List<GroupDto> getGroups() {
-        return groupRepository.findAll().stream().map(groupMapper::entity2dto).collect(Collectors.toList());
-    }
-
-    private List<InitialDto> getInitials() {
-        return initialRepository.findAll().stream().map(initialMapper::entity2dto).collect(Collectors.toList());
-    }
-
-    private List<StageDto> getStages() {
-        return stageRepository.findAll().stream().map(stageMapper::entity2dto).collect(Collectors.toList());
+    public List<TeamInfoByBlocksDto> getTeams() {
+        List<Team> teams = teamRepository.findAllByConfirmedTrue();
+        List<TeamInfoByBlocksDto> res = new ArrayList<>();
+        teams.forEach(team -> {
+            List<UserTeam> memberTeams = userTeamRepository.findAllByTeamIdAndAcceptedTrue(team.getId());
+            List<UserDto> members = memberTeams.stream().map(member -> userMapper.entity2dto(member.getUser())).collect(Collectors.toList());
+            res.add(TeamInfoByBlocksDto.builder()
+                    .advisor(userMapper.entity2dto(team.getAdvisor()))
+                    .creator(userMapper.entity2dto(team.getCreator()))
+                    .team(teamMapper.entity2dto(team))
+                    .topic(topicMapper.entity2dto(team.getTopic()))
+                    .members(members)
+                    .build());
+        });
+        return res;
     }
 
     public void createUpdateTeam(TeamCreateUpdateRequest request) {
@@ -247,5 +221,61 @@ public class AdminService {
                 .stage(stageMapper.entity2dto(stage))
                 .defences(defences)
                 .build();
+    }
+
+    public void createDefence(Long teamId, CreateDefenceRequest request) {
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("Team with id: " + teamId + " not found"));
+        Stage stage = stageRepository.findById(request.getStageId()).orElseThrow(() -> new EntityNotFoundException("Stage with id: " + request.getStageId() + " not found"));
+        Defence defence = Defence.builder()
+                .defenceDate(request.getDefenceDate())
+                .stage(stage)
+                .team(team)
+                .build();
+        defenceRepository.save(defence);
+    }
+
+    private List<DefenceInfoByBlocksDto> getDefences() {
+        return defenceRepository.findAll().stream().map(defence -> DefenceInfoByBlocksDto.builder()
+                .defence(defenceMapper.entity2dto(defence))
+                .stage(stageMapper.entity2dto(defence.getStage()))
+                .team(teamMapper.entity2dto(defence.getTeam()))
+                .build()).collect(Collectors.toList());
+    }
+
+    private List<TeamInfoByBlocksDto> getConfirmedTeams() {
+        return teamRepository.findAllByConfirmedTrue().stream().map(team -> TeamInfoByBlocksDto.builder()
+                .team(teamMapper.entity2dto(team))
+                .advisor(userMapper.entity2dto(team.getAdvisor()))
+                .creator(userMapper.entity2dto(team.getCreator()))
+                .topic(topicMapper.entity2dto(team.getTopic()))
+                .build()).collect(Collectors.toList());
+    }
+
+    private List<TopicInfoByBlocksDto> getSelectedTopics() {
+        return topicRepository.findAllBySelectedTrue().stream().map(topic -> TopicInfoByBlocksDto.builder()
+                .topic(topicMapper.entity2dto(topic))
+                .creator(userMapper.entity2dto(topic.getCreator()))
+                .initial(initialMapper.entity2dto(topic.getInitial()))
+                .build()).collect(Collectors.toList());
+    }
+
+    private List<UserInfoByBlocksDto> getUsers() {
+        return userRepository.findAll().stream().map(user -> UserInfoByBlocksDto.builder()
+                .user(userMapper.entity2dto(user))
+                .group(groupMapper.entity2dto(user.getGroup()))
+                .role(roleMapper.entity2dto(user.getRole()))
+                .build()).collect(Collectors.toList());
+    }
+
+    private List<GroupDto> getGroups() {
+        return groupRepository.findAll().stream().map(groupMapper::entity2dto).collect(Collectors.toList());
+    }
+
+    private List<InitialDto> getInitials() {
+        return initialRepository.findAll().stream().map(initialMapper::entity2dto).collect(Collectors.toList());
+    }
+
+    private List<StageDto> getStages() {
+        return stageRepository.findAll().stream().map(stageMapper::entity2dto).collect(Collectors.toList());
     }
 }

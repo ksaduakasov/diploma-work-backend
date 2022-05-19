@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class AdminController implements AdminApi {
@@ -15,8 +17,14 @@ public class AdminController implements AdminApi {
     private final AdminService adminService;
 
     @Override
-    public ResponseEntity<AdminPanelGeneralInfoDto> getAdminPageInfo() {
-        return ResponseEntity.ok(adminService.getAdminGeneralInfo());
+    public ResponseEntity<Void> createDefence(Long teamId, CreateDefenceRequest request) {
+        adminService.createDefence(teamId, request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<TeamInfoByBlocksDto>> getTeams() {
+        return ResponseEntity.ok(adminService.getTeams());
     }
 
     @Override

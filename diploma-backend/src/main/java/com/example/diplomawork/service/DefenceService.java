@@ -39,9 +39,4 @@ public class DefenceService {
         List<DefenceCommission> defenceCommissions = defenceCommissionRepository.findDefenceCommissionsByCommissionId(commissionId);
         return defenceCommissions.stream().map(defenceCommission -> defenceMapper.entity2dto(defenceCommission.getDefence())).collect(Collectors.toList());
     }
-
-    public void createDefence(DefenceDto dto) {
-        Defence defence = defenceMapper.dto2entity(dto);
-        defenceRepository.save(defence);
-    }
 }
