@@ -31,6 +31,8 @@ public class AdminService {
 
     private final TopicRepository topicRepository;
 
+    private final DefenceCommissionRepository defenceCommissionRepository;
+
     private final DefenceMapper defenceMapper;
 
     private final TeamMapper teamMapper;
@@ -224,7 +226,10 @@ public class AdminService {
                 .stage(stage)
                 .team(team)
                 .build();
-        defenceRepository.save(defence);
+        defenceRepository.saveAndFlush(defence);
+        request.getCommissions().stream().map(commission -> DefenceCommission.builder()
+                .defence(defence)
+                .commission(userRepository.findById(commission).get()).build()).forEach(defenceCommissionRepository::save);
     }
 
     private List<DefenceInfoByBlocksDto> getDefences() {
