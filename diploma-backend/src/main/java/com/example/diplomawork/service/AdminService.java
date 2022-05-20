@@ -128,11 +128,18 @@ public class AdminService {
         Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("Team with id: " + teamId + " not found"));
         List<UserTeam> userTeams = userTeamRepository.findAllByTeamIdAndAcceptedTrue(teamId);
         List<UserDto> members = userTeams.stream().map(user -> userMapper.entity2dto(user.getUser())).collect(Collectors.toList());
+        List<DefenceDto> defences = team.getTeamDefences().stream().map(defence -> DefenceDto.builder()
+                .id(defence.getId())
+                .defenceDate(defence.getDefenceDate())
+                .grade(defence.getGrade())
+                .stage(stageMapper.entity2dto(defence.getStage()))
+                .build()).collect(Collectors.toList());
         return TeamInfoByBlocksDto.builder()
                 .team(teamMapper.entity2dto(team))
                 .advisor(userMapper.entity2dto(team.getAdvisor()))
                 .creator(userMapper.entity2dto(team.getCreator()))
                 .topic(topicMapper.entity2dto(team.getTopic()))
+                .defences(defences)
                 .members(members)
                 .build();
     }
