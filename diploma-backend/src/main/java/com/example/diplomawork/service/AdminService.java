@@ -126,11 +126,14 @@ public class AdminService {
 
     public TeamInfoByBlocksDto getTeamInfo(Long teamId) {
         Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("Team with id: " + teamId + " not found"));
+        List<UserTeam> userTeams = userTeamRepository.findAllByTeamIdAndAcceptedTrue(teamId);
+        List<UserDto> members = userTeams.stream().map(user -> userMapper.entity2dto(user.getUser())).collect(Collectors.toList());
         return TeamInfoByBlocksDto.builder()
                 .team(teamMapper.entity2dto(team))
                 .advisor(userMapper.entity2dto(team.getAdvisor()))
                 .creator(userMapper.entity2dto(team.getCreator()))
                 .topic(topicMapper.entity2dto(team.getTopic()))
+                .members(members)
                 .build();
     }
 
