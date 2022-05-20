@@ -24,9 +24,4 @@ public class Initial {
 
     @OneToMany(mappedBy = "initial", fetch = FetchType.LAZY)
     private List<Topic> initialTopics;
-
-    public Initial(Long id, String initial) {
-        this.id = id;
-        this.initial = initial;
-    }
 }

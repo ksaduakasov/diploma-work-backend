@@ -358,7 +358,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TeamInfoByBlocksDto'
+                  $ref: '#/components/schemas/TeamShortInfoDto'
 
   /admin/team/create:
     post:
@@ -677,6 +677,21 @@ paths:
         201:
           description: Success
 
+  /admin/stage:
+    get:
+      tags: [ Admin ]
+      summary: Get stages
+      operationId: getStages
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StageDto'
+
   /admin/stage/{stageId}:
     get:
       tags: [ Admin ]
@@ -712,6 +727,21 @@ paths:
       responses:
         204:
           description: Deleted
+
+  /admin/commission:
+    get:
+      tags: [ Admin ]
+      summary: Get commissions
+      operationId: getCommissions
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDto'
 
 components:
   schemas:
@@ -960,8 +990,7 @@ components:
         username:
           type: string
         role:
-          type: object
-          $ref: '#/components/schemas/RoleDto'
+          type: string
         refreshToken:
           type: string
         expiresAt:

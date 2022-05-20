@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
@@ -99,7 +100,8 @@ public class AuthService {
         authenticationResponse.setRefreshToken(refreshTokenService.generateRefreshToken().getToken());
         authenticationResponse.setExpiresAt(LocalDate.from(OffsetDateTime.now().plusSeconds((jwtProvider.getJwtExpirationInMillis()))));
         authenticationResponse.setUsername(request.getUsername());
-        authenticationResponse.setRole(roleMapper.entity2dto(userRepository.findByUsername(request.getUsername()).get().getRole()));
+        User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new EntityNotFoundException("User with username:" + request.getUsername() + "not found"));
+        authenticationResponse.setRole(user.getRole().getName());
         return authenticationResponse;
     }
 

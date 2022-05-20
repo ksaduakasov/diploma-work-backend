@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
 public interface TeamMapper {
-    Team dto2entity(TeamDto teamDto);
 
     @Mapping(target = "id", source = "teamId")
     @Mapping(target = "name", source = "name")

@@ -17,13 +17,23 @@ public class AdminController implements AdminApi {
     private final AdminService adminService;
 
     @Override
+    public ResponseEntity<List<UserDto>> getCommissions() {
+        return ResponseEntity.ok(adminService.getCommissions());
+    }
+
+    @Override
+    public ResponseEntity<List<StageDto>> getStages() {
+        return ResponseEntity.ok(adminService.getStages());
+    }
+
+    @Override
     public ResponseEntity<Void> createDefence(Long teamId, CreateDefenceRequest request) {
         adminService.createDefence(teamId, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<TeamInfoByBlocksDto>> getTeams() {
+    public ResponseEntity<List<TeamShortInfoDto>> getTeams() {
         return ResponseEntity.ok(adminService.getTeams());
     }
 

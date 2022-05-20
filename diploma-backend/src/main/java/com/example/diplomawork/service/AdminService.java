@@ -65,21 +65,14 @@ public class AdminService {
                 .build();
     }
 
-    public List<TeamInfoByBlocksDto> getTeams() {
+    public List<TeamShortInfoDto> getTeams() {
         List<Team> teams = teamRepository.findAllByConfirmedTrue();
-        List<TeamInfoByBlocksDto> res = new ArrayList<>();
-        teams.forEach(team -> {
-            List<UserTeam> memberTeams = userTeamRepository.findAllByTeamIdAndAcceptedTrue(team.getId());
-            List<UserDto> members = memberTeams.stream().map(member -> userMapper.entity2dto(member.getUser())).collect(Collectors.toList());
-            res.add(TeamInfoByBlocksDto.builder()
-                    .advisor(userMapper.entity2dto(team.getAdvisor()))
-                    .creator(userMapper.entity2dto(team.getCreator()))
-                    .team(teamMapper.entity2dto(team))
-                    .topic(topicMapper.entity2dto(team.getTopic()))
-                    .members(members)
-                    .build());
-        });
-        return res;
+        return teams.stream().map(team -> TeamShortInfoDto.builder()
+                .id(team.getId())
+                .name(team.getName())
+                .advisor(team.getAdvisor() != null ? team.getAdvisor().getFirstName() + " " + team.getAdvisor().getLastName() : null)
+                .topic(team.getTopic() != null ? team.getTopic().getName() : null)
+                .build()).collect(Collectors.toList());
     }
 
     public void createUpdateTeam(TeamCreateUpdateRequest request) {
@@ -275,7 +268,13 @@ public class AdminService {
         return initialRepository.findAll().stream().map(initialMapper::entity2dto).collect(Collectors.toList());
     }
 
-    private List<StageDto> getStages() {
+    public List<StageDto> getStages() {
         return stageRepository.findAll().stream().map(stageMapper::entity2dto).collect(Collectors.toList());
+    }
+
+    public List<UserDto> getCommissions() {
+        Role role = roleRepository.findByName("ROLE_COMMISSION");
+        List<User> commissions = userRepository.findAllByRole(role);
+        return commissions.stream().map(userMapper::entity2dto).collect(Collectors.toList());
     }
 }

@@ -40,7 +40,7 @@ public class DiplomaWorkApplication {
 
     @Bean
     @Transactional
-    CommandLineRunner run(RoleRepository roleRepository, TopicRepository topicRepository, UserRepository userRepository, GroupRepository groupRepository, InitialRepository initialRepository, TeamRepository teamRepository, TeamTopicRepository teamTopicRepository, UserTeamRepository userTeamRepository) {
+    CommandLineRunner run(RoleRepository roleRepository, TopicRepository topicRepository, UserRepository userRepository, GroupRepository groupRepository, InitialRepository initialRepository, TeamRepository teamRepository, TeamTopicRepository teamTopicRepository, UserTeamRepository userTeamRepository, StageRepository stageRepository) {
         return args -> {
             roleRepository.save(new Role(null, "ROLE_ADMIN"));
             roleRepository.save(new Role(null, "ROLE_USER"));
@@ -50,7 +50,9 @@ public class DiplomaWorkApplication {
             userRepository.save(new User(null, "Admin", "Admin", "Admin", "Admin@gmail.com", "admin", new BCryptPasswordEncoder().encode("admin"), roleRepository.findByName("ROLE_ADMIN")));
             userRepository.save(new User(null, "Assel", "Smayil", "Maralbaevna", "assel.smayil@gmail.com", "asmayil", new BCryptPasswordEncoder().encode("12131213"), roleRepository.findByName("ROLE_COMMISSION")));
             userRepository.save(new User(null, "Askar", "Khaimuldin", "", "askar@gmail.com", "askar", new BCryptPasswordEncoder().encode("12131213"), roleRepository.findByName("ROLE_COMMISSION")));
-            initialRepository.save(new Initial(null, "SE"));
+            initialRepository.save(Initial.builder().id(null).initial("SE").build());
+            initialRepository.save(Initial.builder().id(null).initial("CS").build());
+            initialRepository.save(Initial.builder().id(null).initial("MT").build());
             groupRepository.save(new Group(null, "1903", initialRepository.findByInitial("SE")));
             topicRepository.save(new Topic(null, "Diploma Project Test", userRepository.findByUsername("asmayil").get(), initialRepository.findByInitial("SE"), true));
             teamRepository.save(new Team(null, "Remma", userRepository.findByUsername("test").get(), true, 3));
@@ -58,6 +60,9 @@ public class DiplomaWorkApplication {
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("test1").get(), teamRepository.findById(1L).get(), true));
             teamTopicRepository.save(new TeamTopic(null, teamRepository.findById(1L).get(), topicRepository.findById(1L).get(), true));
 //            teamTopicRepository.save(new TeamTopic(null, teamRepository.findById(2L).get(), topicRepository.findById(2L).get(), true));
+            stageRepository.save(Stage.builder().id(null).name("PRE-DEFENCE#1").build());
+            stageRepository.save(Stage.builder().id(null).name("PRE-DEFENCE#2").build());
+            stageRepository.save(Stage.builder().id(null).name("DEFENCE").build());
         };
     }
 }
