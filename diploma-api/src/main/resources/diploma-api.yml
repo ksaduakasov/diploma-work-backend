@@ -1024,6 +1024,8 @@ components:
           format: date-time
         grade:
           type: integer
+        stage:
+          $ref: '#/components/schemas/StageDto'
 
     StageDto:
       type: object
@@ -1076,8 +1078,10 @@ components:
           $ref: '#/components/schemas/TopicDto'
         advisor:
           $ref: '#/components/schemas/UserDto'
-        defence:
-          $ref: '#/components/schemas/DefenceDto'
+        defences:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefenceDto'
         members:
           type: array
           items:
