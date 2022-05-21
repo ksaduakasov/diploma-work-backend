@@ -38,24 +38,6 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<Void> createNewTeam(TeamCreateUpdateRequest request) {
-        adminService.createUpdateTeam(request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @Override
-    public ResponseEntity<Void> createNewTopic(TopicCreateUpdateRequest request) {
-        adminService.createUpdateTopic(request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @Override
-    public ResponseEntity<Void> createUser(RegisterRequest request) {
-        adminService.createUpdateUser(request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @Override
     public ResponseEntity<Void> deleteTeam(Long teamId) {
         adminService.deleteTeam(teamId);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -86,24 +68,6 @@ public class AdminController implements AdminApi {
     @Override
     public ResponseEntity<UserInfoByBlocksDto> getUser(Long userId) {
         return ResponseEntity.ok(adminService.getUser(userId));
-    }
-
-    @Override
-    public ResponseEntity<Void> updateTeamInfo(TeamCreateUpdateRequest request) {
-        adminService.createUpdateTeam(request);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Void> updateTopicInfo(TopicCreateUpdateRequest request) {
-        adminService.createUpdateTopic(request);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Void> updateUser(RegisterRequest request) {
-        adminService.createUpdateUser(request);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override

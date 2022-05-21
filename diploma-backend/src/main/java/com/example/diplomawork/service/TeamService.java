@@ -101,6 +101,7 @@ public class TeamService {
         UserTeam userTeamSet = userTeamRepository.findByUserIdAndAcceptedTrue(currentUser.getId()).orElseThrow(() -> new EntityNotFoundException("Team with member id: " + currentUser.getId() + " not found"));
         Team team = userTeamSet.getTeam();
         List<UserTeam> userTeams = userTeamRepository.findAllByTeamIdAndAcceptedTrue(team.getId());
+        TeamShortInfoDto teamShortInfoDto = teamMapper.entity2dto(team);
         return TeamInfoWithMembersDto.builder()
                 .team(teamMapper.entity2dto(team))
                 .members(userTeams.stream().map(userTeam -> userMapper.entity2dto(userTeam.getUser())).collect(Collectors.toList()))
@@ -116,7 +117,7 @@ public class TeamService {
                 .build()).collect(Collectors.toList());
     }
 
-    public List<TeamDto> getAvailableTeams() {
+    public List<TeamShortInfoDto> getAvailableTeams() {
         return teamRepository.findAllByConfirmedFalse().stream().map(teamMapper::entity2dto).collect(Collectors.toList());
     }
 }
