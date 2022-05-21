@@ -5,6 +5,7 @@ import com.example.diplomawork.model.*;
 import com.example.diplomawork.repository.*;
 import com.example.models.*;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,18 +56,6 @@ public class AdminService {
 
     private final UserTeamRepository userTeamRepository;
 
-    public AdminPanelGeneralInfoDto getAdminGeneralInfo() {
-        return AdminPanelGeneralInfoDto.builder()
-                .defences(getDefences())
-                .teams(getConfirmedTeams())
-                .topics(getSelectedTopics())
-                .users(getUsers())
-                .groups(getGroups())
-                .initials(getInitials())
-                .stages(getStages())
-                .build();
-    }
-
     public List<TeamShortInfoDto> getTeams() {
         List<Team> teams = teamRepository.findAllByConfirmedTrue();
         return teams.stream().map(team -> TeamShortInfoDto.builder()
@@ -75,41 +64,6 @@ public class AdminService {
                 .advisor(team.getAdvisor() != null ? team.getAdvisor().getFirstName() + " " + team.getAdvisor().getLastName() : null)
                 .topic(team.getTopic() != null ? team.getTopic().getName() : null)
                 .build()).collect(Collectors.toList());
-    }
-
-    public void createUpdateTeam(TeamCreateUpdateRequest request) {
-        Team team = Team.builder()
-                .id(request.getTeamId() != null ? request.getTeamId() : null)
-                .name(request.getName())
-                .advisor(request.getAdvisorId() != null ? userRepository.findById(request.getAdvisorId()).orElseThrow(() -> new EntityNotFoundException("Not found")) : null)
-                .confirmed(true)
-                .topic(request.getTopicId() != null ? topicRepository.findById(request.getTopicId()).orElseThrow(() -> new EntityNotFoundException("Not found")) : null)
-                .choices(3)
-                .build();
-        teamRepository.save(team);
-    }
-
-    public void createUpdateTopic(TopicCreateUpdateRequest request) {
-        Topic topic = Topic.builder()
-                .id(request.getId() != null ? request.getId() : null)
-                .name(request.getName())
-                .initial(initialRepository.findByInitial(request.getInitial()))
-                .selected(true)
-                .build();
-        topicRepository.save(topic);
-    }
-
-    public void createUpdateUser(RegisterRequest request) {
-        User user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .middleName(request.getMiddleName())
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(roleRepository.findByName("ROLE_USER"))
-                .build();
-        userRepository.save(user);
     }
 
     public void deleteTeam(Long teamId) {
@@ -228,26 +182,28 @@ public class AdminService {
                 .build();
     }
 
+    @SneakyThrows
     public void createDefence(Long teamId, CreateDefenceRequest request) {
         Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("Team with id: " + teamId + " not found"));
         Stage stage = stageRepository.findById(request.getStageId()).orElseThrow(() -> new EntityNotFoundException("Stage with id: " + request.getStageId() + " not found"));
+        if (defenceRepository.existsByTeamIdAndStageId(teamId, request.getStageId())) {
+            throw new IllegalAccessException("Defence with team id: " + teamId + " and stage id: " + request.getStageId() + " already exists");
+        }
         Defence defence = Defence.builder()
                 .defenceDate(request.getDefenceDate())
                 .stage(stage)
                 .team(team)
                 .build();
         defenceRepository.saveAndFlush(defence);
-        request.getCommissions().stream().map(commission -> DefenceCommission.builder()
-                .defence(defence)
-                .commission(userRepository.findById(commission).get()).build()).forEach(defenceCommissionRepository::save);
-    }
-
-    private List<DefenceInfoByBlocksDto> getDefences() {
-        return defenceRepository.findAll().stream().map(defence -> DefenceInfoByBlocksDto.builder()
-                .defence(defenceMapper.entity2dto(defence))
-                .stage(stageMapper.entity2dto(defence.getStage()))
-                .team(teamMapper.entity2dto(defence.getTeam()))
-                .build()).collect(Collectors.toList());
+        request.getCommissions().stream().map(commission -> userRepository.findById(commission).get()).forEach(user -> {
+            if (!user.getRole().getName().equals("ROLE_COMMISSION")) {
+                throw new EntityNotFoundException("The user's role is not commission");
+            }
+            DefenceCommission build = DefenceCommission.builder()
+                    .defence(defence)
+                    .commission(user).build();
+            defenceCommissionRepository.save(build);
+        });
     }
 
     private List<TeamInfoByBlocksDto> getConfirmedTeams() {

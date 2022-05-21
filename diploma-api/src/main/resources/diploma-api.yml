@@ -279,36 +279,6 @@ paths:
                 $ref: '#/components/schemas/LogoutResponse'
           description: Success
 
-  /admin/user/create:
-    post:
-      summary: Creates a new user
-      tags: [ Admin ]
-      operationId: createUser
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegisterRequest'
-      responses:
-        201:
-          description: Success
-
-  /admin/user/update:
-    put:
-      summary: Updates info about user
-      tags: [ Admin ]
-      operationId: updateUser
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegisterRequest'
-      responses:
-        201:
-          description: Success
-
   /admin/user/{userId}:
     get:
       tags: [ Admin ]
@@ -359,36 +329,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TeamShortInfoDto'
-
-  /admin/team/create:
-    post:
-      summary: Creates a new user
-      tags: [ Admin ]
-      operationId: createNewTeam
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TeamCreateUpdateRequest'
-      responses:
-        201:
-          description: Success
-
-  /admin/team/update:
-    put:
-      summary: Updates info about user
-      tags: [ Admin ]
-      operationId: updateTeamInfo
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TeamCreateUpdateRequest'
-      responses:
-        201:
-          description: Success
 
   /admin/team/{teamId}:
     get:
@@ -445,36 +385,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateDefenceRequest'
-      responses:
-        201:
-          description: Success
-
-  /admin/topic/create:
-    post:
-      summary: Creates a new topic
-      tags: [ Admin ]
-      operationId: createNewTopic
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TopicCreateUpdateRequest'
-      responses:
-        201:
-          description: Success
-
-  /admin/topic/update:
-    put:
-      summary: Updates info about topic
-      tags: [ Admin ]
-      operationId: updateTopicInfo
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TopicCreateUpdateRequest'
       responses:
         201:
           description: Success
@@ -743,23 +653,90 @@ paths:
                 items:
                   $ref: '#/components/schemas/UserDto'
 
+  /commission:
+    get:
+      tags: [ Commission ]
+      summary: Get commissions defences
+      operationId: getCommissionDefences
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DefenceShortInfoDto'
+
+  /commission/{defenceId}:
+    get:
+      tags: [ Commission ]
+      summary: Get commissions defence full info
+      operationId: getCommissionDefence
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefenceInfoByBlocksDto'
+
+  /commission/{defenceId}/question/create:
+    post:
+      tags: [ Commission ]
+      summary: Creates question of defence
+      operationId: CreateDefenceQuestion
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionCreateUpdateRequest'
+      responses:
+        201:
+          description: SUCCESS
+
+  /commission/{defenceId}/question/update:
+    put:
+      tags: [ Commission ]
+      summary: Updates question of defence
+      operationId: UpdateDefenceQuestion
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionCreateUpdateRequest'
+      responses:
+        200:
+          description: SUCCESS
+
 components:
   schemas:
-    TeamDto:
-      description: Team DTO
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        choices:
-          type: integer
-          format: int64
-        confirmed:
-          type: boolean
-
     TopicDto:
       description: Topic DTO
       type: object
@@ -1009,9 +986,13 @@ components:
         defence:
           $ref: '#/components/schemas/DefenceDto'
         team:
-          $ref: '#/components/schemas/TeamDto'
+          $ref: '#/components/schemas/TeamInfoWithMembersDto'
         stage:
           $ref: '#/components/schemas/StageDto'
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionDto'
 
     DefenceDto:
       type: object
@@ -1026,6 +1007,20 @@ components:
           type: integer
         stage:
           $ref: '#/components/schemas/StageDto'
+
+    DefenceShortInfoDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        defenceDate:
+          type: string
+          format: date-time
+        topic:
+          type: string
+        team:
+          type: string
 
     StageDto:
       type: object
@@ -1044,9 +1039,6 @@ components:
           format: int64
         description:
           type: string
-        defenceId:
-          type: integer
-          format: int64
         grade:
           type: integer
 
@@ -1058,12 +1050,6 @@ components:
           format: int64
         description:
           type: string
-        questionerId:
-          type: integer
-          format: int64
-        defenceId:
-          type: integer
-          format: int64
         grade:
           type: integer
 
@@ -1071,7 +1057,7 @@ components:
       type: object
       properties:
         team:
-          $ref: '#/components/schemas/TeamDto'
+          $ref: '#/components/schemas/TeamShortInfoDto'
         creator:
           $ref: '#/components/schemas/UserDto'
         topic:
@@ -1087,37 +1073,37 @@ components:
           items:
             $ref: '#/components/schemas/UserDto'
 
-    AdminPanelGeneralInfoDto:
-      type: object
-      properties:
-        defences:
-          type: array
-          items:
-            $ref: '#/components/schemas/DefenceInfoByBlocksDto'
-        teams:
-          type: array
-          items:
-            $ref: '#/components/schemas/TeamInfoByBlocksDto'
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/TopicInfoByBlocksDto'
-        stages:
-          type: array
-          items:
-            $ref: '#/components/schemas/StageDto'
-        initials:
-          type: array
-          items:
-            $ref: '#/components/schemas/InitialDto'
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserInfoByBlocksDto'
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupDto'
+    #    AdminPanelGeneralInfoDto:
+    #      type: object
+    #      properties:
+    #        defences:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/DefenceInfoByBlocksDto'
+    #        teams:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/TeamInfoByBlocksDto'
+    #        topics:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/TopicInfoByBlocksDto'
+    #        stages:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/StageDto'
+    #        initials:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/InitialDto'
+    #        users:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/UserInfoByBlocksDto'
+    #        groups:
+    #          type: array
+    #          items:
+    #            $ref: '#/components/schemas/GroupDto'
 
     UserTeamInfoByBlockDto:
       type: object
@@ -1128,7 +1114,7 @@ components:
         user:
           $ref: '#/components/schemas/UserDto'
         team:
-          $ref: '#/components/schemas/TeamDto'
+          $ref: '#/components/schemas/TeamShortInfoDto'
         group:
           $ref: '#/components/schemas/GroupDto'
 
@@ -1136,7 +1122,7 @@ components:
       type: object
       properties:
         team:
-          $ref: '#/components/schemas/TeamDto'
+          $ref: '#/components/schemas/TeamShortInfoDto'
         members:
           type: array
           items:
@@ -1148,7 +1134,7 @@ components:
         request:
           $ref: '#/components/schemas/RequestDto'
         team:
-          $ref: '#/components/schemas/TeamDto'
+          $ref: '#/components/schemas/TeamShortInfoDto'
 
     RequestDto:
       type: object
