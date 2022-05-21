@@ -2,7 +2,7 @@ package com.example.diplomawork.mapper;
 
 import com.example.diplomawork.model.Team;
 import com.example.models.TeamCreateUpdateRequest;
-import com.example.models.TeamDto;
+import com.example.models.TeamShortInfoDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
@@ -17,5 +17,7 @@ public interface TeamMapper {
     @Mapping(target = "creator", ignore = true)
     Team request2entity(TeamCreateUpdateRequest request);
 
-    TeamDto entity2dto(Team team);
+    @Mapping(target = "topic", source = "topic.name")
+    @Mapping(target = "advisor", expression = "java(team.getAdvisor() != null ? team.getAdvisor().getFirstName() + \" \" + team.getAdvisor().getLastName() : null)")
+    TeamShortInfoDto entity2dto(Team team);
 }

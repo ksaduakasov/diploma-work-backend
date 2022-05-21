@@ -4,6 +4,9 @@ import com.example.diplomawork.model.Defence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface DefenceRepository extends JpaRepository<Defence, Long> {
+    boolean existsByTeamIdAndStageId(Long teamId, Long stageId);
 }
