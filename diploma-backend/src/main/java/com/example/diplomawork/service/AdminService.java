@@ -195,9 +195,15 @@ public class AdminService {
                 .team(team)
                 .build();
         defenceRepository.saveAndFlush(defence);
-        request.getCommissions().stream().map(commission -> DefenceCommission.builder()
-                .defence(defence)
-                .commission(userRepository.findById(commission).get()).build()).forEach(defenceCommissionRepository::save);
+        request.getCommissions().stream().map(commission -> userRepository.findById(commission).get()).forEach(user -> {
+            if (!user.getRole().getName().equals("ROLE_COMMISSION")) {
+                throw new EntityNotFoundException("The user's role is not commission");
+            }
+            DefenceCommission build = DefenceCommission.builder()
+                    .defence(defence)
+                    .commission(user).build();
+            defenceCommissionRepository.save(build);
+        });
     }
 
     private List<TeamInfoByBlocksDto> getConfirmedTeams() {
