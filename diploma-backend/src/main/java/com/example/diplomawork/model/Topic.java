@@ -20,17 +20,17 @@ public class Topic {
     @NonNull
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_creator_id")
     private User creator;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "initial_id", nullable = false)
     private Initial initial;
 
     private Boolean selected;
 
-    @OneToOne(mappedBy = "topic")
+    @OneToOne(mappedBy = "topic", fetch = FetchType.LAZY)
     private Team team;
 
     @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)

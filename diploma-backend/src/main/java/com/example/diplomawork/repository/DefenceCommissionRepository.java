@@ -8,4 +8,6 @@ import java.util.List;
 @Repository
 public interface DefenceCommissionRepository extends JpaRepository<DefenceCommission, Long> {
     List<DefenceCommission> findDefenceCommissionsByCommissionId(Long commissionId);
+
+    List<DefenceCommission> findDefenceCommissionsByDefenceId(Long defenceId);
 }

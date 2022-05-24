@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AdminService {
 
     private final UserRepository userRepository;
@@ -195,7 +197,8 @@ public class AdminService {
                 .team(team)
                 .build();
         defenceRepository.saveAndFlush(defence);
-        request.getCommissions().stream().map(commission -> userRepository.findById(commission).get()).forEach(user -> {
+        for (Long commission : request.getCommissions()) {
+            User user = userRepository.findById(commission).get();
             if (!user.getRole().getName().equals("ROLE_COMMISSION")) {
                 throw new EntityNotFoundException("The user's role is not commission");
             }
@@ -203,7 +206,7 @@ public class AdminService {
                     .defence(defence)
                     .commission(user).build();
             defenceCommissionRepository.save(build);
-        });
+        }
     }
 
     private List<TeamInfoByBlocksDto> getConfirmedTeams() {

@@ -2,10 +2,12 @@ package com.example.diplomawork.controller;
 
 import com.example.api.CommissionApi;
 import com.example.diplomawork.service.CommissionService;
+import com.example.diplomawork.service.DocumentService;
 import com.example.models.DefenceInfoByBlocksDto;
 import com.example.models.DefenceShortInfoDto;
 import com.example.models.QuestionCreateUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,15 @@ import java.util.List;
 public class CommissionController implements CommissionApi {
 
     private final CommissionService commissionService;
+
+    private final DocumentService documentService;
+
+    @SneakyThrows
+    @Override
+    public ResponseEntity<String> getDefenceDocuments(Long defenceId) {
+        documentService.getDefenceDocuments(defenceId);
+        return ResponseEntity.ok(null);
+    }
 
     @Override
     public ResponseEntity<DefenceInfoByBlocksDto> getCommissionDefence(Long defenceId) {

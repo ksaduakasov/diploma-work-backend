@@ -26,7 +26,7 @@ public class DiplomaWorkApplication {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:8081"));
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
                 "Accept", "Authorization", "Origin, Accept", "X-Requested-With",
                 "Access-Control-Request-Method", "Access-Control-Request-Headers"));
@@ -54,15 +54,33 @@ public class DiplomaWorkApplication {
             initialRepository.save(Initial.builder().id(null).initial("CS").build());
             initialRepository.save(Initial.builder().id(null).initial("MT").build());
             groupRepository.save(new Group(null, "1903", initialRepository.findByInitial("SE")));
-            topicRepository.save(new Topic(null, "Diploma Project Test", userRepository.findByUsername("asmayil").get(), initialRepository.findByInitial("SE"), true));
-            teamRepository.save(new Team(null, "Remma", userRepository.findByUsername("test").get(), true, 3));
+            topicRepository.save(Topic.builder()
+                    .name("DIPLOMA PROJECT #1")
+                    .creator(userRepository.findByUsername("asmayil").get())
+                    .initial(initialRepository.findById(1L).get())
+                    .selected(true)
+                    .build());
+            teamRepository.save(Team.builder()
+                    .name("REMMA")
+                    .confirmed(true)
+                    .creator(userRepository.findByUsername("test").get())
+                    .advisor(userRepository.findByUsername("asmayil").get())
+                    .choices(3)
+                    .build());
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("test").get(), teamRepository.findById(1L).get(), true));
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("test1").get(), teamRepository.findById(1L).get(), true));
-            teamTopicRepository.save(new TeamTopic(null, teamRepository.findById(1L).get(), topicRepository.findById(1L).get(), true));
-//            teamTopicRepository.save(new TeamTopic(null, teamRepository.findById(2L).get(), topicRepository.findById(2L).get(), true));
-            stageRepository.save(Stage.builder().id(null).name("PRE-DEFENCE#1").build());
-            stageRepository.save(Stage.builder().id(null).name("PRE-DEFENCE#2").build());
-            stageRepository.save(Stage.builder().id(null).name("DEFENCE").build());
+            teamTopicRepository.save(TeamTopic.builder()
+                    .topic(topicRepository.findById(1L).get())
+                    .team(teamRepository.findById(1L).get())
+                    .approved(true)
+                    .build());
+            stageRepository.save(Stage.builder().name("PRE-DEFENCE#1").build());
+            stageRepository.save(Stage.builder().name("PRE-DEFENCE#2").build());
+            stageRepository.save(Stage.builder().name("DEFENCE").build());
+            Topic topic = topicRepository.findById(1L).get();
+            Team team = teamRepository.findById(1L).get();
+            team.setTopic(topic);
+            teamRepository.save(team);
         };
     }
 }

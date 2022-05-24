@@ -25,19 +25,21 @@ public class User {
 
     private String middleName;
 
+    @Column(unique = true)
     private String email;
 
     @NonNull
+    @Column(unique = true)
     private String username;
 
     @NonNull
     private String password;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 
