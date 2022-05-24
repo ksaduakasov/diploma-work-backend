@@ -17,11 +17,11 @@ public class Question {
 
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questioner_id", nullable = false)
     private User questioner;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "defence_id", nullable = false)
     private Defence defence;
 

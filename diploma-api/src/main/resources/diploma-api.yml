@@ -4,9 +4,9 @@ info:
   title: Diploma Service
   description: The Diploma Service
 paths:
-  /teams:
+  /student/teams:
     get:
-      tags: [ Team ]
+      tags: [ Student ]
       description: Get user team
       operationId: getTeam
       responses:
@@ -17,9 +17,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/TeamInfoWithMembersDto'
 
-  /teams/request:
+  /student/teams/request:
     get:
-      tags: [ Team ]
+      tags: [ Student ]
       summary: Receives all requests to join the team
       operationId: getTeamRequests
       responses:
@@ -32,9 +32,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/UserTeamInfoByBlockDto'
 
-  /teams/request/check:
+  /student/teams/request/check:
     get:
-      tags: [ Team ]
+      tags: [ Student ]
       summary: Gets all team join requests of user
       operationId: getUserRequests
       responses:
@@ -47,9 +47,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/TeamJoinRequestInfoByBlocksDto'
 
-  /teams/request/{requestId}/accept:
+  /student/teams/request/{requestId}/accept:
     post:
-      tags: [ Team ]
+      tags: [ Student ]
       summary: Accepts request to join to the team
       operationId: acceptTeamJoinRequest
       parameters:
@@ -63,10 +63,10 @@ paths:
         201:
           description: Success
 
-  /teams/create:
+  /student/teams/create:
     post:
       summary: Creates a new team
-      tags: [ Team ]
+      tags: [ Student ]
       operationId: createTeam
       requestBody:
         required: true
@@ -78,10 +78,10 @@ paths:
         201:
           description: Success
 
-  /teams/{teamId}/request:
+  /student/teams/{teamId}/request:
     post:
       summary: Creates a request to join to the team
-      tags: [ Team ]
+      tags: [ Student ]
       operationId: createRequestToTeam
       parameters:
         - in: path
@@ -98,7 +98,7 @@ paths:
   /teams/update:
     put:
       summary: Updates a team
-      tags: [ Team ]
+      tags: [ Advisor ]
       operationId: updateTeam
       requestBody:
         required: true
@@ -110,7 +110,7 @@ paths:
         204:
           description: Success
 
-  /topics:
+  /advisor/topics:
     get:
       tags: [ Topic ]
       description: Get list of available topics
@@ -125,7 +125,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/TopicInfoByBlocksDto'
 
-  /topics/{topicId}:
+  /advisor/topics/{topicId}:
     get:
       tags: [ Topic ]
       summary: Get topic info by id
@@ -161,7 +161,7 @@ paths:
         '204':
           description: Deleted
 
-  /topics/create:
+  /advisor/topics/create:
     post:
       summary: Creates a new topic
       tags: [ Topic ]
@@ -689,6 +689,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefenceInfoByBlocksDto'
 
+  /commission/{defenceId}/document:
+    get:
+      tags: [ Commission ]
+      summary: Get defence documents
+      operationId: getDefenceDocuments
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      responses:
+        200:
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: string
+
   /commission/{defenceId}/question/create:
     post:
       tags: [ Commission ]
@@ -1021,6 +1042,8 @@ components:
           type: string
         team:
           type: string
+        grade:
+          type: integer
 
     StageDto:
       type: object
