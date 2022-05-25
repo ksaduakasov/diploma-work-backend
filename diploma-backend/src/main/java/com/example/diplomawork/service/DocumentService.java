@@ -24,6 +24,12 @@ public class DocumentService {
     public byte[] getDefenceDocuments(Long defenceId) throws DocumentException, IOException {
         DefenceInfoByBlocksDto dto = commissionService.getCommissionDefence(defenceId);
         DocumentUtil.generatePdf(dto, commissionService.getDefenceCommissions(defenceId));
-        return null;
+        File path = new File(
+                "protocol.pdf");
+        FileInputStream fl = new FileInputStream(path);
+        byte[] arr = new byte[(int)path.length()];
+        fl.read(arr);
+        fl.close();
+        return arr;
     }
 }

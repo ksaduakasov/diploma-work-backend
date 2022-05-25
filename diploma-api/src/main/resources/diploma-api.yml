@@ -704,11 +704,12 @@ paths:
           description: Numeric ID of the defence to get
       responses:
         200:
-          description: Success
+          description: Returns PDF
           content:
-            text/plain:
+            application/pdf:
               schema:
-                type: string
+                type: file
+                format: binary
 
   /commission/{defenceId}/question/create:
     post:
