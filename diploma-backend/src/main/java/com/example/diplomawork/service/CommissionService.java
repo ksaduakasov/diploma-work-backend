@@ -93,7 +93,7 @@ public class CommissionService {
     }
 
     public List<UserDto> getDefenceCommissions(Long defenceId) {
-        List<DefenceCommission> defenceCommissions = defenceCommissionRepository.findDefenceCommissionsByCommissionId(defenceId);
+        List<DefenceCommission> defenceCommissions = defenceCommissionRepository.findDefenceCommissionsByDefenceId(defenceId);
         return defenceCommissions.stream().map(defence -> userMapper.entity2dto(defence.getCommission())).collect(Collectors.toList());
     }
 }
