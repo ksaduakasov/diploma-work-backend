@@ -16,6 +16,19 @@ public class AdminController implements AdminApi {
 
     private final AdminService adminService;
 
+
+    @Override
+    public ResponseEntity<Void> createCommission(CreateCommissionMemberRequest request) {
+        adminService.createUpdateCommissionMember(request);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<Void> updateCommission(CreateCommissionMemberRequest request) {
+        adminService.createUpdateCommissionMember(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @Override
     public ResponseEntity<List<UserDto>> getCommissions() {
         return ResponseEntity.ok(adminService.getCommissions());

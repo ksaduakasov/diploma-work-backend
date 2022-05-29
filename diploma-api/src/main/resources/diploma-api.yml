@@ -315,6 +315,49 @@ paths:
         204:
           description: Deleted
 
+  /admin/commission:
+    get:
+      summary: Gets all commissions
+      tags: [ Admin ]
+      operationId: getCommissions
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDto'
+
+  /admin/commission/create:
+    post:
+      summary: Creates new commission member
+      tags: [ Admin ]
+      operationId: createCommission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommissionMemberRequest'
+      responses:
+        201:
+          description: SUCCESS
+
+  /admin/commission/update:
+    put:
+      summary: Update info about commission member
+      tags: [ Admin ]
+      operationId: updateCommission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommissionMemberRequest'
+      responses:
+        200:
+          description: SUCCESS
+
   /admin/team:
     get:
       summary: Gets all teams
@@ -638,21 +681,6 @@ paths:
         204:
           description: Deleted
 
-  /admin/commission:
-    get:
-      tags: [ Admin ]
-      summary: Get commissions
-      operationId: getCommissions
-      responses:
-        200:
-          description: SUCCESS
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/UserDto'
-
   /commission:
     get:
       tags: [ Commission ]
@@ -947,6 +975,29 @@ components:
         - username
         - password
 
+    CreateCommissionMemberRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        middleName:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - username
+        - password
+
     TokenVerifyResponse:
       type: object
       properties:
@@ -1045,6 +1096,8 @@ components:
           type: string
         grade:
           type: integer
+        stage:
+          type: string
 
     StageDto:
       type: object
