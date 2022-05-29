@@ -86,6 +86,7 @@ public class CommissionService {
                     .team(defenceCommission.getDefence().getTeam().getName())
                     .topic(defenceCommission.getDefence().getTeam().getTopic().getName())
                     .grade(!questions.isEmpty() ? questions.stream().mapToInt(Question::getGrade).sum() / questions.size() : null)
+                    .stage(defence.getStage().getName())
                     .build();
             list.add(build);
         });

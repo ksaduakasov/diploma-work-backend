@@ -58,6 +58,8 @@ public class AdminService {
 
     private final UserTeamRepository userTeamRepository;
 
+
+
     public List<TeamShortInfoDto> getTeams() {
         List<Team> teams = teamRepository.findAllByConfirmedTrue();
         return teams.stream().map(team -> TeamShortInfoDto.builder()
@@ -250,5 +252,19 @@ public class AdminService {
         Role role = roleRepository.findByName("ROLE_COMMISSION");
         List<User> commissions = userRepository.findAllByRole(role);
         return commissions.stream().map(userMapper::entity2dto).collect(Collectors.toList());
+    }
+
+    public void createUpdateCommissionMember(CreateCommissionMemberRequest request) {
+        User user = User.builder()
+                .id(request.getId() != null ? request.getId() : null)
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .middleName(request.getMiddleName())
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(roleRepository.findByName("ROLE_COMMISSION"))
+                .build();
+        userRepository.save(user);
     }
 }

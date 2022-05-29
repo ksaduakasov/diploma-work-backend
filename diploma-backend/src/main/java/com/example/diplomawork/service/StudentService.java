@@ -18,16 +18,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class TeamService {
+public class StudentService {
 
     private final AuthService authService;
+
     private final TeamRepository teamRepository;
 
     private final TopicRepository topicRepository;
@@ -60,15 +60,6 @@ public class TeamService {
                 .team(team)
                 .user(currentUser)
                 .accepted(true)
-                .build());
-    }
-
-    public void createRequestToTeam(Long teamId) {
-        Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("Team with id: " + teamId + " not found"));
-        userTeamRepository.save(UserTeam.builder()
-                .user(authService.getCurrentUser())
-                .team(team)
-                .accepted(false)
                 .build());
     }
 
@@ -106,6 +97,15 @@ public class TeamService {
                 .team(teamMapper.entity2dto(team))
                 .members(userTeams.stream().map(userTeam -> userMapper.entity2dto(userTeam.getUser())).collect(Collectors.toList()))
                 .build();
+    }
+
+    public void createRequestToTeam(Long teamId) {
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("Team with id: " + teamId + " not found"));
+        userTeamRepository.save(UserTeam.builder()
+                .user(authService.getCurrentUser())
+                .team(team)
+                .accepted(false)
+                .build());
     }
 
     public List<TeamJoinRequestInfoByBlocksDto> getUserRequests() {
