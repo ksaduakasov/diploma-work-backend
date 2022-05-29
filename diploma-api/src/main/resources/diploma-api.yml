@@ -98,7 +98,7 @@ paths:
   /teams/update:
     put:
       summary: Updates a team
-      tags: [ Advisor ]
+      tags: [ Student ]
       operationId: updateTeam
       requestBody:
         required: true
@@ -112,7 +112,7 @@ paths:
 
   /advisor/topics:
     get:
-      tags: [ Topic ]
+      tags: [ Advisor ]
       description: Get list of available topics
       operationId: getAvailableTopics
       responses:
@@ -127,7 +127,7 @@ paths:
 
   /advisor/topics/{topicId}:
     get:
-      tags: [ Topic ]
+      tags: [ Advisor ]
       summary: Get topic info by id
       operationId: getTopic
       parameters:
@@ -146,7 +146,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TopicInfoByBlocksDto'
     delete:
-      tags: [ Topic ]
+      tags: [ Advisor ]
       summary: Delete topic by id
       operationId: deleteTopic
       parameters:
@@ -164,7 +164,7 @@ paths:
   /advisor/topics/create:
     post:
       summary: Creates a new topic
-      tags: [ Topic ]
+      tags: [ Advisor ]
       operationId: createTopic
       requestBody:
         required: true
@@ -179,7 +179,7 @@ paths:
   /topics/update:
     put:
       summary: Updates a topic
-      tags: [ Topic ]
+      tags: [ Advisor ]
       operationId: updateTopic
       requestBody:
         required: true
@@ -736,8 +736,8 @@ paths:
           content:
             application/pdf:
               schema:
-                type: file
-                format: binary
+                type: string
+                format: byte
 
   /commission/{defenceId}/question/create:
     post:
