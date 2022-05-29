@@ -95,7 +95,7 @@ paths:
         201:
           description: Success
 
-  /teams/update:
+  /student/teams/update:
     put:
       summary: Updates a team
       tags: [ Student ]
@@ -176,7 +176,7 @@ paths:
         201:
           description: Success
 
-  /topics/update:
+  /advisor/topics/update:
     put:
       summary: Updates a topic
       tags: [ Advisor ]
@@ -190,6 +190,19 @@ paths:
       responses:
         204:
           description: Success
+
+  /advisor/requests:
+    get:
+      tags: [ Advisor ]
+      summary: Get team-topic requests
+      operationId: getAdvisorRequests
+      responses:
+        '200':
+          description: Status is OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicInfoByBlocksDto'
 
   /auth/signup:
     post:
