@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
+import java.util.Base64;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,6 @@ public class DocumentService {
         byte[] arr = new byte[(int)path.length()];
         fl.read(arr);
         fl.close();
-        return arr;
+        return Base64.getEncoder().encode(arr);
     }
 }
