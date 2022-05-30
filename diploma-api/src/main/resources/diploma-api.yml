@@ -1300,6 +1300,8 @@ components:
           type: string
         grade:
           type: integer
+        responderName:
+          type: string
 
     TeamInfoByBlocksDto:
       type: object
