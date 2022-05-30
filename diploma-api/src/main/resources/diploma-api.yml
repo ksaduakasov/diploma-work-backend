@@ -812,19 +812,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefenceInfoByBlocksDto'
 
-  /secretary/{defenceId}/document:
+  /secretary/{userId}/document:
     get:
       tags: [ Secretary ]
-      summary: Get defence documents
+      summary: Get user documents
       operationId: getDocuments
       parameters:
         - in: path
-          name: defenceId
+          name: userId
           schema:
             type: integer
             format: int64
           required: true
-          description: Numeric ID of the defence to get
+          description: Numeric ID of the user to get
       responses:
         200:
           description: Returns PDF
@@ -1432,3 +1432,44 @@ components:
         stageId:
           type: integer
           format: int64
+
+    QuestionInfoDto:
+      type: object
+      properties:
+        description:
+          type: string
+        grade:
+          type: integer
+        questioner:
+          $ref: '#/components/schemas/UserDto'
+
+
+    InfoForDocumentTemplateDto:
+      type: object
+      properties:
+        commissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDto'
+        student:
+          $ref: '#/components/schemas/StudentShortInfoDto'
+        defence:
+          $ref: '#/components/schemas/DefenceShortInfoDto'
+        advisor:
+          $ref: '#/components/schemas/UserDto'
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionInfoDto'
+        grade:
+          type: integer
+
+    StudentShortInfoDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        group:
+          type: string

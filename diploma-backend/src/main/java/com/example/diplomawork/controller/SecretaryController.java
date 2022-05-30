@@ -1,9 +1,11 @@
 package com.example.diplomawork.controller;
 
 import com.example.api.SecretaryApi;
+import com.example.diplomawork.service.DocumentService;
 import com.example.diplomawork.service.SecretaryService;
 import com.example.models.*;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +17,8 @@ import java.util.List;
 public class SecretaryController implements SecretaryApi {
 
     private final SecretaryService secretaryService;
+
+    private final DocumentService documentService;
 
     @Override
     public ResponseEntity<Void> createQuestion(Long defenceId, QuestionCreateUpdateRequest request) {
@@ -28,9 +32,10 @@ public class SecretaryController implements SecretaryApi {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @SneakyThrows
     @Override
-    public ResponseEntity<byte[]> getDocuments(Long defenceId) {
-        return SecretaryApi.super.getDocuments(defenceId);
+    public ResponseEntity<byte[]> getDocuments(Long userId) {
+        return ResponseEntity.ok(documentService.getDefenceDocuments(userId));
     }
 
     @Override

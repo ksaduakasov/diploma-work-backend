@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface DefenceRepository extends JpaRepository<Defence, Long> {
     boolean existsByTeamIdAndStageId(Long teamId, Long stageId);
+
+    Defence findByTeamIdAndStageName(Long teamId, String stageName);
 }
