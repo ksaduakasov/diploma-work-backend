@@ -84,7 +84,7 @@ public class DocumentUtil {
 
 
         Document protocol2 = new Document();
-        PdfWriter writer2 = PdfWriter.getInstance(protocol1, new FileOutputStream("protocol2.pdf"));
+        PdfWriter writer2 = PdfWriter.getInstance(protocol2, new FileOutputStream("protocol2.pdf"));
 
         Paragraph studentFullName = new Paragraph("Обучающийся " + dto.getTeam().getMembers().get(0).getFirstName(), font);
 
