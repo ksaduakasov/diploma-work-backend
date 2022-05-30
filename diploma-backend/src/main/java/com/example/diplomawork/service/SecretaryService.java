@@ -61,7 +61,12 @@ public class SecretaryService {
                 .team(teamMapper.entity2dto(team).advisor(team.getAdvisor() != null ? team.getAdvisor().getFirstName() + " " + team.getAdvisor().getLastName() : null))
                 .members(userTeams.stream().map(userTeam -> userMapper.entity2dto(userTeam.getUser())).collect(Collectors.toList()))
                 .build();
-        List<QuestionDto> questions = questionRepository.findAllByDefenceId(defenceId).stream().map(questionMapper::entity2dto).collect(Collectors.toList());
+        List<QuestionDto> questions = new ArrayList<>();
+        questionRepository.findAllByDefenceId(defenceId).forEach(question -> {
+            QuestionDto questionDto = questionMapper.entity2dto(question);
+            questionDto.setResponderName(question.getResponder().getLastName() + " " + question.getResponder().getFirstName().charAt(0) + ".");
+            questions.add(questionDto);
+        });
         return DefenceInfoByBlocksDto.builder()
                 .defence(defenceMapper.entity2dto(defence))
                 .team(teamInfo)
