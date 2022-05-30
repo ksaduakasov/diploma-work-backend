@@ -5,10 +5,7 @@ import com.example.diplomawork.mapper.QuestionMapper;
 import com.example.diplomawork.mapper.TeamMapper;
 import com.example.diplomawork.mapper.UserMapper;
 import com.example.diplomawork.model.*;
-import com.example.diplomawork.repository.DefenceCommissionRepository;
-import com.example.diplomawork.repository.DefenceRepository;
-import com.example.diplomawork.repository.QuestionRepository;
-import com.example.diplomawork.repository.UserTeamRepository;
+import com.example.diplomawork.repository.*;
 import com.example.models.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +26,8 @@ public class CommissionService {
     private final DefenceRepository defenceRepository;
 
     private final QuestionRepository questionRepository;
+
+    private final UserRepository userRepository;
 
     private final DefenceCommissionRepository defenceCommissionRepository;
 
@@ -59,18 +58,15 @@ public class CommissionService {
     }
 
     public void createUpdateQuestion(Long defenceId, QuestionCreateUpdateRequest request) {
-        Defence defence = defenceRepository.findById(defenceId).orElseThrow(() -> new EntityNotFoundException("Defence with id: " + defenceId + " not found"));
-        Question question = Question.builder()
-                .id(request.getQuestionId())
-                .description(request.getDescription())
+        List<Long> studentIds = request.getStudentIds();
+        studentIds.stream().map(studentId -> Question.builder()
+                .id(request.getQuestionId() != null ? request.getQuestionId() : null)
                 .questioner(authService.getCurrentUser())
-                .defence(defence)
+                .description(request.getDescription())
+                .defence(defenceRepository.findById(defenceId).orElseThrow(() -> new EntityNotFoundException("Defence with id: " + defenceId + " not found")))
+                .responder(userRepository.findById(studentId).orElseThrow(() -> new EntityNotFoundException("User with id: " + studentId + " not found")))
                 .grade(request.getGrade())
-                .build();
-        questionRepository.save(question);
-        List<Question> questions = questionRepository.findAllByDefenceId(defence.getId());
-        defence.setGrade(!questions.isEmpty() ? questions.stream().mapToInt(Question::getGrade).sum() / questions.size() : null);
-        defenceRepository.save(defence);
+                .build()).forEach(questionRepository::save);
     }
 
     public List<DefenceShortInfoDto> getCommissionDefences() {
