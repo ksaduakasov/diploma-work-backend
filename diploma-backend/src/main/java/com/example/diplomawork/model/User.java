@@ -43,11 +43,18 @@ public class User {
     @JoinColumn(name = "group_id")
     private Group group;
 
+    @OneToOne(mappedBy = "student")
+    private UserGrade grade;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     List<UserTeam> userTeams;
 
     @OneToMany(mappedBy = "questioner", fetch = FetchType.LAZY)
     List<Question> userQuestions;
+
+    @OneToMany(mappedBy = "responder", fetch = FetchType.LAZY)
+    List<Question> questionsResponders;
+
 
     public User(Long id, @NonNull String firstName, @NonNull String lastName, String middleName, String email, @NonNull String username, @NonNull String password, Role role) {
         this.id = id;

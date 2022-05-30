@@ -28,7 +28,7 @@ public class Defence {
     private Stage stage;
 
     @OneToMany(mappedBy = "defence", fetch = FetchType.LAZY)
-    List<Question> defenceQuestions;
+    private List<Question> defenceQuestions;
 
     private Integer grade;
 }

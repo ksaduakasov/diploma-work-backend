@@ -25,5 +25,9 @@ public class Question {
     @JoinColumn(name = "defence_id", nullable = false)
     private Defence defence;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "responder_id", nullable = false)
+    private User responder;
+
     private Integer grade;
 }

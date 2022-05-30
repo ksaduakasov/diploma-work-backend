@@ -22,12 +22,6 @@ public class CommissionController implements CommissionApi {
 
     private final DocumentService documentService;
 
-    @SneakyThrows
-    @Override
-    public ResponseEntity<byte[]> getDefenceDocuments(Long defenceId) {
-        return ResponseEntity.ok(documentService.getDefenceDocuments(defenceId));
-    }
-
     @Override
     public ResponseEntity<DefenceInfoByBlocksDto> getCommissionDefence(Long defenceId) {
         return ResponseEntity.ok(commissionService.getCommissionDefence(defenceId));

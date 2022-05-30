@@ -730,28 +730,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefenceInfoByBlocksDto'
 
-  /commission/{defenceId}/document:
-    get:
-      tags: [ Commission ]
-      summary: Get defence documents
-      operationId: getDefenceDocuments
-      parameters:
-        - in: path
-          name: defenceId
-          schema:
-            type: integer
-            format: int64
-          required: true
-          description: Numeric ID of the defence to get
-      responses:
-        200:
-          description: Returns PDF
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: byte
-
   /commission/{defenceId}/question/create:
     post:
       tags: [ Commission ]
@@ -798,8 +776,183 @@ paths:
         200:
           description: SUCCESS
 
+  /secretary/defence:
+    get:
+      tags: [ Secretary ]
+      summary: Get secretary defences
+      operationId: getSecretaryDefences
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DefenceShortInfoDto'
+
+  /secretary/defence/{defenceId}:
+    get:
+      tags: [ Secretary ]
+      summary: Get defence full info
+      operationId: getSecretaryDefence
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefenceInfoByBlocksDto'
+
+  /secretary/{defenceId}/document:
+    get:
+      tags: [ Secretary ]
+      summary: Get defence documents
+      operationId: getDocuments
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      responses:
+        200:
+          description: Returns PDF
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: byte
+
+  /secretary/{defenceId}/question/create:
+    post:
+      tags: [ Secretary ]
+      summary: Creates question of defence
+      operationId: createQuestion
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionCreateUpdateRequest'
+      responses:
+        201:
+          description: SUCCESS
+
+  /secretary/{defenceId}/question/update:
+    put:
+      tags: [ Secretary ]
+      summary: Updates question of defence
+      operationId: updateQuestion
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionCreateUpdateRequest'
+      responses:
+        200:
+          description: SUCCESS
+
+  /secretary/{defenceId}/grades:
+    get:
+      tags: [ Secretary ]
+      summary: Gets team members with grades
+      operationId: getStudentsWithGrades
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentWithGradeDto'
+
+  /secretary/{defenceId}/grades/set-grade/{userId}:
+    post:
+      tags: [ Secretary ]
+      summary: Sets final grade for student
+      operationId: setFinalGrade
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+        - in: path
+          name: userId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the user to get
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GradeDto'
+      responses:
+        200:
+          description: SUCCESS
+
 components:
   schemas:
+
+    StudentWithGradeDto:
+      description: student with grade
+      properties:
+        id:
+          type: integer
+          format: int64
+        fullName:
+          type: string
+        grade:
+          type: integer
+
+    GradeDto:
+      description: grade DTO
+      properties:
+        grade:
+          type: integer
+
     TopicDto:
       description: Topic DTO
       type: object
@@ -1131,6 +1284,11 @@ components:
           type: string
         grade:
           type: integer
+        studentIds:
+          type: array
+          items:
+            type: integer
+            format: int64
 
     QuestionDto:
       type: object

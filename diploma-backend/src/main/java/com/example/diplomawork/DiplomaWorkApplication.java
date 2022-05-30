@@ -45,6 +45,7 @@ public class DiplomaWorkApplication {
             roleRepository.save(new Role(null, "ROLE_ADMIN"));
             roleRepository.save(new Role(null, "ROLE_USER"));
             roleRepository.save(new Role(null, "ROLE_COMMISSION"));
+            roleRepository.save(new Role(null, "ROLE_SECRETARY"));
             userRepository.save(new User(null, "Nurahmet", "Azhibek", "Serikzhanovich", "nurahmet@gmail.com", "nurahmet", new BCryptPasswordEncoder().encode("12131213"), roleRepository.findByName("ROLE_USER")));
             userRepository.save(new User(null, "Beibarys", "Zholmyrza", null, "beibarys@gmail.com", "beibarys", new BCryptPasswordEncoder().encode("12131213"), roleRepository.findByName("ROLE_USER")));
             userRepository.save(new User(null, "Kalbek", "Saduakasov", null, "kalbek@gmail.com", "kalbek", new BCryptPasswordEncoder().encode("12131213"), roleRepository.findByName("ROLE_USER")));
@@ -57,6 +58,9 @@ public class DiplomaWorkApplication {
             userRepository.save(new User(null, "Askar", "Khaimuldin", null, "askar@gmail.com", "askar", new BCryptPasswordEncoder().encode("12131213"), roleRepository.findByName("ROLE_COMMISSION")));
             userRepository.save(new User(null, "Erkebulan", "Kolpakov", null, "erkebulan@gmail.com", "erkebulan", new BCryptPasswordEncoder().encode("12131213"), roleRepository.findByName("ROLE_COMMISSION")));
             userRepository.save(new User(null, "Tleuzhan", "Mukatayev", null, "tleu13@gmail.com", "tleu13", new BCryptPasswordEncoder().encode("12131213"), roleRepository.findByName("ROLE_COMMISSION")));
+
+            userRepository.save(new User(null, "Secret", "Secret", null, "secret@gmail.com", "secret", new BCryptPasswordEncoder().encode("12131213"), roleRepository.findByName("ROLE_SECRETARY")));
+
 
             initialRepository.save(Initial.builder().id(null).initial("SE").build());
             initialRepository.save(Initial.builder().id(null).initial("CS").build());
@@ -110,8 +114,6 @@ public class DiplomaWorkApplication {
                     .approved(true)
                     .build());
 
-            stageRepository.save(Stage.builder().name("PRE-DEFENCE#1").build());
-            stageRepository.save(Stage.builder().name("PRE-DEFENCE#2").build());
             stageRepository.save(Stage.builder().name("DEFENCE").build());
             Topic topic1 = topicRepository.findById(1L).get();
             Team team1 = teamRepository.findById(1L).get();
