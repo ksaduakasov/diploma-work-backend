@@ -106,7 +106,6 @@ public class AdminService {
         return TopicInfoByBlocksDto.builder()
                 .topic(topicMapper.entity2dto(topic))
                 .creator(userMapper.entity2dto(topic.getCreator()))
-                .initial(initialMapper.entity2dto(topic.getInitial()))
                 .build();
     }
 
@@ -223,7 +222,6 @@ public class AdminService {
         return topicRepository.findAllBySelectedTrue().stream().map(topic -> TopicInfoByBlocksDto.builder()
                 .topic(topicMapper.entity2dto(topic))
                 .creator(userMapper.entity2dto(topic.getCreator()))
-                .initial(initialMapper.entity2dto(topic.getInitial()))
                 .build()).collect(Collectors.toList());
     }
 

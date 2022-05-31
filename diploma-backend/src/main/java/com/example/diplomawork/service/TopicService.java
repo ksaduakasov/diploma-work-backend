@@ -34,7 +34,6 @@ public class TopicService {
                 .id(request.getId() != null ? request.getId() : null)
                 .name(request.getName())
                 .creator(currentUser)
-                .initial(initialRepository.findByInitial(request.getInitial()))
                 .selected(false)
                 .build();
         topicRepository.save(topic);
@@ -51,12 +50,10 @@ public class TopicService {
     public TopicInfoByBlocksDto getTopic(Long topicId) {
         Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new EntityNotFoundException("Topic with id: " + topicId + " not found"));
         UserDto userDto = userMapper.entity2dto(topic.getCreator());
-        InitialDto initialDto = initialMapper.entity2dto(topic.getInitial());
         TopicDto topicDto = topicMapper.entity2dto(topic);
         return TopicInfoByBlocksDto.builder()
                 .topic(topicDto)
                 .creator(userDto)
-                .initial(initialDto)
                 .build();
     }
 }

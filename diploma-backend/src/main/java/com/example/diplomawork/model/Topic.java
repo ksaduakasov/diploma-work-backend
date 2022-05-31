@@ -23,11 +23,6 @@ public class Topic {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_creator_id")
     private User creator;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "initial_id", nullable = false)
-    private Initial initial;
-
     private Boolean selected;
 
     @OneToOne(mappedBy = "topic", fetch = FetchType.LAZY)
@@ -40,7 +35,6 @@ public class Topic {
         this.id = id;
         this.name = name;
         this.creator = creator;
-        this.initial = initial;
         this.selected = selected;
     }
 }

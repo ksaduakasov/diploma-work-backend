@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface TopicMapper {
 
-    @Mapping(target = "initial", ignore = true)
     Topic request2entity(TopicCreateUpdateRequest request);
 
     TopicDto entity2dto(Topic topic);

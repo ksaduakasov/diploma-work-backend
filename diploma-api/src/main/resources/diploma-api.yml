@@ -821,6 +821,29 @@ paths:
                 items:
                   $ref: '#/components/schemas/DefenceShortInfoDto'
 
+  /secretary/defence/{defenceId}/commissions:
+    get:
+      tags: [ Secretary ]
+      summary: Get defence full info
+      operationId: getDefenceCommission
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDto'
+
   /secretary/defence/{defenceId}:
     get:
       tags: [ Secretary ]
@@ -1027,8 +1050,6 @@ components:
           $ref: '#/components/schemas/TopicDto'
         creator:
           $ref: '#/components/schemas/UserDto'
-        initial:
-          $ref: '#/components/schemas/InitialDto'
 
     InitialDto:
       description: Group initials

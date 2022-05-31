@@ -21,7 +21,4 @@ public class Initial {
 
     @OneToMany(mappedBy = "initial", fetch = FetchType.LAZY)
     private List<Group> groups;
-
-    @OneToMany(mappedBy = "initial", fetch = FetchType.LAZY)
-    private List<Topic> initialTopics;
 }
