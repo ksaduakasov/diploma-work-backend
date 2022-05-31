@@ -38,6 +38,12 @@ public class SecretaryController implements SecretaryApi {
         return ResponseEntity.ok(documentService.getStudentDocument_FirstProtocol(userId));
     }
 
+    @SneakyThrows
+    @Override
+    public ResponseEntity<byte[]> getDocumentSecondProtocol(Long userId) {
+        return ResponseEntity.ok(documentService.getStudentDocument_SecondProtocol(userId));
+    }
+
     @Override
     public ResponseEntity<DefenceInfoByBlocksDto> getSecretaryDefence(Long defenceId) {
         return ResponseEntity.ok(secretaryService.getDefenceInfo(defenceId));

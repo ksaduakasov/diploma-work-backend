@@ -834,6 +834,28 @@ paths:
                 type: string
                 format: byte
 
+  /secretary/{userId}/document/protocol-second:
+    get:
+      tags: [ Secretary ]
+      summary: Get user documents
+      operationId: getDocumentSecondProtocol
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        200:
+          description: Returns PDF
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: byte
+
   /secretary/{defenceId}/question/create:
     post:
       tags: [ Secretary ]
