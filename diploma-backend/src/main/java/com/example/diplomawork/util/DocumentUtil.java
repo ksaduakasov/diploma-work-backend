@@ -1,8 +1,7 @@
 package com.example.diplomawork.util;
 
-import com.example.models.DefenceInfoByBlocksDto;
+import com.example.diplomawork.model.Reviewer;
 import com.example.models.InfoForDocumentTemplateDto;
-import com.example.models.UserDto;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -13,7 +12,7 @@ import java.io.IOException;
 public class DocumentUtil {
     private static Long protocolNumber = 1L;
 
-    public static void generateFirstProtocolPdf(InfoForDocumentTemplateDto dto) throws IOException, DocumentException {
+    public static void generateFirstProtocolPdf(InfoForDocumentTemplateDto dto, Reviewer reviewer) throws IOException, DocumentException {
         BaseFont newTimesRoman = BaseFont.createFont("C:\\Users\\ASUS\\IdeaProjects\\diploma-work\\diploma-work\\diploma-backend\\src\\main\\resources\\fonts\\timesnrcyrmt.ttf", "cp1251", BaseFont.EMBEDDED);
         Font font = new Font(newTimesRoman, 12, Font.NORMAL);
         Font boldFont = new Font(newTimesRoman, 12, Font.BOLD);
@@ -48,9 +47,10 @@ public class DocumentUtil {
         Paragraph language = new Paragraph("Язык дипломной работы (проекта): английский", font);
 
         Paragraph adviser = new Paragraph("Дипломная работа (проект) обучающегося выполнена под научным руководством\n"
-                + dto.getAdvisor(), font); // TODO фамилия, имя, отчество, ученая или академическая степень, место работы, занимаемая должность
+                + dto.getAdvisor(), font);
 
-        Paragraph reviewer = new Paragraph("Рецензент ____________________________________", font); //TODO Рецензент
+        Paragraph reviewerInfo = new Paragraph("Дипломная работа (проект) обучающегося выполнена под научным руководством\n"
+                + reviewer.getFullName() + ", " + reviewer.getCareerGrade() + ", " + reviewer.getWorkPlace() + ", " + reviewer.getProfession(), font);
 
         String listOfMaterials = "В аттестационную комиссию представлены следующие материалы:\n" +
                 "1) \tтекст дипломной работы (проекта) на cтраницах;\n" +
@@ -77,13 +77,14 @@ public class DocumentUtil {
         protocol1.add(topic);
         protocol1.add(language);
         protocol1.add(adviser);
-        protocol1.add(reviewer);
+        protocol1.add(reviewerInfo);
         protocol1.add(new Paragraph(listOfMaterials, font));
         protocol1.add(new Paragraph(questions, font));
         protocol1.add(listOfQuestions);
         protocol1.add(new Paragraph("Общая характеристика ответов обучающегося на заданные ему вопросы \n\n\n\n\n", font));
         protocol1.add(new Paragraph("Признать, что обучающийся выполнил и защитил дипломную работу (проект) / магистерской диссертации с оценкой " + dto.getGrade().toString(), font));
-        protocol1.add(new Paragraph("Особые мнения членов комиссии \n\n\n\n\n", font));
+        protocol1.add(new Paragraph("Особые мнения членов комиссии", font));
+        protocol1.add(new Paragraph("____________________________________________", font));
         protocol1.add(new Paragraph("Председатель _____________________________", font));
         protocol1.add(new Paragraph("_____________________________", font));
         protocol1.add(new Paragraph("_____________________________", font));
@@ -95,7 +96,7 @@ public class DocumentUtil {
         writer.close();
     }
 
-    public static void generateSecondProtocolPdf(InfoForDocumentTemplateDto dto) throws IOException, DocumentException {
+    public static void generateSecondProtocolPdf(InfoForDocumentTemplateDto dto, Reviewer reviewer) throws IOException, DocumentException {
         BaseFont newTimesRoman = BaseFont.createFont("C:\\Users\\ASUS\\IdeaProjects\\diploma-work\\diploma-work\\diploma-backend\\src\\main\\resources\\fonts\\timesnrcyrmt.ttf", "cp1251", BaseFont.EMBEDDED);
         Font font = new Font(newTimesRoman, 12, Font.NORMAL);
         Font boldFont = new Font(newTimesRoman, 12, Font.BOLD);
@@ -131,7 +132,8 @@ public class DocumentUtil {
         Paragraph adviser = new Paragraph("Дипломная работа (проект) обучающегося выполнена под научным руководством\n"
                 + dto.getAdvisor(), font); // TODO фамилия, имя, отчество, ученая или академическая степень, место работы, занимаемая должность
 
-        Paragraph reviewer = new Paragraph("Рецензент ____________________________________", font); //TODO Рецензент
+        Paragraph reviewerInfo = new Paragraph("Дипломная работа (проект) обучающегося выполнена под научным руководством\n"
+                + reviewer.getFullName() + ", " + reviewer.getCareerGrade() + ", " + reviewer.getWorkPlace() + ", " + reviewer.getProfession(), font);
 
         String listOfMaterials = "В аттестационную комиссию представлены следующие материалы:\n" +
                 "1) \tтекст дипломной работы (проекта) на cтраницах;\n" +

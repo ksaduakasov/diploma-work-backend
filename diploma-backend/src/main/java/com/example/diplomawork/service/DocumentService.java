@@ -73,7 +73,7 @@ public class DocumentService {
                 .questions(questionInfoDtos)
                 .grade(student.getGrade().getFinalGrade())
                 .build();
-        DocumentUtil.generateFirstProtocolPdf(dto);
+        DocumentUtil.generateFirstProtocolPdf(dto, userTeam.getTeam().getReviewer());
         File path = new File(
                 "protocol1.pdf");
         FileInputStream fl = new FileInputStream(path);
@@ -117,7 +117,7 @@ public class DocumentService {
                 .questions(questionInfoDtos)
                 .grade(student.getGrade().getFinalGrade())
                 .build();
-        DocumentUtil.generateSecondProtocolPdf(dto);
+        DocumentUtil.generateSecondProtocolPdf(dto, userTeam.getTeam().getReviewer());
         File path = new File(
                 "protocol2.pdf");
         FileInputStream fl = new FileInputStream(path);

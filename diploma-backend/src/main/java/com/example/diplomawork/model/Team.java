@@ -3,6 +3,7 @@ package com.example.diplomawork.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.sound.sampled.ReverbType;
 import java.util.List;
 
 @Getter
@@ -30,6 +31,10 @@ public class Team {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_advisor_id")
     private User advisor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewer_id")
+    private Reviewer reviewer;
 
     @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
     List<TeamTopic> teamTopics;
