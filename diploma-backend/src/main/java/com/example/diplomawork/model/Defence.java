@@ -30,5 +30,6 @@ public class Defence {
     @OneToMany(mappedBy = "defence", fetch = FetchType.LAZY)
     private List<Question> defenceQuestions;
 
-    private Integer grade;
+    @OneToMany(mappedBy = "defence", fetch = FetchType.LAZY)
+    private List<UserCommissionGrade> defenceGrades;
 }

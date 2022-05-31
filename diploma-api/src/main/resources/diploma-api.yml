@@ -730,6 +730,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefenceInfoByBlocksDto'
 
+  /commission/{defenceId}/set-grade/{studentId}:
+    post:
+      tags: [ Commission ]
+      summary: Sets grade of defence
+      operationId: setGrade
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+        - in: path
+          name: studentId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the student to get
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GradeDto'
+      responses:
+        201:
+          description: SUCCESS
+
   /commission/{defenceId}/question/create:
     post:
       tags: [ Commission ]
@@ -1264,8 +1294,6 @@ components:
         defenceDate:
           type: string
           format: date-time
-        grade:
-          type: integer
         stage:
           $ref: '#/components/schemas/StageDto'
 
@@ -1282,8 +1310,6 @@ components:
           type: string
         team:
           type: string
-        grade:
-          type: integer
         stage:
           type: string
 
@@ -1304,13 +1330,14 @@ components:
           format: int64
         description:
           type: string
-        grade:
-          type: integer
         studentIds:
           type: array
           items:
             type: integer
             format: int64
+        questionerId:
+          type: integer
+          format: int64
 
     QuestionDto:
       type: object
@@ -1320,9 +1347,9 @@ components:
           format: int64
         description:
           type: string
-        grade:
-          type: integer
         responderName:
+          type: string
+        questioner:
           type: string
 
     TeamInfoByBlocksDto:

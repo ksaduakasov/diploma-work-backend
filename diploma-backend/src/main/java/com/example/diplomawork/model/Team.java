@@ -42,13 +42,10 @@ public class Team {
 
     private Boolean confirmed;
 
-    private Integer choices;
-
-    public Team(Long id, @NonNull String name, User creator, Boolean confirmed, Integer choices) {
+    public Team(Long id, @NonNull String name, User creator, Boolean confirmed) {
         this.id = id;
         this.name = name;
         this.creator = creator;
         this.confirmed = confirmed;
-        this.choices = choices;
     }
 }

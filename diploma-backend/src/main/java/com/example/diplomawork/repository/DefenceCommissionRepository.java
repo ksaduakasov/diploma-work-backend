@@ -10,4 +10,6 @@ public interface DefenceCommissionRepository extends JpaRepository<DefenceCommis
     List<DefenceCommission> findDefenceCommissionsByCommissionId(Long commissionId);
 
     List<DefenceCommission> findDefenceCommissionsByDefenceId(Long defenceId);
+
+    DefenceCommission findDefenceCommissionByDefenceIdAndCommissionId(Long defenceId, Long commissionId);
 }

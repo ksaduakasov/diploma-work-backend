@@ -1,5 +1,6 @@
 package com.example.diplomawork.model;
 
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,24 +9,25 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "questions")
+@Entity(name = "user_commission_grade")
 @Builder
-public class Question {
+public class UserCommissionGrade {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
+    private User student;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "questioner_id", nullable = false)
-    private User questioner;
+    @JoinColumn(name = "commission_id", nullable = false)
+    private User commission;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "defence_id", nullable = false)
     private Defence defence;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "responder_id", nullable = false)
-    private User responder;
+    private Integer grade;
 }

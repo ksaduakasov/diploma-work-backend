@@ -31,6 +31,8 @@ public class CommissionService {
 
     private final DefenceCommissionRepository defenceCommissionRepository;
 
+    private final UserCommissionGradeRepository userCommissionGradeRepository;
+
     private final AuthService authService;
 
     private final TeamMapper teamMapper;
@@ -50,7 +52,7 @@ public class CommissionService {
                 .members(userTeams.stream().map(userTeam -> userMapper.entity2dto(userTeam.getUser())).collect(Collectors.toList()))
                 .build();
         List<QuestionDto> questions = new ArrayList<>();
-        questionRepository.findAllByDefenceId(defenceId).forEach(question -> {
+        questionRepository.findAllByDefenceIdAndResponderId(defenceId, authService.getCurrentUser().getId()).forEach(question -> {
             QuestionDto questionDto = questionMapper.entity2dto(question);
             questionDto.setResponderName(question.getResponder().getLastName() + " " + question.getResponder().getFirstName().charAt(0) + ".");
             questions.add(questionDto);
@@ -70,8 +72,22 @@ public class CommissionService {
                 .description(request.getDescription())
                 .defence(defenceRepository.findById(defenceId).orElseThrow(() -> new EntityNotFoundException("Defence with id: " + defenceId + " not found")))
                 .responder(userRepository.findById(studentId).orElseThrow(() -> new EntityNotFoundException("User with id: " + studentId + " not found")))
-                .grade(request.getGrade())
+                .questioner(authService.getCurrentUser())
                 .build()).forEach(questionRepository::save);
+    }
+
+    public void setGrade(Long defenceId, Long studentId, GradeDto grade) {
+        User student = userRepository.findById(studentId).orElseThrow(() -> new EntityNotFoundException("User with id: " + studentId + " not found"));
+        User commission = authService.getCurrentUser();
+        Defence defence = defenceRepository.findById(defenceId).orElseThrow(() -> new EntityNotFoundException("Defence with id: " + defenceId + " not found"));
+        UserCommissionGrade userCommissionGrade = userCommissionGradeRepository.findByCommissionIdAndStudentId(commission.getId(), student.getId()).orElse(null);
+        if (userCommissionGrade == null) {
+            userCommissionGrade.setCommission(commission);
+            userCommissionGrade.setStudent(student);
+            userCommissionGrade.setDefence(defence);
+        }
+        userCommissionGrade.setGrade(grade.getGrade());
+        userCommissionGradeRepository.save(userCommissionGrade);
     }
 
     public List<DefenceShortInfoDto> getCommissionDefences() {
@@ -80,13 +96,11 @@ public class CommissionService {
         List<DefenceShortInfoDto> list = new ArrayList<>();
         defenceCommissions.forEach(defenceCommission -> {
             Defence defence = defenceCommission.getDefence();
-            List<Question> questions = questionRepository.findAllByDefenceId(defence.getId());
             DefenceShortInfoDto build = DefenceShortInfoDto.builder()
                     .id(defence.getId())
                     .defenceDate(defenceCommission.getDefence().getDefenceDate())
                     .team(defenceCommission.getDefence().getTeam().getName())
                     .topic(defenceCommission.getDefence().getTeam().getTopic().getName())
-                    .grade(!questions.isEmpty() ? questions.stream().mapToInt(Question::getGrade).sum() / questions.size() : null)
                     .stage(defence.getStage().getName())
                     .build();
             list.add(build);

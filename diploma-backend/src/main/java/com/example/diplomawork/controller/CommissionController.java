@@ -5,6 +5,7 @@ import com.example.diplomawork.service.CommissionService;
 import com.example.diplomawork.service.DocumentService;
 import com.example.models.DefenceInfoByBlocksDto;
 import com.example.models.DefenceShortInfoDto;
+import com.example.models.GradeDto;
 import com.example.models.QuestionCreateUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -20,7 +21,11 @@ public class CommissionController implements CommissionApi {
 
     private final CommissionService commissionService;
 
-    private final DocumentService documentService;
+    @Override
+    public ResponseEntity<Void> setGrade(Long defenceId, Long studentId, GradeDto gradeDto) {
+        commissionService.setGrade(defenceId, studentId, gradeDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     @Override
     public ResponseEntity<DefenceInfoByBlocksDto> getCommissionDefence(Long defenceId) {

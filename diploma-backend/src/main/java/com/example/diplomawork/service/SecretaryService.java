@@ -31,6 +31,8 @@ public class SecretaryService {
 
     private final UserGradeRepository userGradeRepository;
 
+    private final UserCommissionGradeRepository userCommissionGradeRepository;
+
     private final UserRepository userRepository;
 
     private final TeamMapper teamMapper;
@@ -49,7 +51,7 @@ public class SecretaryService {
                 .description(request.getDescription())
                 .defence(defenceRepository.findById(defenceId).orElseThrow(() -> new EntityNotFoundException("Defence with id: " + defenceId + " not found")))
                 .responder(userRepository.findById(studentId).orElseThrow(() -> new EntityNotFoundException("User with id: " + studentId + " not found")))
-                .grade(request.getGrade())
+                .questioner(userRepository.findById(request.getQuestionerId()).orElseThrow(() -> new EntityNotFoundException("User with id: " + studentId + " not found")))
                 .build()).forEach(questionRepository::save);
     }
 
@@ -65,6 +67,7 @@ public class SecretaryService {
         questionRepository.findAllByDefenceId(defenceId).forEach(question -> {
             QuestionDto questionDto = questionMapper.entity2dto(question);
             questionDto.setResponderName(question.getResponder().getLastName() + " " + question.getResponder().getFirstName().charAt(0) + ".");
+            questionDto.setQuestioner(question.getQuestioner().getLastName()  + " " + question.getQuestioner().getFirstName().charAt(0) + ".");
             questions.add(questionDto);
         });
         return DefenceInfoByBlocksDto.builder()
@@ -78,13 +81,11 @@ public class SecretaryService {
         List<Defence> defences = defenceRepository.findAll();
         List<DefenceShortInfoDto> dtos = new ArrayList<>();
         defences.forEach(defence -> {
-            List<Question> questions = questionRepository.findAllByDefenceId(defence.getId());
             DefenceShortInfoDto dto = DefenceShortInfoDto.builder()
                     .id(defence.getId())
                     .defenceDate(defence.getDefenceDate())
                     .team(defence.getTeam().getName())
                     .topic(defence.getTeam().getTopic().getName())
-                    .grade(!questions.isEmpty() ? questions.stream().mapToInt(Question::getGrade).sum() / questions.size() : null)
                     .stage(defence.getStage().getName())
                     .build();
             dtos.add(dto);
@@ -97,27 +98,27 @@ public class SecretaryService {
         List<UserTeam> userTeams = userTeamRepository.findAllByTeamIdAndAcceptedTrue(defence.getTeam().getId());
         List<StudentWithGradeDto> students = new ArrayList<>();
         userTeams.forEach(userTeam -> {
-            List<Question> questions = questionRepository.findAllByDefenceIdAndResponderId(defenceId, userTeam.getUser().getId());
+            List<UserCommissionGrade> grades = userCommissionGradeRepository.findAllByDefenceIdAndStudentId(defenceId, userTeam.getUser().getId());
             students.add(StudentWithGradeDto.builder()
                     .id(userTeam.getUser().getId())
                     .fullName(userTeam.getUser().getFirstName() + " " + userTeam.getUser().getLastName())
-                    .grade(userTeam.getUser().getGrade() != null ? userTeam.getUser().getGrade().getFinalGrade() : (!questions.isEmpty() ? questions.stream().mapToInt(Question::getGrade).sum() / questions.size() : null))
+                    .grade(userTeam.getUser().getGrade() != null ? userTeam.getUser().getGrade().getFinalGrade() : (!grades.isEmpty() ? grades.stream().mapToInt(UserCommissionGrade::getGrade).sum() / grades.size() : null))
                     .build());
         });
         return students;
     }
 
     public void setFinalGrade(Long defenceId, Long userId, GradeDto gradeDto) {
-        List<Question> questions = questionRepository.findAllByDefenceIdAndResponderId(defenceId, userId);
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User with id: " + userId + " not found"));
+        List<UserCommissionGrade> grades = userCommissionGradeRepository.findAllByDefenceIdAndStudentId(defenceId, userId);
         if (user.getGrade() != null) {
-            user.getGrade().setFirstGrade(questions.stream().mapToInt(Question::getGrade).sum() / questions.size());
+            user.getGrade().setFirstGrade(grades.stream().mapToInt(UserCommissionGrade::getGrade).sum() / grades.size());
             user.getGrade().setFinalGrade(gradeDto.getGrade());
             userRepository.save(user);
         } else {
             UserGrade userGrade = UserGrade.builder()
                     .id(null)
-                    .firstGrade(!questions.isEmpty() ? questions.stream().mapToInt(Question::getGrade).sum() / questions.size() : null)
+                    .firstGrade(!grades.isEmpty() ? grades.stream().mapToInt(UserCommissionGrade::getGrade).sum() / grades.size() : null)
                     .finalGrade(gradeDto.getGrade())
                     .student(user)
                     .build();
