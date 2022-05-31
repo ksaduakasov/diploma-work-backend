@@ -112,4 +112,17 @@ public class CommissionService {
         List<DefenceCommission> defenceCommissions = defenceCommissionRepository.findDefenceCommissionsByDefenceId(defenceId);
         return defenceCommissions.stream().map(defence -> userMapper.entity2dto(defence.getCommission())).collect(Collectors.toList());
     }
+
+    public List<StudentWithGradeDto> getStudentsWithCommissionGrades(Long defenceId) {
+        User commission = authService.getCurrentUser();
+        Defence defence = defenceRepository.findById(defenceId).orElseThrow(() -> new EntityNotFoundException("Defence with id: " + defenceId + " not found"));
+        Team team = defence.getTeam();
+        List<UserTeam> userTeams = userTeamRepository.findAllByTeamIdAndAcceptedTrue(team.getId());
+        List<StudentWithGradeDto> students = new ArrayList<>();
+        userTeams.forEach(userTeam -> {
+            UserCommissionGrade grade = userCommissionGradeRepository.findByCommissionIdAndStudentIdAndDefenceId(commission.getId(), userTeam.getUser().getId(), defenceId);
+            students.add(StudentWithGradeDto.builder().id(userTeam.getUser().getId()).fullName(userTeam.getUser().getFirstName() + " " + userTeam.getUser().getLastName()).grade(grade.getGrade() != null ? grade.getGrade() : null).build());
+        });
+        return students;
+    }
 }

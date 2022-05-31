@@ -730,6 +730,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefenceInfoByBlocksDto'
 
+  /commission/{defenceId}/grades:
+    get:
+      tags: [ Secretary ]
+      summary: Gets team members with commission grades
+      operationId: getStudentsWithCommissionGrades
+      parameters:
+        - in: path
+          name: defenceId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: Numeric ID of the defence to get
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentWithGradeDto'
+
   /commission/{defenceId}/set-grade/{studentId}:
     post:
       tags: [ Commission ]
@@ -825,7 +848,7 @@ paths:
     get:
       tags: [ Secretary ]
       summary: Get defence full info
-      operationId: getDefenceCommission
+      operationId: getDefenceCommissions
       parameters:
         - in: path
           name: defenceId
