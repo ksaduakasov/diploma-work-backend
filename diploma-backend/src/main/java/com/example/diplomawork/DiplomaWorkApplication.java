@@ -59,6 +59,26 @@ public class DiplomaWorkApplication {
 
             userRepository.save(User.builder()
                     .id(null)
+                    .firstName("Askar")
+                    .lastName("Askar")
+                    .middleName("Askar")
+                    .username("askar")
+                    .role(roleRepository.findByName("ROLE_COMMISSION"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Secretar")
+                    .lastName("Secretar")
+                    .middleName("Secretar")
+                    .username("sec")
+                    .role(roleRepository.findByName("ROLE_SECRETARY"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
                     .firstName("Т.")
                     .lastName("Мукатаев")
                     .username("tleu13")
@@ -435,7 +455,421 @@ public class DiplomaWorkApplication {
 
             // --------------------//
 
+            //defence day 2 -> 02.06.2022
 
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Д.")
+                    .lastName("Лебедев")
+                    .username("lebedevd")
+                    .role(roleRepository.findByName("ROLE_ADVISOR"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .build());
+
+            topicRepository.save(Topic.builder()
+                    .name("Development of a module for the Competitive Contract Commission for domestic and foreign teaching staff for Astana IT University")
+                    .creator(userRepository.findByUsername("lebedevd").get())
+                    .selected(true)
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Ерасыл")
+                    .lastName("Болат")
+                    .middleName("Жұмағазыұлы")
+                    .username("bolate")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1902"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Анияр")
+                    .lastName("Калиев")
+                    .middleName("Ануарбекович")
+                    .username("kaliyeva")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1904"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Айбын")
+                    .lastName("Сағындық")
+                    .middleName("Бекенұлы")
+                    .username("sagyndyka")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1904"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Ален")
+                    .lastName("Туякбаев")
+                    .middleName("Сакенович")
+                    .username("tuyakbayeva")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1902"))
+                    .build());
+
+            teamRepository.save(Team.builder()
+                    .name("Болат + Калиев + Сағындық + Туякбаев")
+                    .confirmed(true)
+                    .creator(userRepository.findByUsername("tuyakbayeva").get())
+                    .advisor(userRepository.findByUsername("lebedevd").get())
+                    .build());
+
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("bolate").get(), teamRepository.findTeamByName("Болат + Калиев + Сағындық + Туякбаев"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("kaliyeva").get(),  teamRepository.findTeamByName("Болат + Калиев + Сағындық + Туякбаев"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("sagyndyka").get(),  teamRepository.findTeamByName("Болат + Калиев + Сағындық + Туякбаев"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("tuyakbayeva").get(),  teamRepository.findTeamByName("Болат + Калиев + Сағындық + Туякбаев"), true));
+
+            teamTopicRepository.save(TeamTopic.builder()
+                    .topic(topicRepository.findByName("Development of a module for the Competitive Contract Commission for domestic and foreign teaching staff for Astana IT University"))
+                    .team(teamRepository.findTeamByName("Болат + Калиев + Сағындық + Туякбаев"))
+                    .approved(true)
+                    .build());
+
+            Team team7 = teamRepository.findTeamByName("Болат + Калиев + Сағындық + Туякбаев");
+            team7.setTopic(topicRepository.findByName("Development of a module for the Competitive Contract Commission for domestic and foreign teaching staff for Astana IT University"));
+            teamRepository.save(team7);
+
+            // --------------------//
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("A.")
+                    .lastName("Хаймульдин")
+                    .username("khaimuldina")
+                    .role(roleRepository.findByName("ROLE_ADVISOR"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .build());
+
+            topicRepository.save(Topic.builder()
+                    .name("Development of data analyzer system to find available job positions from open source")
+                    .creator(userRepository.findByUsername("khaimuldina").get())
+                    .selected(true)
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Азатқали")
+                    .lastName("Нұрұмғалиев")
+                    .middleName("Берикқалиұлы")
+                    .username("nurumgaliyeva")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1905"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Нұрым")
+                    .lastName("Сиырбаев")
+                    .middleName("Айзатұлы")
+                    .username("siyrbayevn")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1905"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Мадияр")
+                    .lastName("Усабеков")
+                    .middleName("Нурланович")
+                    .username("ussabekovm")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1905"))
+                    .build());
+
+            teamRepository.save(Team.builder()
+                    .name("Нұрұмғалиев + Сиырбаев + Усабеков")
+                    .confirmed(true)
+                    .creator(userRepository.findByUsername("ussabekovm").get())
+                    .advisor(userRepository.findByUsername("khaimuldina").get())
+                    .build());
+
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("nurumgaliyeva").get(), teamRepository.findTeamByName("Нұрұмғалиев + Сиырбаев + Усабеков"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("siyrbayevn").get(),  teamRepository.findTeamByName("Нұрұмғалиев + Сиырбаев + Усабеков"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("ussabekovm").get(),  teamRepository.findTeamByName("Нұрұмғалиев + Сиырбаев + Усабеков"), true));
+
+            teamTopicRepository.save(TeamTopic.builder()
+                    .topic(topicRepository.findByName("Development of data analyzer system to find available job positions from open source"))
+                    .team(teamRepository.findTeamByName("Нұрұмғалиев + Сиырбаев + Усабеков"))
+                    .approved(true)
+                    .build());
+
+            Team team8 = teamRepository.findTeamByName("Нұрұмғалиев + Сиырбаев + Усабеков");
+            team8.setTopic(topicRepository.findByName("Development of data analyzer system to find available job positions from open source"));
+            teamRepository.save(team8);
+
+            // --------------------//
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Ж.")
+                    .lastName("Сарсенова")
+                    .username("sarsenovaz")
+                    .role(roleRepository.findByName("ROLE_ADVISOR"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .build());
+
+            topicRepository.save(Topic.builder()
+                    .name("Development of system for translating manga and comics with automatic identification and replacement of text")
+                    .creator(userRepository.findByUsername("sarsenovaz").get())
+                    .selected(true)
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Динмухаммед")
+                    .lastName("Еримбетов")
+                    .middleName("Ермекулы")
+                    .username("erimbetovd")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1904"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Мағжан")
+                    .lastName("Жақуда")
+                    .middleName("Ардақұлы")
+                    .username("zhakudam")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1904"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Рахат")
+                    .lastName("Шаяхметов")
+                    .middleName("Серикулы")
+                    .username("shayahmetovr")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1906"))
+                    .build());
+
+            teamRepository.save(Team.builder()
+                    .name("Еримбетов + Жақуда + Шаяхметов")
+                    .confirmed(true)
+                    .creator(userRepository.findByUsername("shayahmetovr").get())
+                    .advisor(userRepository.findByUsername("sarsenovaz").get())
+                    .build());
+
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("erimbetovd").get(), teamRepository.findTeamByName("Еримбетов + Жақуда + Шаяхметов"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("zhakudam").get(),  teamRepository.findTeamByName("Еримбетов + Жақуда + Шаяхметов"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("shayahmetovr").get(),  teamRepository.findTeamByName("Еримбетов + Жақуда + Шаяхметов"), true));
+
+            teamTopicRepository.save(TeamTopic.builder()
+                    .topic(topicRepository.findByName("Development of system for translating manga and comics with automatic identification and replacement of text"))
+                    .team(teamRepository.findTeamByName("Еримбетов + Жақуда + Шаяхметов"))
+                    .approved(true)
+                    .build());
+
+            Team team9 = teamRepository.findTeamByName("Еримбетов + Жақуда + Шаяхметов");
+            team9.setTopic(topicRepository.findByName("Development of system for translating manga and comics with automatic identification and replacement of text"));
+            teamRepository.save(team9);
+
+            //------------------------//
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("С.")
+                    .lastName("Аубакиров")
+                    .username("aubakirovs")
+                    .role(roleRepository.findByName("ROLE_ADVISOR"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .build());
+
+            topicRepository.save(Topic.builder()
+                    .name("Development of MDM system for restaurants")
+                    .creator(userRepository.findByUsername("aubakirovs").get())
+                    .selected(true)
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Адильхан")
+                    .lastName("Кенжетаев")
+                    .middleName("Сырымбетович")
+                    .username("kenzhetayeva")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1906"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Ақылбек")
+                    .lastName("Қонысқайров")
+                    .middleName("Ерланұлы")
+                    .username("konyskaiyrova")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1905"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Асфандияр")
+                    .lastName("Марат")
+                    .middleName("Русланулы")
+                    .username("marata")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1904"))
+                    .build());
+
+            teamRepository.save(Team.builder()
+                    .name("Кенжетаев + Қонысқайров + Марат")
+                    .confirmed(true)
+                    .creator(userRepository.findByUsername("marata").get())
+                    .advisor(userRepository.findByUsername("aubakirovs").get())
+                    .build());
+
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("kenzhetayeva").get(), teamRepository.findTeamByName("Кенжетаев + Қонысқайров + Марат"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("konyskaiyrova").get(),  teamRepository.findTeamByName("Кенжетаев + Қонысқайров + Марат"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("marata").get(),  teamRepository.findTeamByName("Кенжетаев + Қонысқайров + Марат"), true));
+
+            teamTopicRepository.save(TeamTopic.builder()
+                    .topic(topicRepository.findByName("Development of MDM system for restaurants"))
+                    .team(teamRepository.findTeamByName("Кенжетаев + Қонысқайров + Марат"))
+                    .approved(true)
+                    .build());
+
+            Team team10 = teamRepository.findTeamByName("Кенжетаев + Қонысқайров + Марат");
+            team10.setTopic(topicRepository.findByName("Development of MDM system for restaurants"));
+            teamRepository.save(team10);
+
+            // --------------------//
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("T.")
+                    .lastName("Мукатаев")
+                    .username("tleu13")
+                    .role(roleRepository.findByName("ROLE_ADVISOR"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .build());
+
+            topicRepository.save(Topic.builder()
+                    .name("Implementation of blokchain in Go")
+                    .creator(userRepository.findByUsername("tleu13").get())
+                    .selected(true)
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Мирас")
+                    .lastName("Алимов")
+                    .middleName("Сакенович")
+                    .username("alimovm")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1901"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Амиран")
+                    .lastName("Құрман")
+                    .middleName("Мәлікұлы")
+                    .username("kurmana")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1901"))
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Бекнұр")
+                    .lastName("Раисов")
+                    .middleName("Кенжебекұлы")
+                    .username("raissovb")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1901"))
+                    .build());
+
+            teamRepository.save(Team.builder()
+                    .name("Алимов + Құрман + Раисов")
+                    .confirmed(true)
+                    .creator(userRepository.findByUsername("raissovb").get())
+                    .advisor(userRepository.findByUsername("tleu13").get())
+                    .build());
+
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("alimovm").get(), teamRepository.findTeamByName("Алимов + Құрман + Раисов"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("kurmana").get(),  teamRepository.findTeamByName("Алимов + Құрман + Раисов"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("raissovb").get(),  teamRepository.findTeamByName("Алимов + Құрман + Раисов"), true));
+
+            teamTopicRepository.save(TeamTopic.builder()
+                    .topic(topicRepository.findByName("Implementation of blokchain in Go"))
+                    .team(teamRepository.findTeamByName("Алимов + Құрман + Раисов"))
+                    .approved(true)
+                    .build());
+
+            Team team11 = teamRepository.findTeamByName("Алимов + Құрман + Раисов");
+            team11.setTopic(topicRepository.findByName("Implementation of blokchain in Go"));
+            teamRepository.save(team11);
+
+            // --------------------//
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Д.")
+                    .lastName("Лебедев")
+                    .username("levedevd")
+                    .role(roleRepository.findByName("ROLE_ADVISOR"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .build());
+
+            topicRepository.save(Topic.builder()
+                    .name("Development of the “Digital University” information system using microservice architecture")
+                    .creator(userRepository.findByUsername("levedevd").get())
+                    .selected(true)
+                    .build());
+
+            userRepository.save(User.builder()
+                    .id(null)
+                    .firstName("Алихан")
+                    .lastName("Жомартов")
+                    .middleName("Мадиұлы")
+                    .username("zhomartova")
+                    .role(roleRepository.findByName("ROLE_STUDENT"))
+                    .password(new BCryptPasswordEncoder().encode("verySecret3$"))
+                    .group(groupRepository.findByInitialInitialAndName("SE", "1903"))
+                    .build());
+
+            teamRepository.save(Team.builder()
+                    .name("Жомартов")
+                    .confirmed(true)
+                    .creator(userRepository.findByUsername("zhomartova").get())
+                    .advisor(userRepository.findByUsername("levedevd").get())
+                    .build());
+
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("zhomartova").get(), teamRepository.findTeamByName("Жомартов"), true));
+
+            teamTopicRepository.save(TeamTopic.builder()
+                    .topic(topicRepository.findByName("Development of the “Digital University” information system using microservice architecture"))
+                    .team(teamRepository.findTeamByName("Жомартов"))
+                    .approved(true)
+                    .build());
+
+            Team team12 = teamRepository.findTeamByName("Жомартов");
+            team12.setTopic(topicRepository.findByName("Development of the “Digital University” information system using microservice architecture"));
+            teamRepository.save(team12);
+
+            // --------------------//
         };
     }
 }
