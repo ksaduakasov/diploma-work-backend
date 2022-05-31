@@ -812,11 +812,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/DefenceInfoByBlocksDto'
 
-  /secretary/{userId}/document:
+  /secretary/{userId}/document/protocol-first:
     get:
       tags: [ Secretary ]
       summary: Get user documents
-      operationId: getDocuments
+      operationId: getDocumentFirstProtocol
       parameters:
         - in: path
           name: userId

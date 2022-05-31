@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +40,7 @@ public class DocumentService {
 
     private final UserMapper userMapper;
 
-    public byte[] getDefenceDocuments(Long userId) throws DocumentException, IOException {
+    public byte[] getStudentDocument_FirstProtocol(Long userId) throws DocumentException, IOException {
         User student = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         UserTeam userTeam = userTeamRepository.findByUserIdAndAcceptedTrue(student.getId()).orElseThrow(() -> new EntityNotFoundException("UserTeam not found"));
         Defence defence = defenceRepository.findByTeamIdAndStageName(userTeam.getTeam().getId(), "DEFENCE");
@@ -76,7 +75,7 @@ public class DocumentService {
                 .questions(questionInfoDtos)
                 .grade(student.getGrade().getFinalGrade())
                 .build();
-        DocumentUtil.generatePdf(dto);
+        DocumentUtil.generateFirstProtocolPdf(dto);
         File path = new File(
                 "protocol.pdf");
         FileInputStream fl = new FileInputStream(path);

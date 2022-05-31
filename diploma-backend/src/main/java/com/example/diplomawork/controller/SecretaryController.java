@@ -34,8 +34,8 @@ public class SecretaryController implements SecretaryApi {
 
     @SneakyThrows
     @Override
-    public ResponseEntity<byte[]> getDocuments(Long userId) {
-        return ResponseEntity.ok(documentService.getDefenceDocuments(userId));
+    public ResponseEntity<byte[]> getDocumentFirstProtocol(Long userId) {
+        return ResponseEntity.ok(documentService.getStudentDocument_FirstProtocol(userId));
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.io.IOException;
 public class DocumentUtil {
     private static Long protocolNumber = 1L;
 
-    public static void generatePdf(InfoForDocumentTemplateDto dto) throws IOException, DocumentException {
+    public static void generateFirstProtocolPdf(InfoForDocumentTemplateDto dto) throws IOException, DocumentException {
         BaseFont newTimesRoman = BaseFont.createFont("C:\\Users\\ASUS\\IdeaProjects\\diploma-work\\diploma-work\\diploma-backend\\src\\main\\resources\\fonts\\timesnrcyrmt.ttf", "cp1251", BaseFont.EMBEDDED);
         Font font = new Font(newTimesRoman, 12, Font.NORMAL);
         Font boldFont = new Font(newTimesRoman, 12, Font.BOLD);
@@ -95,34 +95,34 @@ public class DocumentUtil {
         writer.close();
 
 
-        Document protocol2 = new Document();
-        PdfWriter writer2 = PdfWriter.getInstance(protocol2, new FileOutputStream("protocol2.pdf"));
-
-        Paragraph studentFullName = new Paragraph("Обучающийся " + dto.getStudent().getLastName() + " " + dto.getStudent().getFirstName(), font);
-
-        Paragraph passed = new Paragraph("сдал комплексный экзамен или защитил дипломную работу (проект)", font);
-
-        Paragraph mark = new Paragraph("с оценкой:" + dto.getGrade() + "\n" + dto.getDefence().getDefenceDate(), font);
-
-        Paragraph giveDegree = new Paragraph("Присудить обучающемуся " + dto.getStudent().getLastName() + " " + dto.getStudent().getFirstName() + "\n" +
-                "Степень бакалавр направление подготовки   по образовательной программе наименование образовательной программы\n", font);
-
-        protocol2.open();
-        protocol2.add(title);
-        protocol2.add(subTitle);
-        protocol2.add(date);
-        protocol2.add(attended);
-        protocol2.add(headCommission);
-        protocol2.add(commissionList);
-        protocol2.add(commissionMembers);
-        protocol2.add(studentFullName);
-        protocol2.add(eduProgram);
-        protocol2.add(passed);
-        protocol2.add(mark);
-        protocol2.add(giveDegree);
-
-        protocol2.close();
-        writer2.close();
+//        Document protocol2 = new Document();
+//        PdfWriter writer2 = PdfWriter.getInstance(protocol2, new FileOutputStream("protocol2.pdf"));
+//
+//        Paragraph studentFullName = new Paragraph("Обучающийся " + dto.getStudent().getLastName() + " " + dto.getStudent().getFirstName(), font);
+//
+//        Paragraph passed = new Paragraph("сдал комплексный экзамен или защитил дипломную работу (проект)", font);
+//
+//        Paragraph mark = new Paragraph("с оценкой:" + dto.getGrade() + "\n" + dto.getDefence().getDefenceDate(), font);
+//
+//        Paragraph giveDegree = new Paragraph("Присудить обучающемуся " + dto.getStudent().getLastName() + " " + dto.getStudent().getFirstName() + "\n" +
+//                "Степень бакалавр направление подготовки   по образовательной программе наименование образовательной программы\n", font);
+//
+//        protocol2.open();
+//        protocol2.add(title);
+//        protocol2.add(subTitle);
+//        protocol2.add(date);
+//        protocol2.add(attended);
+//        protocol2.add(headCommission);
+//        protocol2.add(commissionList);
+//        protocol2.add(commissionMembers);
+//        protocol2.add(studentFullName);
+//        protocol2.add(eduProgram);
+//        protocol2.add(passed);
+//        protocol2.add(mark);
+//        protocol2.add(giveDegree);
+//
+//        protocol2.close();
+//        writer2.close();
 
         protocolNumber++;
     }
