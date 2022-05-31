@@ -732,7 +732,7 @@ paths:
 
   /commission/{defenceId}/grades:
     get:
-      tags: [ Secretary ]
+      tags: [ Commission ]
       summary: Gets team members with commission grades
       operationId: getStudentsWithCommissionGrades
       parameters:
