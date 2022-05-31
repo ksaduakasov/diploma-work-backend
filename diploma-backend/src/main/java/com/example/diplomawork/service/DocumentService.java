@@ -50,7 +50,6 @@ public class DocumentService {
         List<QuestionInfoDto> questionInfoDtos = questions.stream().map(question -> QuestionInfoDto.builder()
                 .description(question.getDescription())
                 .questioner(userMapper.entity2dto(question.getQuestioner()))
-                .grade(question.getGrade())
                 .build()).collect(Collectors.toList());
 
         DefenceShortInfoDto defenceInfo = DefenceShortInfoDto.builder()
@@ -58,7 +57,6 @@ public class DocumentService {
                 .defenceDate(defence.getDefenceDate())
                 .team(userTeam.getTeam().getName())
                 .topic(userTeam.getTeam().getTopic().getName())
-                .grade(!questions.isEmpty() ? questions.stream().mapToInt(Question::getGrade).sum() / questions.size() : null)
                 .stage(defence.getStage().getName())
                 .build();
 
@@ -96,7 +94,6 @@ public class DocumentService {
         List<QuestionInfoDto> questionInfoDtos = questions.stream().map(question -> QuestionInfoDto.builder()
                 .description(question.getDescription())
                 .questioner(userMapper.entity2dto(question.getQuestioner()))
-                .grade(question.getGrade())
                 .build()).collect(Collectors.toList());
 
         DefenceShortInfoDto defenceInfo = DefenceShortInfoDto.builder()
@@ -104,7 +101,6 @@ public class DocumentService {
                 .defenceDate(defence.getDefenceDate())
                 .team(userTeam.getTeam().getName())
                 .topic(userTeam.getTeam().getTopic().getName())
-                .grade(!questions.isEmpty() ? questions.stream().mapToInt(Question::getGrade).sum() / questions.size() : null)
                 .stage(defence.getStage().getName())
                 .build();
 

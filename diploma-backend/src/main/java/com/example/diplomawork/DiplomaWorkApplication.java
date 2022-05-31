@@ -78,7 +78,6 @@ public class DiplomaWorkApplication {
                     .confirmed(true)
                     .creator(userRepository.findByUsername("nurahmet").get())
                     .advisor(userRepository.findByUsername("asmayil").get())
-                    .choices(3)
                     .build());
 
             topicRepository.save(Topic.builder()
@@ -92,7 +91,6 @@ public class DiplomaWorkApplication {
                     .confirmed(true)
                     .creator(userRepository.findByUsername("bekezhan").get())
                     .advisor(userRepository.findByUsername("damir").get())
-                    .choices(3)
                     .build());
 
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("nurahmet").get(), teamRepository.findById(1L).get(), true));

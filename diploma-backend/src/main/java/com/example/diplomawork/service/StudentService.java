@@ -53,7 +53,6 @@ public class StudentService {
                 .advisor(request.getAdvisorId() != null ? userRepository.findById(request.getAdvisorId()).orElseThrow(() -> new EntityNotFoundException("Not found")) : null)
                 .confirmed(false)
                 .topic(request.getTopicId() != null ? topicRepository.findById(request.getTopicId()).orElseThrow(() -> new EntityNotFoundException("Not found")) : null)
-                .choices(3)
                 .build();
         teamRepository.saveAndFlush(team);
         userTeamRepository.save(UserTeam.builder()

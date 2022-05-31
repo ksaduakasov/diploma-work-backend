@@ -1487,8 +1487,6 @@ components:
       properties:
         description:
           type: string
-        grade:
-          type: integer
         questioner:
           $ref: '#/components/schemas/UserDto'
 

@@ -11,5 +11,6 @@ public interface QuestionMapper {
 
     @Mapping(target = "questionId", source = "id")
     @Mapping(target = "responderName", ignore = true)
+    @Mapping(target = "questioner", ignore = true)
     QuestionDto entity2dto(Question question);
 }

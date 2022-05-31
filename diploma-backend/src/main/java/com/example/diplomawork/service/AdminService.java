@@ -89,7 +89,6 @@ public class AdminService {
         List<DefenceDto> defences = team.getTeamDefences().stream().map(defence -> DefenceDto.builder()
                 .id(defence.getId())
                 .defenceDate(defence.getDefenceDate())
-                .grade(defence.getGrade())
                 .stage(stageMapper.entity2dto(defence.getStage()))
                 .build()).collect(Collectors.toList());
         return TeamInfoByBlocksDto.builder()
