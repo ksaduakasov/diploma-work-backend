@@ -52,7 +52,7 @@ public class CommissionService {
                 .members(userTeams.stream().map(userTeam -> userMapper.entity2dto(userTeam.getUser())).collect(Collectors.toList()))
                 .build();
         List<QuestionDto> questions = new ArrayList<>();
-        questionRepository.findAllByDefenceIdAndResponderId(defenceId, authService.getCurrentUser().getId()).forEach(question -> {
+        questionRepository.findAllByDefenceIdAndQuestionerId(defenceId, authService.getCurrentUser().getId()).forEach(question -> {
             QuestionDto questionDto = questionMapper.entity2dto(question);
             questionDto.setResponderName(question.getResponder().getLastName() + " " + question.getResponder().getFirstName().charAt(0) + ".");
             questions.add(questionDto);
