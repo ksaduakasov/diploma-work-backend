@@ -112,9 +112,9 @@ public class DiplomaWorkApplication {
                     .advisor(userRepository.findByUsername("tleu13").get())
                     .build());
 
-            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("alayevd").get(), teamRepository.findTeamByName("Жапаров + Исмагамбетов + Қанатбек"), true));
-            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("ibragimi").get(),  teamRepository.findTeamByName("Жапаров + Исмагамбетов + Қанатбек"), true));
-            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("iliasa").get(),  teamRepository.findTeamByName("Жапаров + Исмагамбетов + Қанатбек"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("alayevd").get(), teamRepository.findTeamByName("Алаев + Ибрагим + Ілияс"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("ibragimi").get(),  teamRepository.findTeamByName("Алаев + Ибрагим + Ілияс"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("iliasa").get(),  teamRepository.findTeamByName("Алаев + Ибрагим + Ілияс"), true));
 
             teamTopicRepository.save(TeamTopic.builder()
                     .topic(topicRepository.findByName("Implementation of Single Sign-On microservice for AUTH"))
@@ -278,8 +278,8 @@ public class DiplomaWorkApplication {
                     .advisor(userRepository.findByUsername("tursynkulovaa").get())
                     .build());
 
-            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("bigabulovad").get(), teamRepository.findTeamByName("Жапаров + Исмагамбетов + Қанатбек"), true));
-            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("sairambaye").get(),  teamRepository.findTeamByName("Жапаров + Исмагамбетов + Қанатбек"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("bigabulovad").get(), teamRepository.findTeamByName("Бигабулова + Сайрамбай"), true));
+            userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("sairambaye").get(),  teamRepository.findTeamByName("Бигабулова + Сайрамбай"), true));
 
             teamTopicRepository.save(TeamTopic.builder()
                     .topic(topicRepository.findByName("Web-application for automating business processes of computer service centersH"))
