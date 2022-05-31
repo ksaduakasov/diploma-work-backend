@@ -47,8 +47,8 @@ public class DiplomaWorkApplication {
             roleRepository.save(new Role(null, "ROLE_SECRETARY"));
             roleRepository.save(new Role(null, "ROLE_ADVISOR"));
 
-
-            initialRepository.save(Initial.builder().id(null).initial("SE").build());
+            // --------------------//
+            initialRepository.save(Initial.builder().initial("SE").build());
             groupRepository.save(new Group(null, "1908", initialRepository.findByInitial("SE")));
 
             userRepository.save(User.builder()
@@ -119,6 +119,8 @@ public class DiplomaWorkApplication {
             Team team1 = teamRepository.findTeamByName("Жапаров + Исмагамбетов + Қанатбек");
             team1.setTopic(topicRepository.findByName("Разработка системы для анализа открытых данных с использованием технологии Big Data"));
             teamRepository.save(team1);
+
+            // --------------------//
         };
     }
 }
