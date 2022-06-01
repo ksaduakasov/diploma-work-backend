@@ -13,7 +13,7 @@ public class DocumentUtil {
     private static Long protocolNumber = 1L;
 
     public static void generateFirstProtocolPdf(InfoForDocumentTemplateDto dto, Reviewer reviewer) throws IOException, DocumentException {
-        BaseFont newTimesRoman = BaseFont.createFont("/Users/beibarys.zholmyrza/Desktop/diploma/diploma-work/diploma-backend/src/main/resources/fonts/timesnrcyrmt.ttf", "cp1251", BaseFont.EMBEDDED);
+        BaseFont newTimesRoman = BaseFont.createFont("/Users/ksaduakassov/IdeaProjects/diploma-work-zb/diploma-backend/src/main/resources/fonts/timesnrcyrmt.ttf", "cp1251", BaseFont.EMBEDDED);
         Font font = new Font(newTimesRoman, 12, Font.NORMAL);
         Font boldFont = new Font(newTimesRoman, 12, Font.BOLD);
 
@@ -47,7 +47,7 @@ public class DocumentUtil {
         Paragraph language = new Paragraph("Язык дипломной работы (проекта): английский", font);
 
         Paragraph adviser = new Paragraph("Дипломная работа (проект) обучающегося выполнена под научным руководством\n"
-                + dto.getAdvisor(), font);
+                + dto.getAdvisor().getLastName() + " " + dto.getAdvisor().getFirstName(), font);
 
         Paragraph reviewerInfo = new Paragraph("Дипломная работа (проект) обучающегося выполнена под научным руководством\n"
                 + reviewer.getFullName() + ", " + reviewer.getCareerGrade() + ", " + reviewer.getWorkPlace() + ", " + reviewer.getProfession(), font);
@@ -66,6 +66,7 @@ public class DocumentUtil {
         Paragraph predsedatelSign = new Paragraph("Председатель ________________________________", font);
         predsedatelSign.setAlignment(Element.ALIGN_RIGHT);
         Paragraph signature = new Paragraph("________________________________");
+        signature.setAlignment(Element.ALIGN_RIGHT);
         Paragraph secretarySign = new Paragraph("Секретарь ________________________________");
         secretarySign.setAlignment(Element.ALIGN_RIGHT);
 
@@ -87,9 +88,9 @@ public class DocumentUtil {
         protocol1.add(new Paragraph(questions, font));
         protocol1.add(listOfQuestions);
         protocol1.add(new Paragraph("Общая характеристика ответов обучающегося на заданные ему вопросы \n\n\n\n\n", font));
-        protocol1.add(new Paragraph("Признать, что обучающийся выполнил и защитил дипломную работу (проект) / магистерской диссертации с оценкой " + dto.getGrade().toString(), font));
+        protocol1.add(new Paragraph("Признать, что обучающийся выполнил и защитил дипломную работу (проект) с оценкой: " + dto.getGrade().toString(), font));
         protocol1.add(new Paragraph("Особые мнения членов комиссии", font));
-        protocol1.add(new Paragraph("____________________________________________", font));
+        protocol1.add(new Paragraph("_______________________________________________________________", font));
         protocol1.add(predsedatelSign);
         protocol1.add(signature);
         protocol1.add(signature);
@@ -102,7 +103,7 @@ public class DocumentUtil {
     }
 
     public static void generateSecondProtocolPdf(InfoForDocumentTemplateDto dto, Reviewer reviewer) throws IOException, DocumentException {
-        BaseFont newTimesRoman = BaseFont.createFont("C:\\Users\\ASUS\\IdeaProjects\\diploma-work\\diploma-work\\diploma-backend\\src\\main\\resources\\fonts\\timesnrcyrmt.ttf", "cp1251", BaseFont.EMBEDDED);
+        BaseFont newTimesRoman = BaseFont.createFont("/Users/ksaduakassov/IdeaProjects/diploma-work-zb/diploma-backend/src/main/resources/fonts/timesnrcyrmt.ttf", "cp1251", BaseFont.EMBEDDED);
         Font font = new Font(newTimesRoman, 12, Font.NORMAL);
         Font boldFont = new Font(newTimesRoman, 12, Font.BOLD);
 
