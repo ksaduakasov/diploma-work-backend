@@ -82,9 +82,12 @@ public class CommissionService {
         Defence defence = defenceRepository.findById(defenceId).orElseThrow(() -> new EntityNotFoundException("Defence with id: " + defenceId + " not found"));
         UserCommissionGrade userCommissionGrade = userCommissionGradeRepository.findByCommissionIdAndStudentId(commission.getId(), student.getId()).orElse(null);
         if (userCommissionGrade == null) {
-            userCommissionGrade.setCommission(commission);
-            userCommissionGrade.setStudent(student);
-            userCommissionGrade.setDefence(defence);
+            userCommissionGrade = UserCommissionGrade.builder()
+                    .id(null)
+                    .commission(commission)
+                    .defence(defence)
+                    .student(student)
+                    .build();
         }
         userCommissionGrade.setGrade(grade.getGrade());
         userCommissionGradeRepository.save(userCommissionGrade);
@@ -121,7 +124,7 @@ public class CommissionService {
         List<StudentWithGradeDto> students = new ArrayList<>();
         userTeams.forEach(userTeam -> {
             UserCommissionGrade grade = userCommissionGradeRepository.findByCommissionIdAndStudentIdAndDefenceId(commission.getId(), userTeam.getUser().getId(), defenceId);
-            students.add(StudentWithGradeDto.builder().id(userTeam.getUser().getId()).fullName(userTeam.getUser().getFirstName() + " " + userTeam.getUser().getLastName()).grade(grade.getGrade() != null ? grade.getGrade() : null).build());
+            students.add(StudentWithGradeDto.builder().id(userTeam.getUser().getId()).fullName(userTeam.getUser().getFirstName() + " " + userTeam.getUser().getLastName()).grade(grade != null ? grade.getGrade() : null).build());
         });
         return students;
     }
