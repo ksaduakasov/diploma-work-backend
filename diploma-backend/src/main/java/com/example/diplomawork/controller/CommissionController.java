@@ -3,10 +3,7 @@ package com.example.diplomawork.controller;
 import com.example.api.CommissionApi;
 import com.example.diplomawork.service.CommissionService;
 import com.example.diplomawork.service.DocumentService;
-import com.example.models.DefenceInfoByBlocksDto;
-import com.example.models.DefenceShortInfoDto;
-import com.example.models.GradeDto;
-import com.example.models.QuestionCreateUpdateRequest;
+import com.example.models.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
@@ -20,6 +17,12 @@ import java.util.List;
 public class CommissionController implements CommissionApi {
 
     private final CommissionService commissionService;
+
+
+    @Override
+    public ResponseEntity<List<StudentWithGradeDto>> getStudentsWithCommissionGrades(Long defenceId) {
+        return ResponseEntity.ok(commissionService.getStudentsWithCommissionGrades(defenceId));
+    }
 
     @Override
     public ResponseEntity<Void> setGrade(Long defenceId, Long studentId, GradeDto gradeDto) {

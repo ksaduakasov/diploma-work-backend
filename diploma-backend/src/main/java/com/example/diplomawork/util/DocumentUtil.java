@@ -13,7 +13,7 @@ public class DocumentUtil {
     private static Long protocolNumber = 1L;
 
     public static void generateFirstProtocolPdf(InfoForDocumentTemplateDto dto, Reviewer reviewer) throws IOException, DocumentException {
-        BaseFont newTimesRoman = BaseFont.createFont("C:\\Users\\ASUS\\IdeaProjects\\diploma-work\\diploma-work\\diploma-backend\\src\\main\\resources\\fonts\\timesnrcyrmt.ttf", "cp1251", BaseFont.EMBEDDED);
+        BaseFont newTimesRoman = BaseFont.createFont("/Users/beibarys.zholmyrza/Desktop/diploma/diploma-work/diploma-backend/src/main/resources/fonts/timesnrcyrmt.ttf", "cp1251", BaseFont.EMBEDDED);
         Font font = new Font(newTimesRoman, 12, Font.NORMAL);
         Font boldFont = new Font(newTimesRoman, 12, Font.BOLD);
 
@@ -21,7 +21,7 @@ public class DocumentUtil {
         Document protocol1 = new Document();
         PdfWriter writer = PdfWriter.getInstance(protocol1, new FileOutputStream("protocol1.pdf"));
 
-        Paragraph title = new Paragraph("ПРОТОКОЛ № " + protocolNumber, font);
+        Paragraph title = new Paragraph("ПРОТОКОЛ № ", font);
         title.setAlignment(Element.ALIGN_CENTER);
 
         Paragraph subTitle = new Paragraph("Заседания аттестационной комиссии", boldFont);

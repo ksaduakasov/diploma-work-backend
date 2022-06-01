@@ -33,6 +33,7 @@ public class SecretaryService {
 
     private final UserCommissionGradeRepository userCommissionGradeRepository;
 
+    private final DefenceCommissionRepository defenceCommissionRepository;
     private final UserRepository userRepository;
 
     private final TeamMapper teamMapper;
@@ -67,7 +68,7 @@ public class SecretaryService {
         questionRepository.findAllByDefenceId(defenceId).forEach(question -> {
             QuestionDto questionDto = questionMapper.entity2dto(question);
             questionDto.setResponderName(question.getResponder().getLastName() + " " + question.getResponder().getFirstName().charAt(0) + ".");
-            questionDto.setQuestioner(question.getQuestioner().getLastName()  + " " + question.getQuestioner().getFirstName().charAt(0) + ".");
+            questionDto.setQuestioner(question.getQuestioner().getLastName() + " " + question.getQuestioner().getFirstName().charAt(0) + ".");
             questions.add(questionDto);
         });
         return DefenceInfoByBlocksDto.builder()
@@ -124,5 +125,10 @@ public class SecretaryService {
                     .build();
             userGradeRepository.save(userGrade);
         }
+    }
+
+    public List<UserDto> getDefenceCommission(Long defenceId) {
+        List<DefenceCommission> defenceCommissions = defenceCommissionRepository.findDefenceCommissionsByDefenceId(defenceId);
+        return defenceCommissions.stream().map(defenceCommission -> userMapper.entity2dto(defenceCommission.getCommission())).collect(Collectors.toList());
     }
 }
