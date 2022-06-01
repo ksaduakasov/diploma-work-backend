@@ -27,7 +27,7 @@ public class DocumentUtil {
         Paragraph subTitle = new Paragraph("Заседания аттестационной комиссии", boldFont);
         subTitle.setAlignment(Element.ALIGN_CENTER);
 
-        Paragraph date = new Paragraph("Дата " + dto.getDefence().getDefenceDate().toString(), boldFont);
+        Paragraph date = new Paragraph("Дата ", boldFont);
 
         Paragraph attended = new Paragraph("Присутствовали:", boldFont);
 
@@ -63,6 +63,11 @@ public class DocumentUtil {
         String questions = "Обучающемуся были заданы следующие вопросы: ";
         dto.getQuestions().stream().map(question -> new ListItem(question.getQuestioner().getFirstName() + " " + question.getQuestioner().getLastName() + ": " + question.getDescription())).forEach(listOfQuestions::add);
 
+        Paragraph predsedatelSign = new Paragraph("Председатель ________________________________", font);
+        predsedatelSign.setAlignment(Element.ALIGN_RIGHT);
+        Paragraph signature = new Paragraph("________________________________");
+        Paragraph secretarySign = new Paragraph("Секретарь ________________________________");
+        secretarySign.setAlignment(Element.ALIGN_RIGHT);
 
         protocol1.open();
         protocol1.add(title);
@@ -85,13 +90,13 @@ public class DocumentUtil {
         protocol1.add(new Paragraph("Признать, что обучающийся выполнил и защитил дипломную работу (проект) / магистерской диссертации с оценкой " + dto.getGrade().toString(), font));
         protocol1.add(new Paragraph("Особые мнения членов комиссии", font));
         protocol1.add(new Paragraph("____________________________________________", font));
-        protocol1.add(new Paragraph("Председатель _____________________________", font));
-        protocol1.add(new Paragraph("_____________________________", font));
-        protocol1.add(new Paragraph("_____________________________", font));
-        protocol1.add(new Paragraph("_____________________________", font));
-        protocol1.add(new Paragraph("_____________________________", font));
-        protocol1.add(new Paragraph("_____________________________", font));
-        protocol1.add(new Paragraph("Секретарь _____________________________", font));
+        protocol1.add(predsedatelSign);
+        protocol1.add(signature);
+        protocol1.add(signature);
+        protocol1.add(signature);
+        protocol1.add(signature);
+        protocol1.add(signature);
+        protocol1.add(secretarySign);
         protocol1.close();
         writer.close();
     }
