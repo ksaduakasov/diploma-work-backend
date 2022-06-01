@@ -50,7 +50,6 @@ public class DiplomaWorkApplication {
             reviewerRepository.save(Reviewer.builder().id(null).fullName("Дарибаев Беимбет Серикович").careerGrade("PHD").workPlace("КазНУ им Аль-Фараби, факультет информационных технологий").profession("ЗАВЕДУЮЩИМ КАФЕДРЫ ИНФОРМАТИКИ").build());
             reviewerRepository.save(Reviewer.builder().id(null).fullName("Жартыбаева Макпал Галымбековна").careerGrade("Доктор phd").workPlace("ЕНУ имени Л.Н.Гумилева").profession("и.о. доцента кафедры «компьютерная и программная инженерия»").build());
             reviewerRepository.save(Reviewer.builder().id(null).fullName("Сисенов Нурбек Маханбетулы").careerGrade("Магистр естественных наук").workPlace("ЕНУ им Л.Н.Гумилева").profession("Преподователь").build());
-            reviewerRepository.save(Reviewer.builder().id(null).fullName("Умаров Фахриддин Алишерович").careerGrade("PhD Candidate").workPlace("IITU").profession("Senior-lecturer, Information Systems Department").build());
             reviewerRepository.save(Reviewer.builder().id(null).fullName("Пягай Виктор Тимофеевич").careerGrade("MSc").workPlace("IITU").profession("сениор-лектор кафедры Кибербезопасности").build());
 
             // --------------------//
@@ -59,7 +58,6 @@ public class DiplomaWorkApplication {
             groupRepository.save(new Group(null, "1902", initialRepository.findByInitial("IT")));
             groupRepository.save(new Group(null, "1903", initialRepository.findByInitial("IT")));
             groupRepository.save(new Group(null, "1901", initialRepository.findByInitial("SE")));
-            groupRepository.save(new Group(null, "1903", initialRepository.findByInitial("SE")));
             groupRepository.save(new Group(null, "1905", initialRepository.findByInitial("SE")));
             groupRepository.save(new Group(null, "1907", initialRepository.findByInitial("SE")));
 
@@ -136,7 +134,7 @@ public class DiplomaWorkApplication {
                     .confirmed(true)
                     .creator(userRepository.findByUsername("alayevd").get())
                     .advisor(userRepository.findByUsername("tleu13").get())
-                    .reviewer(reviewerRepository.findByName("Умаров Фахриддин Алишерович"))
+                    .reviewer(reviewerRepository.findByFullName("Умаров Фахриддин Алишерович"))
                     .build());
 
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("alayevd").get(), teamRepository.findTeamByName("Алаев + Ибрагим + Ілияс"), true));
@@ -197,7 +195,7 @@ public class DiplomaWorkApplication {
                     .confirmed(true)
                     .creator(userRepository.findByUsername("alshanova").get())
                     .advisor(userRepository.findByUsername("adamovaa").get())
-                            .reviewer(reviewerRepository.findByName("Дарибаев Беимбет Серикович"))
+                            .reviewer(reviewerRepository.findByFullName("Дарибаев Беимбет Серикович"))
                     .build());
 
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("alshanova").get(), teamRepository.findTeamByName("Алшанов + Жаканов"), true));
@@ -246,7 +244,7 @@ public class DiplomaWorkApplication {
                     .confirmed(true)
                     .creator(userRepository.findByUsername("kumarovau").get())
                     .advisor(userRepository.findByUsername("aubakirovs").get())
-                    .reviewer(reviewerRepository.findByName("Жартыбаева Макпал Галымбековна"))
+                    .reviewer(reviewerRepository.findByFullName("Жартыбаева Макпал Галымбековна"))
                     .build());
 
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("kumarovau").get(), teamRepository.findTeamByName("Құмарова"), true));
@@ -305,7 +303,7 @@ public class DiplomaWorkApplication {
                     .confirmed(true)
                     .creator(userRepository.findByUsername("bigabulovad").get())
                     .advisor(userRepository.findByUsername("tursynkulovaa").get())
-                    .reviewer(reviewerRepository.findByName("Сисенов Нурбек Маханбетулы"))
+                    .reviewer(reviewerRepository.findByFullName("Сисенов Нурбек Маханбетулы"))
                     .build());
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("bigabulovad").get(), teamRepository.findTeamByName("Бигабулова + Сайрамбай"), true));
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("sairambaye").get(),  teamRepository.findTeamByName("Бигабулова + Сайрамбай"), true));
@@ -375,7 +373,7 @@ public class DiplomaWorkApplication {
                     .confirmed(true)
                     .creator(userRepository.findByUsername("imangazina").get())
                     .advisor(userRepository.findByUsername("assanovan").get())
-                    .reviewer(reviewerRepository.findByName("Умаров Фахриддин Алишерович"))
+                    .reviewer(reviewerRepository.findByFullName("Умаров Фахриддин Алишерович"))
                     .build());
 
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("imangazina").get(), teamRepository.findTeamByName("Имангазин + Мәжит + Төлеу"), true));
@@ -447,7 +445,7 @@ public class DiplomaWorkApplication {
                     .confirmed(true)
                     .creator(userRepository.findByUsername("temirkhant").get())
                     .advisor(userRepository.findByUsername("khaimuldinn").get())
-                    .reviewer(reviewerRepository.findByName("Пягай Виктор Тимофеевич"))
+                    .reviewer(reviewerRepository.findByFullName("Пягай Виктор Тимофеевич"))
                     .build());
 
             userTeamRepository.save(new UserTeam(null, userRepository.findByUsername("zhailanovaz").get(), teamRepository.findTeamByName("Жайланова + Саят + Темірхан"), true));
